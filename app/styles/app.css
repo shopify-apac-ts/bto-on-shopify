@@ -657,3 +657,209 @@ button.reset:hover:not(:has(> *)) {
   gap: 0.75rem;
   flex-wrap: wrap;
 }
+
+/* ============================================================
+   G TUNE Brand Homepage
+   ============================================================ */
+
+.gtune-page {
+  background: #0d0d0d;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* Hero */
+.gtune-hero {
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a0000 50%, #0d0d0d 100%);
+  border-bottom: 3px solid #e30000;
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+}
+
+.gtune-logo {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.gtune-logo span {
+  color: #e30000;
+}
+
+.gtune-hero-tagline {
+  margin-top: 1rem;
+  color: #aaa;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
+
+/* Category tabs */
+.gtune-tabs {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  background: #111;
+  border-bottom: 1px solid #222;
+  flex-wrap: wrap;
+}
+
+.gtune-tab {
+  background: transparent;
+  border: 1px solid #444;
+  color: #ccc;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gtune-tab:hover {
+  border-color: #e30000;
+  color: #fff;
+}
+
+.gtune-tab.active {
+  background: #e30000;
+  border-color: #e30000;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Product grid */
+.gtune-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gtune-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.gtune-card-link--inactive {
+  cursor: default;
+}
+
+.gtune-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.gtune-card-link:not(.gtune-card-link--inactive):hover .gtune-card {
+  transform: translateY(-4px);
+  border-color: #e30000;
+}
+
+.gtune-card--active {
+  border-color: #e30000;
+}
+
+.gtune-card-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: #e30000;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 1;
+}
+
+.gtune-card-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(227, 0, 0, 0.15);
+  border: 1px solid #e30000;
+  color: #e30000;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.gtune-card-image {
+  background: #111;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gtune-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gtune-card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #1a1a1a,
+    #1a1a1a 10px,
+    #141414 10px,
+    #141414 20px
+  );
+}
+
+.gtune-card-body {
+  padding: 1.25rem;
+}
+
+.gtune-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.gtune-card-desc {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.gtune-card-price {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin: 0 0 0.75rem;
+}
+
+.gtune-card-price bdi {
+  font-weight: 700;
+  color: #fff;
+}
+
+.gtune-card-cta {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e30000;
+}
+
+.gtune-card-cta--disabled {
+  color: #555;
+}
