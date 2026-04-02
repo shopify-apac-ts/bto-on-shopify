@@ -292,6 +292,71 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
 }
 
+/* Line item attributes (BTO config, custom options, etc.) */
+.cart-line-attributes {
+  margin: 0.4rem 0;
+  font-size: 0.75rem;
+}
+
+.cart-line-attribute {
+  display: flex;
+  gap: 0.4rem;
+  line-height: 1.4;
+}
+
+.cart-line-attribute dt {
+  color: #666;
+  white-space: nowrap;
+}
+
+.cart-line-attribute dt::after {
+  content: ':';
+}
+
+.cart-line-attribute dd {
+  margin: 0;
+  color: #333;
+}
+
+/* Cart-level attributes */
+.cart-attributes {
+  border-top: 1px solid #e5e5e5;
+  padding: 1rem 0;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.cart-attributes h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cart-attributes dl {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.cart-attribute {
+  display: flex;
+  gap: 0.4rem;
+  line-height: 1.4;
+}
+
+.cart-attribute dt {
+  color: #666;
+  white-space: nowrap;
+}
+
+.cart-attribute dt::after {
+  content: ':';
+}
+
+.cart-attribute dd {
+  margin: 0;
+  color: #333;
+}
+
 /* Child line components (warranties, gift wrapping, etc.) */
 .cart-line-children {
   padding-left: 2rem;

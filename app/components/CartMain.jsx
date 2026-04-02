@@ -72,7 +72,27 @@ export function CartMain({layout, cart: originalCart}) {
             })}
           </ul>
         </div>
-        {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {cartHasItems && (
+          <>
+            {cart?.attributes?.filter((a) => !a.key.startsWith('_')).length >
+              0 && (
+              <div className="cart-attributes">
+                <h3>Cart notes</h3>
+                <dl>
+                  {cart.attributes
+                    .filter((a) => !a.key.startsWith('_'))
+                    .map((attr) => (
+                      <div key={attr.key} className="cart-attribute">
+                        <dt>{attr.key}</dt>
+                        <dd>{attr.value}</dd>
+                      </div>
+                    ))}
+                </dl>
+              </div>
+            )}
+            <CartSummary cart={cart} layout={layout} />
+          </>
+        )}
       </div>
     </div>
   );

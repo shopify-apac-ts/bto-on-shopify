@@ -16,12 +16,20 @@ import {useAside} from './Aside';
  * }}
  */
 export function CartLineItem({layout, line, childrenMap}) {
-  const {id, merchandise} = line;
+  const {id, merchandise, attributes} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
   const lineItemChildren = childrenMap[id];
   const childrenLabelId = `cart-line-children-${id}`;
+
+  // Hide "Default Title" — it's Shopify's placeholder for single-variant products
+  const variantTitle = title === 'Default Title' ? null : title;
+
+  // Separate public attributes (no leading underscore) from internal ones
+  const publicAttributes = (attributes || []).filter(
+    (attr) => !attr.key.startsWith('_'),
+  );
 
   return (
     <li key={id} className="cart-line">
@@ -51,16 +59,35 @@ export function CartLineItem({layout, line, childrenMap}) {
               <strong>{product.title}</strong>
             </p>
           </Link>
+          {variantTitle && (
+            <p>
+              <small>{variantTitle}</small>
+            </p>
+          )}
           <ProductPrice price={line?.cost?.totalAmount} />
-          <ul>
-            {selectedOptions.map((option) => (
-              <li key={option.name}>
-                <small>
-                  {option.name}: {option.value}
-                </small>
-              </li>
-            ))}
-          </ul>
+          {selectedOptions.some((o) => o.value !== 'Default Title') && (
+            <ul>
+              {selectedOptions
+                .filter((o) => o.value !== 'Default Title')
+                .map((option) => (
+                  <li key={option.name}>
+                    <small>
+                      {option.name}: {option.value}
+                    </small>
+                  </li>
+                ))}
+            </ul>
+          )}
+          {publicAttributes.length > 0 && (
+            <dl className="cart-line-attributes">
+              {publicAttributes.map((attr) => (
+                <div key={attr.key} className="cart-line-attribute">
+                  <dt>{attr.key}</dt>
+                  <dd>{attr.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           <CartLineQuantity line={line} />
         </div>
       </div>
