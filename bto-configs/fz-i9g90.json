@@ -1,0 +1,1937 @@
+{
+  "product": {
+    "name": "G-Tune FZ-I9G90",
+    "sku": "FZI9G90G8BFDW104DEC",
+    "base_price_incl_tax": 1089800,
+    "base_price_excl_tax": 990728,
+    "version": "2026-04-02-v1"
+  },
+  "hardware_config": {
+    "sections": [
+      {
+        "name": "OS",
+        "slug": "os",
+        "type": "single_select",
+        "sort_order": 1,
+        "options": [
+          {
+            "name": "Windows 11 Home 64ビット（Microsoft 365 Personal体験版付属）",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "Windows 11 Pro 64ビット（Microsoft 365 Personal体験版付属）",
+            "price_incl": 8800,
+            "price_excl": 8000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "CPU",
+        "slug": "cpu",
+        "type": "fixed",
+        "sort_order": 2,
+        "fixed_value": "インテル(R) Core(TM) Ultra 9 プロセッサー 285K (24コア / 8 P-cores / 16 E-cores / 24スレッド / 最大5.7GHz / 36MB)"
+      },
+      {
+        "name": "CPUファン",
+        "slug": "cpu_fan",
+        "type": "fixed",
+        "sort_order": 3,
+        "fixed_value": "水冷CPUクーラー (360mm長の大型ラジエーターで強力冷却) ※ケースファンが4個以上のケースと組み合わせてください"
+      },
+      {
+        "name": "CPUグリス",
+        "slug": "cpu_grease",
+        "type": "single_select",
+        "sort_order": 4,
+        "options": [
+          {
+            "name": "標準CPUグリス",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【高熱伝導率】シルバーグリス AINEX AS-05 ⇒ 純銀度99.9%の超微粒子が熱伝導率を向上！",
+            "price_incl": 1320,
+            "price_excl": 1200,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【優れた熱伝導率】ナノダイヤモンドグリス JP-DX1 ⇒ 高純度熱伝導材料でつくられた高品質のダイヤモンドグリス",
+            "price_incl": 1980,
+            "price_excl": 1800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【高耐久性能】Thermal Grizzly Kryonaut ⇒ 乾燥に強く長期間冷却性能を維持",
+            "price_incl": 3190,
+            "price_excl": 2900,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "メモリ",
+        "slug": "memory",
+        "type": "single_select",
+        "sort_order": 5,
+        "options": [
+          {
+            "name": "64GB メモリ [ 32GB×2 ( DDR5-5600 ) / デュアルチャネル ]",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "128GB メモリ [ 32GB×4 ( DDR5-4400 ) / デュアルチャネル ]",
+            "price_incl": 343200,
+            "price_excl": 312000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "SSD (M.2)",
+        "slug": "ssd_m2",
+        "type": "single_select",
+        "sort_order": 6,
+        "options": [
+          {
+            "name": "2TB NVMe SSD ( M.2 PCIe Gen5 x4 接続 )",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 61600,
+            "price_excl": 56000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 127600,
+            "price_excl": 116000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 129800,
+            "price_excl": 118000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 138600,
+            "price_excl": 126000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "SSD",
+        "slug": "ssd",
+        "type": "single_select",
+        "sort_order": 7,
+        "options": [
+          {
+            "name": "・・・ 無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "500GB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 17600,
+            "price_excl": 16000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 30800,
+            "price_excl": 28000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 33000,
+            "price_excl": 30000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( SAMSUNG PM9A1 / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 40700,
+            "price_excl": 37000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 48400,
+            "price_excl": 44000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 49500,
+            "price_excl": 45000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 88000,
+            "price_excl": 80000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 118800,
+            "price_excl": 108000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 154000,
+            "price_excl": 140000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 156200,
+            "price_excl": 142000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 165000,
+            "price_excl": 150000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "8TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 275000,
+            "price_excl": 250000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "SSDまたはHDD",
+        "slug": "ssd_or_hdd",
+        "type": "single_select",
+        "sort_order": 8,
+        "options": [
+          {
+            "name": "・・・ 無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "500GB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 17600,
+            "price_excl": 16000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 30800,
+            "price_excl": 28000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 33000,
+            "price_excl": 30000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( SAMSUNG PM9A1 / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 40700,
+            "price_excl": 37000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 48400,
+            "price_excl": 44000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 49500,
+            "price_excl": 45000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 88000,
+            "price_excl": 80000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 118800,
+            "price_excl": 108000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 154000,
+            "price_excl": 140000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 156200,
+            "price_excl": 142000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
+            "price_incl": 165000,
+            "price_excl": 150000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "HDD",
+        "slug": "hdd",
+        "type": "single_select",
+        "sort_order": 9,
+        "options": [
+          {
+            "name": "・・・ HDD無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "1TB HDD",
+            "price_incl": 22000,
+            "price_excl": 20000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "2TB HDD",
+            "price_incl": 31900,
+            "price_excl": 29000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "4TB HDD",
+            "price_incl": 50600,
+            "price_excl": 46000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "8TB HDD",
+            "price_incl": 72600,
+            "price_excl": 66000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "グラフィックス",
+        "slug": "gpu",
+        "type": "fixed",
+        "sort_order": 10,
+        "fixed_value": "NVIDIA GeForce RTX 5090 / 32GB ( DisplayPort×3 / HDMI×1 )"
+      },
+      {
+        "name": "光学ドライブ",
+        "slug": "optical_drive",
+        "type": "single_select",
+        "sort_order": 11,
+        "options": [
+          {
+            "name": "・・・ 光学ドライブ非搭載",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "DVDスーパーマルチドライブ ( DVD±R DL 読み書き対応 )",
+            "price_incl": 4180,
+            "price_excl": 3800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "Blu-rayディスクドライブ ( BDXL(TM) 読み書き対応 )",
+            "price_incl": 14850,
+            "price_excl": 13500,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "光学ドライブ（外付け）",
+        "slug": "optical_drive_ext",
+        "type": "single_select",
+        "sort_order": 12,
+        "options": [
+          {
+            "name": "・・・ 外付け光学ドライブなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB2.0 ] DVDスーパーマルチドライブ ( DVD±R DL 対応 )",
+            "price_incl": 5390,
+            "price_excl": 4900,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.2 Gen1 ] Blu-rayディスクドライブ ( BDXL(TM) 対応 / ブラック / Type-A Type-C対応 )",
+            "price_incl": 20890,
+            "price_excl": 18991,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "カードリーダー",
+        "slug": "card_reader",
+        "type": "fixed",
+        "sort_order": 13,
+        "fixed_value": "・・・ カードリーダー無し"
+      },
+      {
+        "name": "電源",
+        "slug": "psu",
+        "type": "fixed",
+        "sort_order": 14,
+        "fixed_value": "1200W 電源 ( 80PLUS(R) Platinum )"
+      },
+      {
+        "name": "マザーボード",
+        "slug": "motherboard",
+        "type": "fixed",
+        "sort_order": 15,
+        "fixed_value": "インテル(R) Z890 チップセット ( ATX / SATA 6Gbps 対応ポートx4 / M.2スロットx3 )"
+      },
+      {
+        "name": "ケース",
+        "slug": "case",
+        "type": "fixed",
+        "sort_order": 16,
+        "fixed_value": "【G TUNE】フルタワーケース 強化ガラスサイドパネル ( ケースファン 前面×3 / 上面×3 / 背面×1 搭載 )"
+      },
+      {
+        "name": "サウンド",
+        "slug": "sound",
+        "type": "fixed",
+        "sort_order": 17,
+        "fixed_value": "ハイデフィニション・オーディオ"
+      },
+      {
+        "name": "LAN",
+        "slug": "lan",
+        "type": "fixed",
+        "sort_order": 18,
+        "fixed_value": "[オンボード]Marvell(R) AQC113 100M/1G/2.5G/5G/10G BASE-T Ethernet LAN"
+      },
+      {
+        "name": "無線LAN",
+        "slug": "wireless_lan",
+        "type": "fixed",
+        "sort_order": 19,
+        "fixed_value": "Wi-Fi 6E ( 最大2.4Gbps ) 対応 IEEE 802.11 ax/ac/a/b/g/n準拠 ＋ Bluetooth 5内蔵 ( Windows 10はWi-Fi 6動作 )"
+      },
+      {
+        "name": "拡張カード",
+        "slug": "expansion_card",
+        "type": "single_select",
+        "sort_order": 20,
+        "options": [
+          {
+            "name": "・・・ 拡張カードなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "LR-LINK 10GbE ネットワークカード ( LRES2051PT / RJ45 / PCI Express x4 ) ※Cat.6A以上のケーブルをご利用ください。",
+            "price_incl": 13970,
+            "price_excl": 12700,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "拡張カード2",
+        "slug": "expansion_card_2",
+        "type": "single_select",
+        "sort_order": 21,
+        "options": [
+          {
+            "name": "・・・ 拡張カードなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【デスクトップパソコンの電源を机上に入れられる！】デスクトップ用外付け電源スイッチ増設",
+            "price_incl": 2970,
+            "price_excl": 2700,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      }
+    ]
+  },
+  "peripheral_config": {
+    "sections": [
+      {
+        "name": "配信・実況向けデバイス",
+        "slug": "streaming_device",
+        "type": "single_select",
+        "sort_order": 1,
+        "options": [
+          {
+            "name": "・・・ 選択無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ マイク / USB有線 ] Razer Seiren V3 Mini (ホワイト / タップトゥミュート機能、LEDインジケーター搭載)",
+            "price_incl": 8360,
+            "price_excl": 7600,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ マイク / USB有線 ] AVerMedia LIVE STREAMER MIC AM310G2 ( ストリーミング・ゲームに最適 / 単一指向性 / 音量調整・消音ボタン搭載 )",
+            "price_incl": 9900,
+            "price_excl": 9000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ マイク / USB有線 ] HyperX QuadCast 2 ( ホワイト / タッチ式ミュート機能 / フルアルミボディ )",
+            "price_incl": 19800,
+            "price_excl": 18000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ キャプチャーボード ] AVerMedia LIVE GAMER EXTREME 3 GC551G2 (ソフトウェアエンコード / 録画最大 3840x2160@30fps、2560x1440@60fps)",
+            "price_incl": 19800,
+            "price_excl": 18000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 2点セット！ マイク+キャプチャーボード ] Razer Seiren V3 Mini (ホワイト) + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
+            "price_incl": 28160,
+            "price_excl": 25600,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 2点セット！ マイク+キャプチャーボード ] AVerMedia LIVE STREAMER MIC AM310G2 + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
+            "price_incl": 29700,
+            "price_excl": 27000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 2点セット！ マイク+キャプチャーボード ] HyperX Quadcast 2 (ホワイト) + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
+            "price_incl": 39600,
+            "price_excl": 36000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "外付け拡張デバイス",
+        "slug": "ext_expansion_device",
+        "type": "single_select",
+        "sort_order": 2,
+        "options": [
+          {
+            "name": "・・・ 外付け拡張デバイスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 左手デバイス / USB有線 ] Elgato Stream Deck Mini ( 6ボタン / 様々な操作、アクションが登録可能なショートカットキーボード )",
+            "price_incl": 12980,
+            "price_excl": 11800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 左手デバイス / USB有線 ] Logicool MX Creative Console ( 9ボタンのキーパッド / 微細な調整ができるダイアルパッド )",
+            "price_incl": 29800,
+            "price_excl": 27091,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "外付けストレージ",
+        "slug": "ext_storage",
+        "type": "single_select",
+        "sort_order": 3,
+        "options": [
+          {
+            "name": "・・・ 外付けストレージなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EJ0500GBKR ( 500GB / 持ち運びやすい薄型SSD )",
+            "price_incl": 13750,
+            "price_excl": 12500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD2.0U3-BA ( 2TB / ファンレス設計 / 防振設計 )",
+            "price_incl": 15950,
+            "price_excl": 14500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD4.0U3-BA ( 大容量の4TB / 静音設計 / 電源連動機能で省エネ )",
+            "price_incl": 20900,
+            "price_excl": 19000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD6.0U3-BA ( 6TB / ファンレス設計 / 防振設計 )",
+            "price_incl": 26400,
+            "price_excl": 24000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EMC1000GBK ( 1TB / キャップ付きで持ち運びしやすいコンパクトなスティック型SSD )",
+            "price_incl": 26400,
+            "price_excl": 24000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EJ2000GBKR ( 2TB / 持ち運びやすい薄型SSD )",
+            "price_incl": 36300,
+            "price_excl": 33000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "キーボード",
+        "slug": "keyboard",
+        "type": "single_select",
+        "sort_order": 4,
+        "options": [
+          {
+            "name": "・・・ キーボードなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] HyperX Alloy Core RGBメンブレンゲーミングキーボード ( メンブレンスイッチ / 日本語レイアウト / RGBバックライトキー )",
+            "price_incl": 4950,
+            "price_excl": 4500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] オリジナルメカニカルゲーミングキーボード ( ブラック / 日本語 )",
+            "price_incl": 5280,
+            "price_excl": 4800,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ USB有線 ] オリジナルメカニカルゲーミングキーボード ( ホワイト / 日本語 )",
+            "price_incl": 5280,
+            "price_excl": 4800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] Logicool RGB Keyboard G213r ( ブラック / メンブレン / RGBバックライトキー / 日本語 )",
+            "price_incl": 7920,
+            "price_excl": 7200,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] G TUNEオリジナル ラピッドトリガーキーボード ( ブラック / 日本語 / アクチュエーションポイント / Nキーロールオーバー )",
+            "price_incl": 10780,
+            "price_excl": 9800,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ USB有線 ] Logicool PRO G-PKB-002LN ( GX RED リニア軸 / テンキーレス / 12個のプログラマブルFキー / 日本語 )",
+            "price_incl": 17050,
+            "price_excl": 15500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 / Bluetooth ] Logicool G515-WL-LNWH ( ホワイト / テンキーレス / 22mmの超ロープロファイル / リニア軸 / 日本語 )",
+            "price_incl": 19800,
+            "price_excl": 18000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 / Bluetooth ] Logicool G715WL-LN ( ホワイト / 日本語 / テンキーレス / コンパクトデザイン / リニア軸 )",
+            "price_incl": 22980,
+            "price_excl": 20891,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ USB有線 ] Logicool G-PKB-TKL-RTBK (ブラック/ 日本語 /ラピッドトリガー、アクチュエーションポイント、KEY PRIORITY機能設定可能)",
+            "price_incl": 29700,
+            "price_excl": 27000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "マウス",
+        "slug": "mouse",
+        "type": "single_select",
+        "sort_order": 5,
+        "options": [
+          {
+            "name": "・・・ マウスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] 7ボタンオリジナルゲーミングマウス ( ホワイト / dpiが6段階で変更可能 )",
+            "price_incl": 1980,
+            "price_excl": 1800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] 7ボタンオリジナルゲーミングマウス ( ブラック / dpiが6段階で変更可能 )",
+            "price_incl": 1980,
+            "price_excl": 1800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] Logicool G402 ( 8ボタン / フュージョン エンジン搭載で高速トラッキングを実現 / FPS向けモデル )",
+            "price_incl": 5610,
+            "price_excl": 5100,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 ] Logicool G304 ( ブラック / 6ボタン / 最大12000dpi / 重量わずか99gの超軽量設計 )",
+            "price_incl": 5720,
+            "price_excl": 5200,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 ] Logicool G304rWH ( ホワイト / 6ボタン / 最大12000dpi / 重量わずか99gの超軽量設計 )",
+            "price_incl": 5720,
+            "price_excl": 5200,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 ] G TUNEオリジナル ワイヤレスゲーミングマウス ( 軽量38g / 50〜26000dpi切替 / 専用レシーバー )",
+            "price_incl": 6930,
+            "price_excl": 6300,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ USB無線 ] Logicool G703h ( HEROセンサー / 6個のプログラマブルボタン / LIGHTSYNC RGB )",
+            "price_incl": 10890,
+            "price_excl": 9900,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 ] Logicool PRO X SUPERLIGHT ( ブラック / 軽量63g / HERO 25Kセンサー / 1回の充電で約70時間の連続使用 )",
+            "price_incl": 14500,
+            "price_excl": 13182,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "マウスパッド",
+        "slug": "mousepad",
+        "type": "single_select",
+        "sort_order": 6,
+        "options": [
+          {
+            "name": "・・・ マウスパッドなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ クロス素材 ] Logicool G240f Cloth Gaming Mouse Pad ( 280mm×340mm / 低DPIの操作にもスムーズに対応 )",
+            "price_incl": 1870,
+            "price_excl": 1700,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ ハード素材 ] Logicool G440f Hard Gaming Mouse Pad ( 280mm×340mm / 高DPI設定のマウスに最適な低表面摩擦 )",
+            "price_incl": 2750,
+            "price_excl": 2500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "G TUNEオリジナル アルファゲル採用 マウスパッド-M ( 320mm*270mm*3mm )",
+            "price_incl": 2750,
+            "price_excl": 2500,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "G TUNEオリジナル アルファゲル採用 マウスパッド-L ( 490mm*420mm*3mm )",
+            "price_incl": 3630,
+            "price_excl": 3300,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ クロス素材 ] Logicool G640s Large Cloth Gaming Mouse Pad ( 大判 400mm×460mm / 低DPIの操作にもスムーズに対応 )",
+            "price_incl": 3850,
+            "price_excl": 3500,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ペンタブレット",
+        "slug": "pen_tablet",
+        "type": "fixed",
+        "sort_order": 7,
+        "fixed_value": "・・・ 選択なし"
+      },
+      {
+        "name": "スピーカー",
+        "slug": "speaker",
+        "type": "single_select",
+        "sort_order": 8,
+        "options": [
+          {
+            "name": "・・・ スピーカーなし ( 音声出力にはスピーカーが別途必要です )",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[2ch/4Wx2] Creative Pebble V2 (USBバスパワーでの動作が可能なコンパクト スピーカー)",
+            "price_incl": 3960,
+            "price_excl": 3600,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[2ch/8W RMS] Creative Pebble V3 ホワイト (USB-C・Bluetooth・ライン入力に対応、高ゲインモード切替可能)",
+            "price_incl": 5940,
+            "price_excl": 5400,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 2ch/30Wx2 ] Creative T60 ( 複数の端子で様々な機器に接続可能なスピーカー / Bluetoothも対応 )",
+            "price_incl": 11000,
+            "price_excl": 10000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[10W出力] Jabra SPEAK510 MS (Bluetooth＆USB Type-A接続対応 オンライン会議に最適なスピーカーフォン)",
+            "price_incl": 17600,
+            "price_excl": 16000,
+            "is_default": false,
+            "is_recommended": true
+          }
+        ]
+      },
+      {
+        "name": "ヘッドフォン",
+        "slug": "headphone",
+        "type": "single_select",
+        "sort_order": 9,
+        "options": [
+          {
+            "name": "・・・ ヘッドフォンなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 / Bluetooth ] Logicool G435BK ワイヤレスゲーミングヘッドセット ( ブラック / 直径40mmドライバー / 軽量165g )",
+            "price_incl": 7678,
+            "price_excl": 6980,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 ] G TUNEオリジナル ゲーミングヘッドセット ( USB接続 / チタンコーティングドライバー / 着脱可能なマイク )",
+            "price_incl": 8580,
+            "price_excl": 7800,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[ USB無線 / Bluetooth ] Logicool G321-WH ワイヤレスゲーミングヘッドセット ( ホワイト / 直径40mmドライバー / 軽量210g )",
+            "price_incl": 9350,
+            "price_excl": 8500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 / 7.1ch ] Logicool G431 DTS 7.1 サラウンド ゲーミング ヘッドセット ( 直径50mmドライバー / ノイズキャンセリングマイク )",
+            "price_incl": 9900,
+            "price_excl": 9000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB有線 / 7.1ch ] Logicool PRO X G-PHS-003 ( USB外付けDACによって透き通るようなクリアなデジタル信号処理を実現 )",
+            "price_incl": 16390,
+            "price_excl": 14900,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ USB無線 / Bluetooth ] Logicool G735WL ( ホワイト / 直径40mmドライバー / 最大56時間のバッテリー動作 )",
+            "price_incl": 24800,
+            "price_excl": 22546,
+            "is_default": false,
+            "is_recommended": true
+          }
+        ]
+      },
+      {
+        "name": "ゲームコントローラ",
+        "slug": "game_controller",
+        "type": "single_select",
+        "sort_order": 10,
+        "options": [
+          {
+            "name": "・・・ ゲームコントローラなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【有線】ロジクール Gamepad F310r (USB接続/プログラム可能アナログミニジョイスティック搭載)",
+            "price_incl": 2860,
+            "price_excl": 2600,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "【有線】HyperX Clutch Gladiate ( XBOX公認 / プログラマブルボタン / 3.5mmステレオポート搭載 )",
+            "price_incl": 3980,
+            "price_excl": 3619,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "【有線&Bluetooth】 Microsoft Xboxコントローラー ( 2.7mType-Cケーブル付属 / Bluetooth対応 )",
+            "price_incl": 9130,
+            "price_excl": 8300,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "WEBカメラ（オプション）",
+        "slug": "webcam",
+        "type": "single_select",
+        "sort_order": 11,
+        "options": [
+          {
+            "name": "・・・ 外付けWebカメラなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "Logicool HD Webcam C270n ( USB2.0 / HD 720p ビデオ会議 )",
+            "price_incl": 3080,
+            "price_excl": 2800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "Logicool BRIO 100 ( ホワイト / 1080p 30fps / 固定フォーカス / プライバシーシャッター付 )",
+            "price_incl": 4950,
+            "price_excl": 4500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "Logicool C922N PRO STREAM WEBCAM (1080p 30fps / 720p 60fps / オートフォーカス / 3ヵ月間のXSplitプレミアムライセンス)",
+            "price_incl": 12100,
+            "price_excl": 11000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "モニタ",
+        "slug": "monitor",
+        "type": "single_select",
+        "sort_order": 12,
+        "has_quantity": true,
+        "options": [
+          {
+            "name": "・・・ モニタなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false,
+            "size_group": null
+          },
+          {
+            "name": "[ 21.5型 IPS方式パネル ] Acer EK220QE3bi ( 1920×1080 / 100Hz対応 / HDMI,D-SUB / スピーカー付属無し )",
+            "price_incl": 11000,
+            "price_excl": 10000,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "21.5型ワイド液晶"
+          },
+          {
+            "name": "[ 21.45型 IPS方式パネル ] iiyama XUB2293HSU-B7 ( 1920×1080 / DisplayPort,HDMI / USBハブ / 昇降・回転対応 )",
+            "price_incl": 19910,
+            "price_excl": 18100,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "21.5型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 IPS方式パネル ] ProLite XB2491HS-B1J ( 1920×1080 / DisplayPort HDMI / 120Hz )",
+            "price_incl": 18920,
+            "price_excl": 17200,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 IPS方式ゲーミング液晶 ] G-MASTER G2445HSU-B2 (ブラック / 1920×1080 / DisplayPort HDMI / 100Hz・応答速度1.0ms )",
+            "price_incl": 18920,
+            "price_excl": 17200,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite X2492HSU-B1J ( ブラック / 1920×1080 / DisplayPort,HDMI / USBハブポート )",
+            "price_incl": 20900,
+            "price_excl": 19000,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite XB2492HSU-B1J ( ブラック / 1920×1080 / DisplayPort,HDMI / 昇降・縦横90°回転 対応)",
+            "price_incl": 22990,
+            "price_excl": 20900,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite XUB2492HSU-W6 ( 白モデル / 1920×1080 / DisplayPort HDMI / 昇降・縦横90°回転 対応)",
+            "price_incl": 22990,
+            "price_excl": 20900,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 FAST IPS方式ゲーミング液晶 ] G-MASTER GB2470HSU-W6 (ホワイト / 1920×1080 / DisplayPort HDMI / 180Hz・高速応答0.2ms )",
+            "price_incl": 26950,
+            "price_excl": 24500,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          },
+          {
+            "name": "[ 23.8型 FAST IPS方式ゲーミング液晶 ] G-MASTER GB2471HSU-W1 (ホワイト / 1920×1080 / DisplayPort×1、HDMI×2 / 240Hz )",
+            "price_incl": 26950,
+            "price_excl": 24500,
+            "is_default": false,
+            "is_recommended": false,
+            "size_group": "23.8型ワイド液晶"
+          }
+        ]
+      },
+      {
+        "name": "モニターアーム",
+        "slug": "monitor_arm",
+        "type": "single_select",
+        "sort_order": 13,
+        "options": [
+          {
+            "name": "・・・モニターアームなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ シングルアーム ] エレコム DPA-SS02BK ( ブラック / ガススプリング式 / グロメット式とクランプ式の両対応 )",
+            "price_incl": 4950,
+            "price_excl": 4500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ シングルアーム ] エレコム DPA-SS08WH ( ホワイト / ガススプリング式 / グロメット式とクランプ式の両対応 )",
+            "price_incl": 4950,
+            "price_excl": 4500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ デュアルアーム ] エレコム DPA-DL05BK ( ブラック / メカニカルスプリング式 / グロメット式とクランプ式の両対応 )",
+            "price_incl": 6600,
+            "price_excl": 6000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "プリンタ",
+        "slug": "printer",
+        "type": "single_select",
+        "sort_order": 14,
+        "options": [
+          {
+            "name": "・・・ プリンタなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ A4モノクロレーザープリンタ ] ブラザー JUSTIO HL-L2460DW",
+            "price_incl": 13970,
+            "price_excl": 12700,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ A4カラーインクジェット複合機 ] ブラザー プリビオ DCP-J929N-W ※1.5m USBケーブル付属",
+            "price_incl": 20900,
+            "price_excl": 19000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ A4カラーレーザープリンタ ] ブラザー JUSTIO HL-L3240CDW",
+            "price_incl": 25300,
+            "price_excl": 23000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ブロードバンドルーター",
+        "slug": "router",
+        "type": "single_select",
+        "sort_order": 15,
+        "options": [
+          {
+            "name": "・・・ ブロードバンドルーターなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 無線LAN ] BUFFALO WSR-1500AX2L/D ( Wi-Fi 6対応 / 最大1,201Mbpsの無線LAN対応 / 有線LAN3ポート搭載 )",
+            "price_incl": 6930,
+            "price_excl": 6300,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 無線LAN ] BUFFALO WSR3600BE4P/DBK (Wi-Fi 7対応 / 最大2,882Mbpsの無線LAN対応 / 有線LAN3ポート搭載 )",
+            "price_incl": 11550,
+            "price_excl": 10500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 無線LAN ] BUFFALO WXR9300BE6P/D (Wi-Fi 7対応 & 6GHz対応 / 最大5,764Mbpsの無線LAN対応 / 有線LAN4ポート搭載 )",
+            "price_incl": 31900,
+            "price_excl": 29000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "HUB",
+        "slug": "hub",
+        "type": "single_select",
+        "sort_order": 16,
+        "options": [
+          {
+            "name": "・・・ HUBなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 有線LAN ] BUFFALO LSW6-GT-8NS/DBK ( ギガビット対応 8ポート / 金属筐体 / 電源内蔵 )",
+            "price_incl": 6930,
+            "price_excl": 6300,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ゲーミングチェア",
+        "slug": "gaming_chair",
+        "type": "single_select",
+        "sort_order": 17,
+        "options": [
+          {
+            "name": "・・・ ゲーミングチェアなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【Red】 AKRacing Nitro V2 Gaming Chair (スタンダードモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 47850,
+            "price_excl": 43500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【Pink】 AKRacing Eclair Gaming Chair (ホワイトベースモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 47850,
+            "price_excl": 43500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【Blue】 AKRacing Eclair Gaming Chair (ホワイトベースモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 47850,
+            "price_excl": 43500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【White】 AKRacing AKR-TSUBASA/HONDA 本田翼 監修オリジナルカラーモデル ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 49830,
+            "price_excl": 45300,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【Grey】 AKRacing Pro-X V2 Gaming Chair (ハイエンドモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 57750,
+            "price_excl": 52500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【Red】 AKRacing Pro-X V2 Gaming Chair (ハイエンドモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
+            "price_incl": 57750,
+            "price_excl": 52500,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "USB周辺機器",
+        "slug": "usb_peripherals",
+        "type": "multi_select",
+        "sort_order": 18,
+        "options": [
+          {
+            "name": "【高速転送】エレコム USB3.0ハブ U3H-A408SBK ( ケーブル長約1m / 4ポート / ACアダプター付き /セルフ・バスパワー両対応 )",
+            "price_incl": 2640,
+            "price_excl": 2400,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ UHS-II対応/USBカードリーダー ] Kingston MobileLite Plus SD リーダー ( USB3.0接続 )",
+            "price_incl": 2860,
+            "price_excl": 2600,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ CFexpress Type B対応/USBカードリーダー ] サンディスク エクストリーム プロ SDDR-F451-JNGEN ( USB Type-C 3.1 Gen2接続 )",
+            "price_incl": 8800,
+            "price_excl": 8000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "LANケーブル",
+        "slug": "lan_cable",
+        "type": "multi_select",
+        "sort_order": 19,
+        "options": [
+          {
+            "name": "[ 広帯域LANケーブル ] 10m ( UTP / ストレート / カテゴリー6A )",
+            "price_incl": 1650,
+            "price_excl": 1500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 広帯域LANケーブル ] 1m ( UTP / ストレート / カテゴリー6A )",
+            "price_incl": 605,
+            "price_excl": 550,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 広帯域LANケーブル ] 2m ( UTP / ストレート / カテゴリー6A )",
+            "price_incl": 638,
+            "price_excl": 580,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 広帯域LANケーブル ] 3m ( UTP / ストレート / カテゴリー6A )",
+            "price_incl": 660,
+            "price_excl": 600,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 広帯域LANケーブル ] 5m ( UTP / ストレート / カテゴリー6A )",
+            "price_incl": 880,
+            "price_excl": 800,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "サプライ",
+        "slug": "supply",
+        "type": "multi_select",
+        "sort_order": 20,
+        "options": [
+          {
+            "name": "[ Bluetoothテンキーパッド ] エレコム TK-TBP020BK ( スリム設計 / パンタグラフ / ブラック )",
+            "price_incl": 2970,
+            "price_excl": 2700,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ HDMI端子用 VGA変換アダプタ ] エレコム AD-HDMIVGABK2",
+            "price_incl": 2750,
+            "price_excl": 2500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【 ケーブル 】 DisplayPortケーブル (DP-DP / 2m)",
+            "price_incl": 2420,
+            "price_excl": 2200,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      }
+    ]
+  },
+  "service_config": {
+    "sections": [
+      {
+        "name": "オフィスソフト",
+        "slug": "office",
+        "type": "single_select",
+        "sort_order": 1,
+        "options": [
+          {
+            "name": "・・・ オフィスソフト無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "Microsoft(R) 365 Personal ( 24か月版 ) ※試用期間後は Office H&B 2024永続版 へ変更可能",
+            "price_incl": 27500,
+            "price_excl": 25000,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "Microsoft(R) 365 Basic ( 1年版 ) + Office Home and Business 2024 デジタルライセンス版 ( 中小企業向け )",
+            "price_incl": 27500,
+            "price_excl": 25000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "Microsoft(R) 365 Basic ( 1年版 ) + Office Home and Business 2024 デジタルライセンス版 ( 個人向け )",
+            "price_incl": 27500,
+            "price_excl": 25000,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "Microsoft(R) Office Home and Business 2024 デジタルライセンス版 ( 中小企業向け )",
+            "price_incl": 27500,
+            "price_excl": 25000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【総合オフィスソフト＆PDF編集】WPS Office2 PDF Plus ( ワープロ/表計算/プレゼンテーション/PDF編集 )",
+            "price_incl": 3520,
+            "price_excl": 3200,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "【総合オフィスソフト】 KINGSOFT WPS Office 2 Standard ダウンロード版 ( ワープロ/表計算/プレゼンテーション/PDF閲覧 )",
+            "price_incl": 3190,
+            "price_excl": 2900,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ウイルス対策・セキュリティソフト",
+        "slug": "security",
+        "type": "single_select",
+        "sort_order": 2,
+        "options": [
+          {
+            "name": "マカフィー リブセーフ 1年版",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "・・・ 追加セキュリティソフトなし（法人・個人事業者を選択すると購入可能です）",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "マカフィー リブセーフ 3年版 ( 1年版+2年版 )",
+            "price_incl": 9900,
+            "price_excl": 9000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "マカフィー リブセーフ 4年版 ( 1年版+3年版 )",
+            "price_incl": 13200,
+            "price_excl": 12000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ソフトウェア１（プリインストール）",
+        "slug": "software_preinstall",
+        "type": "single_select",
+        "sort_order": 3,
+        "options": [
+          {
+            "name": "Steamクライアントソフト",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "・・・ ソフトなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "ソフトウェア２（バンドル）",
+        "slug": "software_bundle",
+        "type": "single_select",
+        "sort_order": 4,
+        "options": [
+          {
+            "name": "・・・ ソフトなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【OSごと全データ消去】ターミネータ10plusデータ完全抹消 BIOS / UEFI版（バルク版）※ダウンロードコードとDVDメディア付属",
+            "price_incl": 3520,
+            "price_excl": 3200,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【オールインワン画面録画ソフト】CyberLink Screen Recorder 4 Deluxe ダウンロード版 ( 簡単操作でライブ配信/画面録画/ビデオ編集 )",
+            "price_incl": 4290,
+            "price_excl": 3900,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "【写真/動画編集ソフト】Adobe Photoshop Elements 2026 & Premiere Elements 2026 3年ライセンス ※ダウンロードコードが付属します",
+            "price_incl": 27280,
+            "price_excl": 24800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【写真編集ソフト】 CyberLink PhotoDirector 2025 Ultra ( 各種AI関連の画像補正に対応、RAW形式に対応 )",
+            "price_incl": 7480,
+            "price_excl": 6800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【常に最新の写真/音声/ビデオ/映像用色編集ソフト】CyberLink Director Suite 365（1年ライセンス）※定期契約型プランです",
+            "price_incl": 11880,
+            "price_excl": 10800,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【直接編集機能付きPDF編集ソフト】 KINGSOFT PDF Pro ( ファイル形式の変換や暗号化設定などに対応 / 署名機能あり )",
+            "price_incl": 3960,
+            "price_excl": 3600,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "【動画編集ソフト】 CyberLink PowerDirector 2025 Ultra ( 各種映像編集機能と補正技術に対応。1年間、25GBのクラウドストレージ)",
+            "price_incl": 11990,
+            "price_excl": 10900,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "出荷日調整サービス",
+        "slug": "shipping_service",
+        "type": "single_select",
+        "sort_order": 5,
+        "options": [
+          {
+            "name": "・・・ 翌営業日出荷サービスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【お急ぎの方に！カスタマイズしてもすぐ届く！！】翌営業日出荷サービス",
+            "price_incl": 2200,
+            "price_excl": 2000,
+            "is_default": false,
+            "is_recommended": true
+          }
+        ]
+      },
+      {
+        "name": "パソコン引越しソフト",
+        "slug": "migration_software",
+        "type": "single_select",
+        "sort_order": 6,
+        "options": [
+          {
+            "name": "・・・ パソコン引越しソフトなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "【データ・設定・アプリに対応】ファイナルパソコン引越し Win11 対応版(専用USBリンクケーブル付き)",
+            "price_incl": 7480,
+            "price_excl": 6800,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "オプションサービス",
+        "slug": "option_service",
+        "type": "single_select",
+        "sort_order": 7,
+        "options": [
+          {
+            "name": "・・・オプションサービス無し",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "パソコン下取りサービス",
+        "slug": "trade_in",
+        "type": "single_select",
+        "sort_order": 8,
+        "options": [
+          {
+            "name": "・・・ パソコン下取りサービスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "パソコン下取りサービスに申し込む",
+            "price_incl": -1100,
+            "price_excl": -1000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "サポート",
+        "slug": "support",
+        "type": "single_select",
+        "sort_order": 9,
+        "options": [
+          {
+            "name": "[ 3年保証/PC本体] センドバック修理保証＋初期不良対応１ヵ月",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 3年保証/PC本体] ピックアップ修理保証",
+            "price_incl": 3300,
+            "price_excl": 3000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 3年保証/PC本体] センドバック修理保証+安心パックサービス(専用ダイヤル/即日修理)",
+            "price_incl": 5500,
+            "price_excl": 5000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 3年保証/PC本体] オンサイト修理保証",
+            "price_incl": 8800,
+            "price_excl": 8000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 3年保証/PC本体] ピックアップ修理保証+安心パックサービス(専用ダイヤル/即日修理)",
+            "price_incl": 8800,
+            "price_excl": 8000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 3年保証/PC本体] オンサイト修理保証+安心パックサービス(専用ダイヤル/即日修理)",
+            "price_incl": 14300,
+            "price_excl": 13000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "電話サポート",
+        "slug": "phone_support",
+        "type": "single_select",
+        "sort_order": 10,
+        "options": [
+          {
+            "name": "[ 24時間365日電話サポート ] 困った時はいつでもお電話いただけます",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[ 安心パック限定オプション ] リモートサポートサービス追加",
+            "price_incl": 3300,
+            "price_excl": 3000,
+            "is_default": false,
+            "is_recommended": true
+          }
+        ]
+      },
+      {
+        "name": "破損盗難保証サービス",
+        "slug": "damage_insurance",
+        "type": "single_select",
+        "sort_order": 11,
+        "options": [
+          {
+            "name": "・・・ 破損盗難保証サービスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "破損盗難保証 レベル1 (保証限度額￥50,000-)",
+            "price_incl": 6600,
+            "price_excl": 6000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "破損盗難保証 レベル2 (保証限度額￥100,000-)",
+            "price_incl": 9900,
+            "price_excl": 9000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "破損盗難保証 レベル3 (保証限度額￥150,000-)",
+            "price_incl": 14300,
+            "price_excl": 13000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "破損盗難保証 レベル4 (保証限度額￥200,000-)",
+            "price_incl": 19800,
+            "price_excl": 18000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "データ復旧サービス",
+        "slug": "data_recovery",
+        "type": "single_select",
+        "sort_order": 12,
+        "options": [
+          {
+            "name": "・・・ データ復旧サービスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "データ復旧安心サービスパック 1年版 ( 1年間に最大1回まで )",
+            "price_incl": 2200,
+            "price_excl": 2000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "データ復旧安心サービスパック 3年版 ( 3年間に最大3回まで )",
+            "price_incl": 4400,
+            "price_excl": 4000,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "データ復旧安心サービスパック 5年版 ( 5年間に最大5回まで )",
+            "price_incl": 6600,
+            "price_excl": 6000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "データ復旧安心プランファミリー ( 1年間に最大2回まで )",
+            "price_incl": 3300,
+            "price_excl": 3000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "データ復旧安心プランファミリー ×3 ( 1年間に最大2回までの保証を3年継続 )",
+            "price_incl": 9900,
+            "price_excl": 9000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "データ復旧安心プランファミリー ×5 ( 1年間に最大2回までの保証を5年継続 )",
+            "price_incl": 16500,
+            "price_excl": 15000,
+            "is_default": false,
+            "is_recommended": false
+          }
+        ]
+      },
+      {
+        "name": "各種出張サービス",
+        "slug": "onsite_service",
+        "type": "single_select",
+        "sort_order": 13,
+        "options": [
+          {
+            "name": "・・・ 出張セットアップサービスなし",
+            "price_incl": 0,
+            "price_excl": 0,
+            "is_default": true,
+            "is_recommended": false
+          },
+          {
+            "name": "[出張設置設定/※初回のみ]プラン1：PC設置、インターネット/メール設定(有線)",
+            "price_incl": 10450,
+            "price_excl": 9500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[出張設置設定/※初回のみ]プラン2：PC設置、インターネット/メール設定(無線)",
+            "price_incl": 11550,
+            "price_excl": 10500,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[出張設置設定/※初回のみ]プラン3：2時間フリープラン(PC設置、インターネット/メール設定などPC関連の作業を行うフリープラン)",
+            "price_incl": 18700,
+            "price_excl": 17000,
+            "is_default": false,
+            "is_recommended": false
+          },
+          {
+            "name": "[出張設置設定/※初回のみ]プラン4：お好み設定プラン(5つのオプションからお好きなものを3つ選べる)",
+            "price_incl": 16500,
+            "price_excl": 15000,
+            "is_default": false,
+            "is_recommended": true
+          },
+          {
+            "name": "[出張設置設定/※初回のみ]プラン5：PC買い替えプレミアムパック(データ移行サービス付き(Windows XPから対応))",
+            "price_incl": 31350,
+            "price_excl": 28500,
+            "is_default": false,
+            "is_recommended": true
+          }
+        ]
+      }
+    ]
+  }
+}
