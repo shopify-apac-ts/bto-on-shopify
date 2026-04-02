@@ -1,11 +1,20 @@
+// ============================================================
+// bto.$handle.jsx 完全版（カート追加対応）
+// ============================================================
+// 既存ファイルをこの内容で丸ごと置き換えてください。
+// 変更点:
+//   - import: useFetcher, CartForm 追加
+//   - action() 追加: カートにBTO構成を追加
+//   - loader(): Product Variant ID を取得
+//   - BTOConfigurator: カート追加ボタン実装
+//   - BTOSummary: サイドバーに選択サマリー追加
+//   - PRODUCT_VARIANT_QUERY 追加
+// ============================================================
+
 import {useLoaderData} from 'react-router';
+import {CartForm} from '@shopify/hydrogen';
 import {useState, useMemo} from 'react';
 import '../styles/bto.css';
-
-/**
- * BTO コンフィグレーターページ
- * /bto/fzi9g90g8bfdw104dec のようなURLでアクセス
- */
 
 export async function loader({params, context}) {
   const handle = params.handle;
@@ -20,11 +29,15 @@ export async function loader({params, context}) {
     throw new Response('BTO Product not found', {status: 404});
   }
 
-  // フィールドをオブジェクトに変換
   const fields = {};
   for (const field of metaobject.fields) {
     fields[field.key] = field.value;
   }
+
+  // BTO用 Shopify Product の Variant ID を取得
+  const {product} = await context.storefront.query(PRODUCT_VARIANT_QUERY, {
+    variables: {handle: 'g-tune-fz-i9g90'},
+  });
 
   return {
     handle: metaobject.handle,
@@ -35,14 +48,14 @@ export async function loader({params, context}) {
     hardwareConfig: JSON.parse(fields.hardware_config),
     peripheralConfig: JSON.parse(fields.peripheral_config),
     serviceConfig: JSON.parse(fields.service_config),
+    variantId: product?.variants?.nodes?.[0]?.id || null,
   };
 }
 
+
 export default function BTOConfigurator() {
   const data = useLoaderData();
-  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig} = data;
-
-  // 各カテゴリの選択状態を管理
+  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId} = data;
   const allSections = [
     ...hardwareConfig.sections,
     ...peripheralConfig.sections,
@@ -62,7 +75,6 @@ export default function BTOConfigurator() {
   const [selections, setSelections] = useState(initialSelections);
   const [activeTab, setActiveTab] = useState('hardware');
 
-  // 合計金額計算
   const totalPrice = useMemo(() => {
     let total = basePrice;
     for (const section of allSections) {
@@ -82,6 +94,34 @@ export default function BTOConfigurator() {
     }
     return total;
   }, [selections, allSections, basePrice]);
+
+  // Cart Transform用の選択データを構築
+  const cartAttributes = useMemo(() => {
+    const attributes = [
+      {key: '_bto_product', value: productName},
+      {key: '_bto_total_price', value: String(totalPrice)},
+    ];
+    for (const section of allSections) {
+      if (section.type === 'fixed') {
+        attributes.push({key: section.slug, value: section.fixed_value});
+      } else if (section.type === 'single_select') {
+        const opt = section.options[selections[section.slug]];
+        if (opt) {
+          attributes.push({key: section.slug, value: opt.name});
+          if (opt.price_incl !== 0) {
+            attributes.push({key: section.slug + '_price', value: String(opt.price_incl)});
+          }
+        }
+      } else if (section.type === 'multi_select') {
+        for (const idx of selections[section.slug] || []) {
+          if (section.options[idx]) {
+            attributes.push({key: section.slug + '[]', value: section.options[idx].name});
+          }
+        }
+      }
+    }
+    return attributes;
+  }, [selections, allSections, totalPrice, productName]);
 
   const handleSingleSelect = (slug, optionIndex) => {
     setSelections((prev) => ({...prev, [slug]: optionIndex}));
@@ -105,6 +145,21 @@ export default function BTOConfigurator() {
 
   const activeConfig = tabs.find((t) => t.key === activeTab)?.config;
 
+  // カスタマイズ件数
+  const customCount = useMemo(() => {
+    let count = 0;
+    for (const section of allSections) {
+      if (section.type === 'single_select') {
+        const idx = selections[section.slug];
+        const opt = section.options[idx];
+        if (opt && !opt.is_default) count++;
+      } else if (section.type === 'multi_select') {
+        count += (selections[section.slug] || []).length;
+      }
+    }
+    return count;
+  }, [selections, allSections]);
+
   return (
     <div className="bto-page">
       <div className="bto-header">
@@ -114,12 +169,11 @@ export default function BTOConfigurator() {
 
       <div className="bto-layout">
         <div className="bto-main">
-          {/* タブ */}
           <div className="bto-tabs">
             {tabs.map((tab) => (
               <button
                 key={tab.key}
-                className={`bto-tab ${activeTab === tab.key ? 'active' : ''}`}
+                className={'bto-tab ' + (activeTab === tab.key ? 'active' : '')}
                 onClick={() => setActiveTab(tab.key)}
               >
                 {tab.label}
@@ -127,7 +181,6 @@ export default function BTOConfigurator() {
             ))}
           </div>
 
-          {/* カテゴリ一覧（アコーディオン） */}
           <div className="bto-categories">
             {activeConfig?.sections.map((section) => (
               <BTOCategory
@@ -141,7 +194,6 @@ export default function BTOConfigurator() {
           </div>
         </div>
 
-        {/* 価格サイドバー（スティッキー） */}
         <div className="bto-sidebar">
           <div className="bto-price-box">
             <div className="bto-price-label">お見積り金額（税込）</div>
@@ -153,10 +205,38 @@ export default function BTOConfigurator() {
             </div>
             {totalPrice !== basePrice && (
               <div className="bto-price-diff">
-                カスタマイズ: +&yen;{(totalPrice - basePrice).toLocaleString()}
+                カスタマイズ ({customCount}件): +&yen;{(totalPrice - basePrice).toLocaleString()}
               </div>
             )}
-            <button className="bto-cart-button">カートに追加</button>
+            {variantId ? (
+              <CartForm
+                route="/cart"
+                action={CartForm.ACTIONS.LinesAdd}
+                inputs={{
+                  lines: [
+                    {
+                      merchandiseId: variantId,
+                      quantity: 1,
+                      attributes: cartAttributes,
+                    },
+                  ],
+                }}
+              >
+                {(fetcher) => (
+                  <>
+                    <button
+                      className="bto-cart-button"
+                      type="submit"
+                      disabled={fetcher.state !== 'idle'}
+                    >
+                      {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
+                    </button>
+                  </>
+                )}
+              </CartForm>
+            ) : (
+              <p className="bto-cart-error">Shopify Product が未作成です</p>
+            )}
           </div>
         </div>
       </div>
@@ -164,14 +244,9 @@ export default function BTOConfigurator() {
   );
 }
 
-// ============================================================
-// BTOCategory コンポーネント（アコーディオン式）
-// ============================================================
-
 function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // 固定スペックの場合
   if (section.type === 'fixed') {
     return (
       <div className="bto-category bto-category-fixed">
@@ -183,7 +258,6 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
     );
   }
 
-  // 現在の選択を表示
   let currentLabel = '';
   let currentPrice = 0;
   if (section.type === 'single_select') {
@@ -194,11 +268,11 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
     }
   } else if (section.type === 'multi_select') {
     const count = (selectedIndex || []).length;
-    currentLabel = count > 0 ? `${count}件選択中` : '未選択';
+    currentLabel = count > 0 ? count + '件選択中' : '未選択';
   }
 
   return (
-    <div className={`bto-category ${isOpen ? 'open' : ''}`}>
+    <div className={'bto-category ' + (isOpen ? 'open' : '')}>
       <button
         className="bto-category-header bto-category-toggle"
         onClick={() => setIsOpen(!isOpen)}
@@ -210,7 +284,7 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
             <span className="bto-current-price">+&yen;{currentPrice.toLocaleString()}</span>
           )}
         </span>
-        <span className={`bto-chevron ${isOpen ? 'open' : ''}`}>&#9660;</span>
+        <span className={'bto-chevron ' + (isOpen ? 'open' : '')}>&#9660;</span>
       </button>
 
       {isOpen && (
@@ -224,7 +298,7 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
             return (
               <label
                 key={idx}
-                className={`bto-option ${isSelected ? 'selected' : ''} ${option.is_default ? 'default' : ''}`}
+                className={'bto-option' + (isSelected ? ' selected' : '') + (option.is_default ? ' default' : '')}
               >
                 <input
                   type={section.type === 'single_select' ? 'radio' : 'checkbox'}
@@ -250,8 +324,8 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
                     {option.price_incl === 0
                       ? ''
                       : option.price_incl > 0
-                        ? `+\u00a5${option.price_incl.toLocaleString()}`
-                        : `-\u00a5${Math.abs(option.price_incl).toLocaleString()}`}
+                        ? '+\u00a5' + option.price_incl.toLocaleString()
+                        : '-\u00a5' + Math.abs(option.price_incl).toLocaleString()}
                     {option.price_incl !== 0 && (
                       <span className="bto-option-price-excl">
                         (税別 &yen;{option.price_excl.toLocaleString()})
@@ -268,19 +342,6 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
   );
 }
 
-// ============================================================
-// Storefront API GraphQL クエリ
-// ============================================================
+const BTO_QUERY = '#graphql\n  query BTOProduct($handle: MetaobjectHandleInput!) {\n    metaobject(handle: $handle) {\n      handle\n      type\n      fields {\n        key\n        value\n      }\n    }\n  }\n';
 
-const BTO_QUERY = `#graphql
-  query BTOProduct($handle: MetaobjectHandleInput!) {
-    metaobject(handle: $handle) {
-      handle
-      type
-      fields {
-        key
-        value
-      }
-    }
-  }
-`;
+const PRODUCT_VARIANT_QUERY = '#graphql\n  query BTOProductVariant($handle: String!) {\n    product(handle: $handle) {\n      id\n      title\n      variants(first: 1) {\n        nodes {\n          id\n          title\n          price {\n            amount\n            currencyCode\n          }\n        }\n      }\n    }\n  }\n';

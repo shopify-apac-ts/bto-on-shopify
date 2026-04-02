@@ -314,3 +314,28 @@
     font-size: 0.85rem;
   }
 }
+/* ============================================================
+   カート追加関連の追加CSS
+   既存の bto.css の末尾に追記してください
+   ============================================================ */
+
+.bto-cart-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.bto-cart-error {
+  color: #ff5252;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+.bto-view-cart {
+  display: block;
+  text-align: center;
+  margin-top: 0.75rem;
+  color: #fff;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+.bto-view-cart:hover {
+  color: #ff8a65;
+}
