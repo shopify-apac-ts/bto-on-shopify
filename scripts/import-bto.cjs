@@ -327,7 +327,15 @@ async function createComponentProduct(token, { handle, title, priceIncl, tags })
 async function ensureComponentProduct(token, { handle, title, priceIncl, tags }) {
   const existing = await getProductByHandle(token, handle);
   if (existing?.variantId) {
-    process.stdout.write(' [既存]');
+    // Update title in case it was previously created with the old naming convention
+    await adminGraphQL(token, `
+      mutation UpdateProductTitle($id: ID!, $title: String!) {
+        productUpdate(product: { id: $id, title: $title }) {
+          userErrors { field message }
+        }
+      }
+    `, { id: existing.id, title });
+    process.stdout.write(' [更新]');
     return existing.variantId;
   }
 
@@ -361,7 +369,7 @@ async function createComponentProducts(token, btoData) {
       if (section.type === 'fixed') {
         // 固定コンポーネント: セクションごとに1商品
         const handle = `bto-${skuBase}-${section.slug}`;
-        const title = `[BTO部品] ${btoData.product.name} - ${section.name}`;
+        const title = `[BTO部品] ${section.name}`;
         const tags = [
           'bto-component',
           `bto-base:${baseProductHandle}`,
@@ -385,7 +393,7 @@ async function createComponentProducts(token, btoData) {
         for (let i = 0; i < section.options.length; i++) {
           const option = section.options[i];
           const handle = `bto-${skuBase}-${section.slug}-${i}`;
-          const title = `[BTO部品] ${btoData.product.name} - ${section.name}: ${option.name.slice(0, 80)}`;
+          const title = `[BTO部品] ${section.name}: ${option.name.slice(0, 80)}`;
           const tags = [
             'bto-component',
             `bto-base:${baseProductHandle}`,
