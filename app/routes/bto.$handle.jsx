@@ -13,7 +13,7 @@
 
 import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useCallback} from 'react';
 import '../styles/bto.css';
 
 export async function loader({params, context}) {
@@ -95,33 +95,63 @@ export default function BTOConfigurator() {
     return total;
   }, [selections, allSections, basePrice]);
 
-  // Cart Transform用の選択データを構築
-  const cartAttributes = useMemo(() => {
-    const attributes = [
+  // カートに追加するラインのリストを構築
+  // base product + 各コンポーネント商品 (全て同じ _bto_bundle_id を共有)
+  const buildCartLines = useCallback(() => {
+    const bundleId = crypto.randomUUID();
+    const baseAttrs = [
+      {key: '_bto_bundle_id', value: bundleId},
+      {key: '_bto_role', value: 'base'},
       {key: '_bto_product', value: productName},
-      {key: '_bto_total_price', value: String(totalPrice)},
     ];
+
+    const lines = [{merchandiseId: variantId, quantity: 1, attributes: baseAttrs}];
+
     for (const section of allSections) {
       if (section.type === 'fixed') {
-        attributes.push({key: section.slug, value: section.fixed_value});
+        if (section.shopify_variant_id) {
+          lines.push({
+            merchandiseId: section.shopify_variant_id,
+            quantity: 1,
+            attributes: [
+              {key: '_bto_bundle_id', value: bundleId},
+              {key: '_bto_role', value: 'component'},
+              {key: '_bto_section', value: section.name},
+            ],
+          });
+        }
       } else if (section.type === 'single_select') {
         const opt = section.options[selections[section.slug]];
-        if (opt) {
-          attributes.push({key: section.slug, value: opt.name});
-          if (opt.price_incl !== 0) {
-            attributes.push({key: section.slug + '_price', value: String(opt.price_incl)});
-          }
+        if (opt?.shopify_variant_id) {
+          lines.push({
+            merchandiseId: opt.shopify_variant_id,
+            quantity: 1,
+            attributes: [
+              {key: '_bto_bundle_id', value: bundleId},
+              {key: '_bto_role', value: 'component'},
+              {key: '_bto_section', value: section.name},
+            ],
+          });
         }
       } else if (section.type === 'multi_select') {
         for (const idx of selections[section.slug] || []) {
-          if (section.options[idx]) {
-            attributes.push({key: section.slug + '[]', value: section.options[idx].name});
+          const opt = section.options[idx];
+          if (opt?.shopify_variant_id) {
+            lines.push({
+              merchandiseId: opt.shopify_variant_id,
+              quantity: 1,
+              attributes: [
+                {key: '_bto_bundle_id', value: bundleId},
+                {key: '_bto_role', value: 'component'},
+                {key: '_bto_section', value: section.name},
+              ],
+            });
           }
         }
       }
     }
-    return attributes;
-  }, [selections, allSections, totalPrice, productName]);
+    return lines;
+  }, [selections, allSections, variantId, productName]);
 
   const handleSingleSelect = (slug, optionIndex) => {
     setSelections((prev) => ({...prev, [slug]: optionIndex}));
@@ -212,26 +242,16 @@ export default function BTOConfigurator() {
               <CartForm
                 route="/cart"
                 action={CartForm.ACTIONS.LinesAdd}
-                inputs={{
-                  lines: [
-                    {
-                      merchandiseId: variantId,
-                      quantity: 1,
-                      attributes: cartAttributes,
-                    },
-                  ],
-                }}
+                inputs={{lines: buildCartLines()}}
               >
                 {(fetcher) => (
-                  <>
-                    <button
-                      className="bto-cart-button"
-                      type="submit"
-                      disabled={fetcher.state !== 'idle'}
-                    >
-                      {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
-                    </button>
-                  </>
+                  <button
+                    className="bto-cart-button"
+                    type="submit"
+                    disabled={fetcher.state !== 'idle'}
+                  >
+                    {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
+                  </button>
                 )}
               </CartForm>
             ) : (

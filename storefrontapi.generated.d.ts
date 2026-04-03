@@ -384,71 +384,22 @@ export type StoreRobotsQueryVariables = StorefrontAPI.Exact<{
 
 export type StoreRobotsQuery = {shop: Pick<StorefrontAPI.Shop, 'id'>};
 
-export type FeaturedCollectionFragment = Pick<
-  StorefrontAPI.Collection,
-  'id' | 'title' | 'handle'
-> & {
-  image?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
-  >;
-};
-
-export type FeaturedCollectionQueryVariables = StorefrontAPI.Exact<{
+export type GtuneProductsQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
 }>;
 
-export type FeaturedCollectionQuery = {
-  collections: {
-    nodes: Array<
-      Pick<StorefrontAPI.Collection, 'id' | 'title' | 'handle'> & {
-        image?: StorefrontAPI.Maybe<
-          Pick<
-            StorefrontAPI.Image,
-            'id' | 'url' | 'altText' | 'width' | 'height'
-          >
-        >;
-      }
-    >;
-  };
-};
-
-export type RecommendedProductFragment = Pick<
-  StorefrontAPI.Product,
-  'id' | 'title' | 'handle'
-> & {
-  priceRange: {
-    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  };
-  featuredImage?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+export type GtuneProductsQuery = {
+  fzi9g90?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'> & {
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+    }
   >;
-};
-
-export type RecommendedProductsQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type RecommendedProductsQuery = {
-  products: {
-    nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
-        priceRange: {
-          minVariantPrice: Pick<
-            StorefrontAPI.MoneyV2,
-            'amount' | 'currencyCode'
-          >;
-        };
-        featuredImage?: StorefrontAPI.Maybe<
-          Pick<
-            StorefrontAPI.Image,
-            'id' | 'url' | 'altText' | 'width' | 'height'
-          >
-        >;
-      }
-    >;
-  };
 };
 
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
@@ -568,18 +519,6 @@ export type BlogsQuery = {
       }
     >;
   };
-};
-
-export type BtoProductQueryVariables = StorefrontAPI.Exact<{
-  handle: StorefrontAPI.MetaobjectHandleInput;
-}>;
-
-export type BtoProductQuery = {
-  metaobject?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Metaobject, 'handle' | 'type'> & {
-      fields: Array<Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'>>;
-    }
-  >;
 };
 
 export type MoneyProductItemFragment = Pick<
@@ -1299,13 +1238,9 @@ interface GeneratedQueryTypes {
     return: StoreRobotsQuery;
     variables: StoreRobotsQueryVariables;
   };
-  '#graphql\n  fragment FeaturedCollection on Collection {\n    id\n    title\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    handle\n  }\n  query FeaturedCollection($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...FeaturedCollection\n      }\n    }\n  }\n': {
-    return: FeaturedCollectionQuery;
-    variables: FeaturedCollectionQueryVariables;
-  };
-  '#graphql\n  fragment RecommendedProduct on Product {\n    id\n    title\n    handle\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(first: 4, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n': {
-    return: RecommendedProductsQuery;
-    variables: RecommendedProductsQueryVariables;
+  '#graphql\n  query GtuneProducts($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    fzi9g90: product(handle: "g-tune-fz-i9g90") {\n      id\n      handle\n      title\n      priceRange {\n        minVariantPrice {\n          amount\n          currencyCode\n        }\n      }\n      featuredImage {\n        id\n        url\n        altText\n        width\n        height\n      }\n    }\n  }\n': {
+    return: GtuneProductsQuery;
+    variables: GtuneProductsQueryVariables;
   };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;
@@ -1318,10 +1253,6 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Blogs(\n    $country: CountryCode\n    $endCursor: String\n    $first: Int\n    $language: LanguageCode\n    $last: Int\n    $startCursor: String\n  ) @inContext(country: $country, language: $language) {\n    blogs(\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor\n    ) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      nodes {\n        title\n        handle\n        seo {\n          title\n          description\n        }\n      }\n    }\n  }\n': {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
-  };
-  '#graphql\n  query BTOProduct($handle: MetaobjectHandleInput!) {\n    metaobject(handle: $handle) {\n      handle\n      type\n      fields {\n        key\n        value\n      }\n    }\n  }\n': {
-    return: BTOProductQuery;
-    variables: BTOProductQueryVariables;
   };
   '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;

@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 /**
- * BTO on Shopify - Metaobject インポートスクリプト
+ * BTO on Shopify - Metaobject + Component Products インポートスクリプト
  *
  * Dev Dashboard アプリ (OAuth) 経由で Admin API にアクセスし、
- * Metaobject定義の作成 + BTOデータのインポートを行います。
+ * 1. Metaobject定義の作成
+ * 2. BTOデータのインポート (metaobject)
+ * 3. 各オプション・固定コンポーネントを個別のShopify Productとして作成
+ * 4. 各オプションに shopify_variant_id を書き戻してmetaobjectを更新
  *
  * 使い方:
  *   1. .env にクレデンシャルを設定
@@ -15,7 +18,7 @@
  *   SHOPIFY_CLIENT_ID=...
  *   SHOPIFY_CLIENT_SECRET=...
  *   SHOPIFY_STORE_DOMAIN=xxx.myshopify.com
- *   SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects
+ *   SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products
  */
 
 const http = require('http');
@@ -51,7 +54,7 @@ loadEnv();
 const CLIENT_ID = process.env.SHOPIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET;
 const STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
-const SCOPES = process.env.SHOPIFY_SCOPES || 'read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects';
+const SCOPES = process.env.SHOPIFY_SCOPES || 'read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products';
 const PORT = 3100;
 const REDIRECT_URI = `http://localhost:${PORT}/auth/callback`;
 
@@ -150,7 +153,6 @@ async function createMetaobjectDefinition(token) {
   const def = result.data?.metaobjectDefinitionCreate;
 
   if (def?.userErrors?.length > 0) {
-    // 既に存在する場合はエラーを無視
     if (def.userErrors.some(e => e.message.includes('already exists') || e.message.includes('taken'))) {
       console.log('  -> 定義は既に存在します。スキップ。');
       return true;
@@ -219,8 +221,182 @@ async function upsertBTOProduct(token, btoData) {
   console.log('  -> 投入成功!');
   console.log(`     ID: ${upsert?.metaobject?.id}`);
   console.log(`     Handle: ${upsert?.metaobject?.handle}`);
-  console.log(`     Type: ${upsert?.metaobject?.type}`);
   return true;
+}
+
+// ============================================================
+// Component Product 作成・取得
+// ============================================================
+
+/**
+ * Handle からプロダクトを検索し、存在すれば { id, variantId } を返す
+ */
+async function getProductByHandle(token, handle) {
+  const query = `
+    query GetProduct($handle: String!) {
+      product(handle: $handle) {
+        id
+        variants(first: 1) {
+          nodes {
+            id
+          }
+        }
+      }
+    }
+  `;
+  const result = await adminGraphQL(token, query, { handle });
+  const product = result.data?.product;
+  if (!product) return null;
+  return {
+    id: product.id,
+    variantId: product.variants.nodes[0]?.id,
+  };
+}
+
+/**
+ * コンポーネント商品を作成し、variantId を返す
+ */
+async function createComponentProduct(token, { handle, title, priceIncl, tags }) {
+  const query = `
+    mutation CreateProduct($input: ProductInput!) {
+      productCreate(input: $input) {
+        product {
+          id
+          variants(first: 1) {
+            nodes {
+              id
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    input: {
+      handle,
+      title,
+      status: 'ACTIVE',
+      tags,
+      variants: [
+        {
+          price: String(priceIncl),
+          inventoryManagement: 'SHOPIFY',
+          inventoryPolicy: 'DENY',
+        },
+      ],
+    },
+  };
+
+  const result = await adminGraphQL(token, query, variables);
+  const created = result.data?.productCreate;
+
+  if (created?.userErrors?.length > 0) {
+    console.error(`    !! 作成エラー [${handle}]:`, JSON.stringify(created.userErrors));
+    return null;
+  }
+
+  return created?.product?.variants?.nodes?.[0]?.id;
+}
+
+/**
+ * 商品が存在すれば variantId を返し、なければ作成して返す
+ */
+async function ensureComponentProduct(token, { handle, title, priceIncl, tags }) {
+  const existing = await getProductByHandle(token, handle);
+  if (existing?.variantId) {
+    process.stdout.write(' [既存]');
+    return existing.variantId;
+  }
+
+  const variantId = await createComponentProduct(token, { handle, title, priceIncl, tags });
+  if (variantId) {
+    process.stdout.write(' [作成]');
+  }
+  return variantId;
+}
+
+/**
+ * 全コンポーネント商品を作成し、設定JSONに shopify_variant_id を書き込む
+ * - single_select / multi_select: オプションごとに1商品
+ * - fixed: セクションごとに1商品 (price ¥0)
+ */
+async function createComponentProducts(token, btoData) {
+  console.log('\n--- コンポーネント商品を作成中... ---');
+
+  const skuBase = btoData.product.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const baseProductHandle = 'g-tune-fz-i9g90'; // 基本商品のhandle
+
+  const configKeys = ['hardware_config', 'peripheral_config', 'service_config'];
+  let totalCreated = 0;
+  let totalSkipped = 0;
+
+  for (const configKey of configKeys) {
+    const config = btoData[configKey];
+    if (!config?.sections) continue;
+
+    for (const section of config.sections) {
+      if (section.type === 'fixed') {
+        // 固定コンポーネント: セクションごとに1商品
+        const handle = `bto-${skuBase}-${section.slug}`;
+        const title = `[BTO部品] ${btoData.product.name} - ${section.name}`;
+        const tags = [
+          'bto-component',
+          `bto-base:${baseProductHandle}`,
+          `bto-section:${section.slug}`,
+          'bto-fixed',
+        ];
+
+        process.stdout.write(`  ${section.name} (fixed)`);
+        const variantId = await ensureComponentProduct(token, { handle, title, priceIncl: 0, tags });
+        console.log('');
+
+        if (variantId) {
+          section.shopify_variant_id = variantId;
+          totalCreated++;
+        } else {
+          totalSkipped++;
+        }
+
+      } else if (section.type === 'single_select' || section.type === 'multi_select') {
+        // 選択式: オプションごとに1商品
+        for (let i = 0; i < section.options.length; i++) {
+          const option = section.options[i];
+          const handle = `bto-${skuBase}-${section.slug}-${i}`;
+          const title = `[BTO部品] ${btoData.product.name} - ${section.name}: ${option.name.slice(0, 80)}`;
+          const tags = [
+            'bto-component',
+            `bto-base:${baseProductHandle}`,
+            `bto-section:${section.slug}`,
+            option.is_default ? 'bto-default' : 'bto-upgrade',
+          ];
+
+          process.stdout.write(`  ${section.name} [${i}]`);
+          const variantId = await ensureComponentProduct(token, {
+            handle,
+            title,
+            priceIncl: option.price_incl,
+            tags,
+          });
+          console.log('');
+
+          if (variantId) {
+            option.shopify_variant_id = variantId;
+            totalCreated++;
+          } else {
+            totalSkipped++;
+          }
+        }
+      }
+    }
+  }
+
+  console.log(`\n  完了: ${totalCreated} 件処理, ${totalSkipped} 件スキップ`);
+  return btoData;
 }
 
 // ============================================================
@@ -228,7 +404,6 @@ async function upsertBTOProduct(token, btoData) {
 // ============================================================
 
 async function runImport(accessToken) {
-  // BTO JSONファイル読み込み
   const jsonPath = path.join(__dirname, '..', 'bto-configs', 'fz-i9g90.json');
   if (!fs.existsSync(jsonPath)) {
     console.error('BTOデータファイルが見つかりません:', jsonPath);
@@ -236,7 +411,7 @@ async function runImport(accessToken) {
   }
 
   const btoData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-  console.log('\n=== BTO on Shopify - Metaobject インポート ===');
+  console.log('\n=== BTO on Shopify - インポート ===');
   console.log(`Store: ${STORE_DOMAIN}`);
   console.log(`Product: ${btoData.product.name} (${btoData.product.sku})`);
 
@@ -247,23 +422,33 @@ async function runImport(accessToken) {
     return;
   }
 
-  // 2. BTOデータを投入
-  const dataOk = await upsertBTOProduct(accessToken, btoData);
+  // 2. コンポーネント商品を作成し、variant IDをJSONに書き込む
+  const enrichedBtoData = await createComponentProducts(accessToken, btoData);
+
+  // 3. BTOデータ（variant ID付き）をmetaobjectに投入
+  const dataOk = await upsertBTOProduct(accessToken, enrichedBtoData);
   if (!dataOk) {
     console.error('BTOデータの投入に失敗しました。');
     return;
   }
 
-  // サイズチェック
-  const hwSize = JSON.stringify(btoData.hardware_config).length;
-  const peSize = JSON.stringify(btoData.peripheral_config).length;
-  const svSize = JSON.stringify(btoData.service_config).length;
+  // 4. 更新済みJSONをローカルファイルにも書き戻す（次回実行時の参照用）
+  fs.writeFileSync(jsonPath, JSON.stringify(enrichedBtoData, null, 2), 'utf-8');
+  console.log('\nローカルJSONファイルを variant ID付きで更新しました。');
+
+  const hwSize = JSON.stringify(enrichedBtoData.hardware_config).length;
+  const peSize = JSON.stringify(enrichedBtoData.peripheral_config).length;
+  const svSize = JSON.stringify(enrichedBtoData.service_config).length;
   console.log('\n--- JSON フィールドサイズ ---');
   console.log(`  hardware_config:  ${(hwSize/1024).toFixed(1)} KB (上限 64KB)`);
   console.log(`  peripheral_config: ${(peSize/1024).toFixed(1)} KB (上限 64KB)`);
   console.log(`  service_config:   ${(svSize/1024).toFixed(1)} KB (上限 64KB)`);
 
-  console.log('\nインポート完了! Shopify管理画面 > コンテンツ > Metaobjects で確認できます。');
+  console.log('\nインポート完了!');
+  console.log('次のステップ:');
+  console.log('  - Shopify管理画面 > 商品 でコンポーネント商品を確認');
+  console.log('  - Shopify管理画面 > コンテンツ > Metaobjects でBTOデータを確認');
+  console.log('  - http://localhost:3000/bto/fzi9g90g8bfdw104dec でコンフィギュレーターを確認');
 }
 
 // ============================================================
@@ -277,7 +462,6 @@ function startOAuthFlow() {
     const url = new URL(req.url, `http://localhost:${PORT}`);
 
     if (url.pathname === '/') {
-      // OAuth開始: Shopifyの認可URLにリダイレクト
       const shop = STORE_DOMAIN.replace('.myshopify.com', '');
       const authUrl = `https://admin.shopify.com/store/${shop}/oauth/authorize?` +
         `client_id=${CLIENT_ID}` +
@@ -306,7 +490,6 @@ function startOAuthFlow() {
         return;
       }
 
-      // アクセストークン取得
       console.log('\n認可コード取得。アクセストークンを交換中...');
       const tokenBody = JSON.stringify({
         client_id: CLIENT_ID,
@@ -334,7 +517,6 @@ function startOAuthFlow() {
       const accessToken = tokenRes.data.access_token;
       console.log('アクセストークン取得成功!');
 
-      // インポート実行
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end('<html><body><h1>認可成功!</h1><p>ターミナルでインポート処理を確認してください。このタブは閉じてOKです。</p></body></html>');
 
@@ -358,8 +540,8 @@ function startOAuthFlow() {
     console.log(`\nブラウザで以下のURLを開いてください:\n`);
     console.log(`  ${authStartUrl}\n`);
     console.log('Shopifyの認可画面でアプリのインストールを許可してください。');
+    console.log('注意: write_products スコープが必要です。');
 
-    // macOS/Linuxでブラウザを自動で開く試み
     const { exec } = require('child_process');
     const cmd = process.platform === 'darwin' ? 'open' : 'xdg-open';
     exec(`${cmd} "${authStartUrl}"`, () => {});
