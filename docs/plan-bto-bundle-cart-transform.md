@@ -44,7 +44,7 @@ Created by import script for each non-fixed option with `price_incl >= 0`:
 | Tags | `bto-component`, `bto-base:g-tune-fz-i9g90`, `bto-section:{slug}` |
 | Inventory | Tracked (this is the point of separate products) |
 
-**Default options** (`is_default: true, price_incl: 0`): also created as products (¥0) to support inventory tracking. Added to cart so every BTO build's component usage is tracked. Fixed sections (`type: "fixed"`) → NOT created (always-included, no selection).
+**Default options** (`is_default: true, price_incl: 0`): also created as products (¥0) to support inventory tracking. Added to cart so every BTO build's component usage is tracked. **Fixed sections** (`type: "fixed"`): also created as ¥0 products — one product per section, `shopify_variant_id` stored on the section object itself. Always added to the cart bundle since they are always-included components.
 
 After creating each product, the import script patches the metaobject to add `shopify_variant_id` to each option in the config JSON. This is how the storefront knows which variant to add to cart.
 
@@ -81,8 +81,8 @@ Add to the existing OAuth + Admin API flow:
 1. **Create component products** (new section after existing metaobject upsert):
    - For each config file, iterate all 3 config sections
    - For `single_select` and `multi_select` sections: create/update one product per option via `productCreate` / `productUpdate` mutation
-   - Skip `fixed` sections
-   - Store returned `variantId` per option
+   - For `fixed` sections: create/update one product representing the fixed component (price ¥0 since it has no delta) — all BTO components have separate inventories
+   - Store returned `variantId` per option (for fixed sections, store on the section itself rather than a per-option field)
 
 2. **Patch the metaobject** with updated config JSON containing `shopify_variant_id` per option:
    - Re-run `metaobjectUpdate` with the enriched JSON for `hardware_config`, `peripheral_config`, `service_config`
@@ -121,7 +121,21 @@ const buildCartLines = useCallback(() => {
   }];
 
   for (const section of allSections) {
-    if (section.type === 'fixed') continue;
+    if (section.type === 'fixed') {
+      // Fixed components always ship — add if variant ID is present
+      if (section.shopify_variant_id) {
+        lines.push({
+          merchandiseId: section.shopify_variant_id,
+          quantity: 1,
+          attributes: [
+            {key: '_bto_bundle_id', value: bundleId},
+            {key: '_bto_role', value: 'component'},
+            {key: '_bto_section', value: section.name},
+          ],
+        });
+      }
+      continue;
+    }
     const selectedIndices = section.type === 'single_select'
       ? [selections[section.slug]]
       : (selections[section.slug] || []);
