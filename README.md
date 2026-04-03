@@ -11,22 +11,32 @@ A BTO (Build To Order) PC configurator built on [Shopify Hydrogen](https://shopi
 ### Architecture overview
 
 ```
-Shopify Store (Admin)
-  └── Metaobject: bto_product
-        └── fields: product_name, sku, base_price,
-                    hardware_config (JSON), peripheral_config (JSON), service_config (JSON)
+bto-configs/fz-i9g90.json
+  └── scripts/import-bto.cjs (Admin GraphQL API 2026-04)
+        ├── Creates Metaobject: bto_product (config JSON with variant IDs)
+        └── Creates component Shopify Products (one per selectable option)
 
-Hydrogen (Storefront API)
-  ├── / (homepage)          → fetches product image + price, renders G TUNE brand page
-  └── /bto/:handle          → fetches metaobject, renders full BTO configurator
-        └── Add to cart     → CartForm → /cart route → session-persisted cart
+Hydrogen storefront (Storefront API 2026-04)
+  ├── / (homepage)      → fetches base product image + price → G TUNE brand page
+  └── /bto/:handle      → fetches bto_product metaobject → BTO configurator UI
+        └── Add to cart → CartForm (LinesAdd)
+              ├── 1x base product line   (_bto_role=base,      _bto_bundle_id=<uuid>)
+              └── Nx component lines     (_bto_role=component, _bto_bundle_id=<uuid>)
+
+bto-calculator/ (Shopify App — Functions API 2026-04)
+  └── Cart Transform Function (Rust/WASM)
+        └── Groups lines by _bto_bundle_id → linesMerge → single bundle at checkout
 ```
+
+**Price integrity:** component product prices are set in Shopify and immutable by the client. No price values are passed as cart attributes.
 
 ---
 
 ## Data model
 
-BTO product configurations are stored as **Shopify Metaobjects** of type `bto_product`.
+### Metaobject: `bto_product`
+
+Stores the full configuration for each BTO model, including all selectable options with `shopify_variant_id` written back by the import script.
 
 | Field | Type | Description |
 |---|---|---|
@@ -34,7 +44,7 @@ BTO product configurations are stored as **Shopify Metaobjects** of type `bto_pr
 | `sku` | single_line_text | Product SKU / config code |
 | `base_price` | number_integer | Base price (tax included, JPY) |
 | `version` | single_line_text | Config version string |
-| `hardware_config` | json | CPU, memory, storage, GPU, etc. (see below) |
+| `hardware_config` | json | CPU, memory, storage, GPU, etc. |
 | `peripheral_config` | json | Monitors, keyboards, mice, etc. |
 | `service_config` | json | OS, office software, warranty, etc. |
 
@@ -48,7 +58,8 @@ Each JSON config follows this schema:
       "slug": "cpu",
       "type": "fixed",           // fixed | single_select | multi_select
       "sort_order": 1,
-      "fixed_value": "Core Ultra 9 285K"
+      "fixed_value": "Core Ultra 9 285K",
+      "shopify_variant_id": "gid://shopify/ProductVariant/..."  // written by import script
     },
     {
       "name": "メモリ",
@@ -57,18 +68,20 @@ Each JSON config follows this schema:
       "sort_order": 3,
       "options": [
         {
-          "name": "32GB DDR5",
+          "name": "64GB DDR5",
           "price_incl": 0,        // tax-included delta from base price
-          "price_excl": 0,        // tax-excluded delta
+          "price_excl": 0,
           "is_default": true,
-          "is_recommended": false
+          "is_recommended": false,
+          "shopify_variant_id": "gid://shopify/ProductVariant/..."  // written by import script
         },
         {
-          "name": "64GB DDR5",
-          "price_incl": 22000,
-          "price_excl": 20000,
+          "name": "128GB DDR5",
+          "price_incl": 343200,
+          "price_excl": 312000,
           "is_default": false,
-          "is_recommended": true
+          "is_recommended": true,
+          "shopify_variant_id": "gid://shopify/ProductVariant/..."
         }
       ]
     }
@@ -76,7 +89,13 @@ Each JSON config follows this schema:
 }
 ```
 
-The matching **Shopify Product** (`g-tune-fz-i9g90`) holds the image and base price used by the storefront. BTO selections are attached to the cart line as **line item attributes**.
+### Component Products
+
+The import script creates one Shopify Product per BTO component (all section types). These products:
+- Are tagged `bto-component`, `bto-base:<handle>`, `bto-section:<slug>`
+- Have inventory tracking enabled (`inventoryManagement: SHOPIFY`)
+- Are priced at the option's `price_incl` delta (¥0 for defaults and fixed components)
+- Are excluded from storefront collections/listings
 
 ---
 
@@ -86,27 +105,13 @@ The matching **Shopify Product** (`g-tune-fz-i9g90`) holds the image and base pr
 
 #### [`app/routes/_index.jsx`](app/routes/_index.jsx) — G TUNE brand homepage
 
-**What it fetches:**
-- `product(handle: "g-tune-fz-i9g90")` via Storefront API → image + base price
+**Storefront API queries:**
+- `productByIdentifier` alias per active product → fetches image + base price
 
 **What it renders:**
-- G TUNE hero banner with red/black brand styling
-- Category filter tabs (client-side, no re-fetch)
-- Product grid — FZ-I9G90 is the only active card, linking to the BTO configurator. Other models show a 近日公開 placeholder.
-
-```jsx
-// Loader: fetch product image + price from Shopify
-export async function loader({context}) {
-  const data = await context.storefront.query(GTUNE_PRODUCTS_QUERY);
-  // ...
-}
-
-// Component: static lineup + live data for active products
-const GTUNE_LINEUP = [
-  { handle: 'g-tune-fz-i9g90', active: true, btoHandle: 'fzi9g90g8bfdw104dec', ... },
-  { handle: null, active: false, ... }, // coming soon
-];
-```
+- G TUNE hero banner (red/black brand styling)
+- Category filter tabs: すべて / デスクトップPC / ノートPC (client-side)
+- Product grid — FZ-I9G90 links to `/bto/fzi9g90g8bfdw104dec`; other models show 近日公開
 
 ---
 
@@ -114,128 +119,158 @@ const GTUNE_LINEUP = [
 
 **URL pattern:** `/bto/:handle` (e.g. `/bto/fzi9g90g8bfdw104dec`)
 
-**What it fetches (loader):**
-
-1. `metaobject(handle: {type: 'bto_product', handle})` — the full BTO config JSON
-2. `product(handle: 'g-tune-fz-i9g90')` — the Shopify variant ID needed for cart
-
-```jsx
-export async function loader({params, context}) {
-  const {metaobject} = await context.storefront.query(BTO_QUERY, {
-    variables: { handle: {type: 'bto_product', handle: params.handle} },
-  });
-  // parse JSON fields: hardware_config, peripheral_config, service_config
-  // fetch variantId for cart
-}
-```
+**Storefront API queries (loader):**
+1. `metaobject(handle: {type: 'bto_product', handle})` — full config JSON (including variant IDs)
+2. `product(handle: 'g-tune-fz-i9g90')` — base product variant ID for the cart base line
 
 **What it renders:**
-
 - Three-tab layout: ハードウェア / 周辺機器 / ソフト・サービス
-- `BTOCategory` accordion component for each config section:
-  - `fixed` → static spec label (no selection)
+- `BTOCategory` accordion per section:
+  - `fixed` → static spec label
   - `single_select` → radio group
   - `multi_select` → checkbox group
-- Sticky sidebar with live price (base + all deltas)
-- Add to cart via `CartForm` (see below)
+- Sticky sidebar: live price (base + option deltas), add-to-cart button
 
-**State:**
+**Add to cart — multi-line bundle:**
 ```jsx
-// selections: { [slug]: number (index) | number[] }
-const [selections, setSelections] = useState(initialSelections);
-
-// totalPrice: derived from base + each selected option's price_incl delta
-const totalPrice = useMemo(() => { ... }, [selections]);
+// All lines share a crypto.randomUUID() bundle ID
+<CartForm route="/cart" action={CartForm.ACTIONS.LinesAdd} inputs={{lines: buildCartLines()}}>
 ```
 
----
-
-### Cart integration
-
-Cart add uses Hydrogen's `CartForm` component pointed at the existing `/cart` route. This is critical — it ensures `cart.setCartId()` is called to persist the cart session cookie.
-
-```jsx
-<CartForm
-  route="/cart"
-  action={CartForm.ACTIONS.LinesAdd}
-  inputs={{
-    lines: [{
-      merchandiseId: variantId,
-      quantity: 1,
-      attributes: cartAttributes,  // BTO selections as line item attributes
-    }],
-  }}
->
-  {(fetcher) => <button type="submit">カートに追加</button>}
-</CartForm>
-```
-
-BTO selections are stored as **line item attributes**:
-
-| Key | Value | Visible to customer |
+Lines added per BTO order:
+| Line | `merchandiseId` | Key attributes |
 |---|---|---|
-| `_bto_product` | `G TUNE FZ-I9G90` | No (underscore prefix) |
-| `_bto_total_price` | `1089800` | No |
-| `os` | `Windows 11 Home 64ビット` | Yes |
-| `memory` | `32GB DDR5` | Yes |
-| `gpu` | `GeForce RTX 5090` | Yes |
-| `gpu_price` | `330000` | Yes |
+| Base product | `variantId` (base PC) | `_bto_bundle_id`, `_bto_role=base`, `_bto_product` |
+| Fixed component × N | `section.shopify_variant_id` | `_bto_bundle_id`, `_bto_role=component`, `_bto_section` |
+| Selected option × N | `option.shopify_variant_id` | `_bto_bundle_id`, `_bto_role=component`, `_bto_section` |
 
-> **Convention:** attributes prefixed with `_` are internal (hidden from UI). Public attributes are shown as a `dt/dd` list in the cart.
+> **Note:** No price values are passed as attributes. Prices come from the Shopify product variant records and are enforced by the Cart Transform Function — they cannot be tampered with client-side.
 
 ---
 
-### Components
+### Cart display
 
 #### [`app/components/CartLineItem.jsx`](app/components/CartLineItem.jsx)
-
-- Hides `"Default Title"` variant label (Shopify's placeholder for single-variant products)
-- Renders public line item attributes (non-`_` prefix) as a clean definition list
+- Hides `"Default Title"` variant label
+- Shows public line attributes (non-`_` prefix) as a `dt/dd` list
 
 #### [`app/components/CartMain.jsx`](app/components/CartMain.jsx)
-
-- Renders cart-level `attributes` above the order summary when present
+- Shows cart-level public attributes above the order summary
 
 ---
 
-## Importing BTO config data
+### Cart Transform Function — `bto-calculator/`
 
-BTO config JSON files live in [`bto-configs/`](bto-configs/). The import script uploads them to Shopify as Metaobjects via the Admin API.
+Located in a separate Shopify app repository at `bto-calculator/`.
+
+**Extension:** `extensions/cart-transformer-bto/` (Rust → WebAssembly)
+
+**Target:** `cart.transform.run` (Functions API `2026-04`)
+
+**Input query** fetches per cart line:
+- `id`, `quantity`
+- `attribute(key: "_bto_bundle_id")` — groups lines into bundles
+- `attribute(key: "_bto_role")` — identifies base vs component lines
+- `attribute(key: "_bto_product")` — bundle display name
+- `merchandise { ... on ProductVariant { id } }` — base variant for `parentVariantId`
+
+**Logic:**
+1. Groups all lines by `_bto_bundle_id`
+2. For each group: finds the base line, merges all lines via `linesMerge`
+3. Result at checkout: one "G TUNE FZ-I9G90 カスタム構成" bundle line
+4. Non-BTO lines pass through unchanged
+
+---
+
+## API reference
+
+### Shopify APIs used — versions
+
+| API | Version | Where used |
+|---|---|---|
+| Admin GraphQL API | `2026-04` | `scripts/import-bto.cjs` |
+| Storefront API | Hydrogen default (`2026-04`) | `app/routes/*.jsx` |
+| Functions API | `2026-04` | `bto-calculator/` Cart Transform |
+
+### Admin GraphQL mutations & queries (`scripts/import-bto.cjs`)
+
+| Operation | Type | Purpose |
+|---|---|---|
+| `metaobjectDefinitionCreate` | mutation | Create `bto_product` metaobject definition (once) |
+| `metaobjectUpsert` | mutation | Create/update BTO config metaobject entry |
+| `productByIdentifier(identifier: {handle})` | query | Check if component product already exists |
+| `productCreate(product: ProductCreateInput)` | mutation | Create component product shell |
+| `productVariantsBulkUpdate` | mutation | Set price + inventory tracking on default variant |
+
+### Storefront API queries (`app/routes/`)
+
+| Query | File | Purpose |
+|---|---|---|
+| `product(handle:)` via aliased `productByIdentifier` | `_index.jsx` | Fetch base product image + price for brand page |
+| `metaobject(handle: {type, handle})` | `bto.$handle.jsx` | Fetch BTO config JSON |
+| `product(handle:)` | `bto.$handle.jsx` | Fetch base product variant ID for cart |
+
+### Functions API — Cart Transform input query
+
+| Field | Path | Purpose |
+|---|---|---|
+| `attribute(key: "_bto_bundle_id")` | `cart.lines[]` | Groups lines into one BTO bundle |
+| `attribute(key: "_bto_role")` | `cart.lines[]` | Identifies base vs component line |
+| `attribute(key: "_bto_product")` | `cart.lines[]` | Bundle title (product name) |
+| `merchandise { ... on ProductVariant { id } }` | `cart.lines[]` | `parentVariantId` for `linesMerge` |
+
+---
+
+## Import script
+
+BTO config JSON files live in [`bto-configs/`](bto-configs/). The import script creates all Shopify products and metaobjects needed for the configurator.
 
 ```bash
 # 1. Set credentials in .env
 SHOPIFY_CLIENT_ID=...
 SHOPIFY_CLIENT_SECRET=...
 SHOPIFY_STORE_DOMAIN=nobu-note-store.myshopify.com
+SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products
 
-# 2. Run the import script (opens a browser for OAuth)
+# 2. Run (opens browser for OAuth)
 node scripts/import-bto.cjs
 ```
 
-The script:
-1. Authenticates via OAuth (browser redirect to Shopify)
-2. Creates the `bto_product` Metaobject definition if it doesn't exist
-3. Upserts Metaobject entries from all JSON files in `bto-configs/`
+What it does:
+1. OAuth via browser → Shopify access token
+2. Creates `bto_product` metaobject definition (skips if exists)
+3. For each config file: creates one Shopify Product per component (all section types)
+4. Writes `shopify_variant_id` back into the config JSON per option/section
+5. Upserts the metaobject with the enriched JSON
+6. Saves the updated JSON to disk (so re-runs skip already-created products)
 
 ---
 
 ## Getting started
 
-**Requirements:** Node.js 18+
+**Requirements:** Node.js 18+, Rust + `wasm32-unknown-unknown` target
 
 ```bash
 npm install
-npm run dev        # starts local dev server with Shopify CLI
+npm run dev        # starts Hydrogen dev server
 npm run build      # production build
 npm run codegen    # regenerate GraphQL types after query changes
+```
+
+To set up the Cart Transform Function:
+```bash
+cd bto-calculator
+pnpm install
+pnpm run build     # compiles Rust → WASM
+pnpm run deploy    # deploys to Shopify (requires shopify app dev first)
 ```
 
 ---
 
 ## Adding a new BTO model
 
-1. Create `bto-configs/<model-handle>.json` following the schema above
-2. Run `node scripts/import-bto.cjs` to push it to Shopify
-3. Create a matching Shopify Product with the same handle for image/price
-4. Add an entry to `GTUNE_LINEUP` in `app/routes/_index.jsx` with `active: true`
-5. Visit `/bto/<model-handle>` to verify
+1. Create `bto-configs/<sku-lowercase>.json` following the schema above
+2. Run `node scripts/import-bto.cjs` — creates component products + enriches metaobject
+3. Add an entry to `GTUNE_LINEUP` in [`app/routes/_index.jsx`](app/routes/_index.jsx) with `active: true` and the correct `btoHandle`
+4. Visit `/bto/<metaobject-handle>` to verify the configurator
+5. Deploy `bto-calculator/` to apply the Cart Transform Function to the new model
