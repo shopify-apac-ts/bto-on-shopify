@@ -88,7 +88,7 @@ function httpsRequest(url, options, body) {
 }
 
 async function adminGraphQL(token, query, variables = {}) {
-  const url = `https://${STORE_DOMAIN}/admin/api/2025-01/graphql.json`;
+  const url = `https://${STORE_DOMAIN}/admin/api/2026-04/graphql.json`;
   const body = JSON.stringify({ query, variables });
   const res = await httpsRequest(url, {
     method: 'POST',
