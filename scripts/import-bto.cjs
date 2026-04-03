@@ -234,7 +234,7 @@ async function upsertBTOProduct(token, btoData) {
 async function getProductByHandle(token, handle) {
   const query = `
     query GetProduct($handle: String!) {
-      product(handle: $handle) {
+      productByIdentifier(identifier: { handle: $handle }) {
         id
         variants(first: 1) {
           nodes {
@@ -245,7 +245,7 @@ async function getProductByHandle(token, handle) {
     }
   `;
   const result = await adminGraphQL(token, query, { handle });
-  const product = result.data?.product;
+  const product = result.data?.productByIdentifier;
   if (!product) return null;
   return {
     id: product.id,
@@ -257,9 +257,10 @@ async function getProductByHandle(token, handle) {
  * コンポーネント商品を作成し、variantId を返す
  */
 async function createComponentProduct(token, { handle, title, priceIncl, tags }) {
-  const query = `
-    mutation CreateProduct($input: ProductInput!) {
-      productCreate(input: $input) {
+  // Step 1: Create product (variants field not on ProductCreateInput in 2025-01+)
+  const createQuery = `
+    mutation CreateProduct($product: ProductCreateInput!) {
+      productCreate(product: $product) {
         product {
           id
           variants(first: 1) {
@@ -276,31 +277,48 @@ async function createComponentProduct(token, { handle, title, priceIncl, tags })
     }
   `;
 
-  const variables = {
-    input: {
-      handle,
-      title,
-      status: 'ACTIVE',
-      tags,
-      variants: [
-        {
-          price: String(priceIncl),
-          inventoryManagement: 'SHOPIFY',
-          inventoryPolicy: 'DENY',
-        },
-      ],
-    },
-  };
-
-  const result = await adminGraphQL(token, query, variables);
-  const created = result.data?.productCreate;
+  const createResult = await adminGraphQL(token, createQuery, {
+    product: { handle, title, status: 'ACTIVE', tags },
+  });
+  const created = createResult.data?.productCreate;
 
   if (created?.userErrors?.length > 0) {
     console.error(`    !! 作成エラー [${handle}]:`, JSON.stringify(created.userErrors));
     return null;
   }
 
-  return created?.product?.variants?.nodes?.[0]?.id;
+  const productId = created?.product?.id;
+  const variantId = created?.product?.variants?.nodes?.[0]?.id;
+  if (!productId || !variantId) return null;
+
+  // Step 2: Set price and inventory on the auto-created default variant
+  const updateQuery = `
+    mutation UpdateVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+      productVariantsBulkUpdate(productId: $productId, variants: $variants) {
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const updateResult = await adminGraphQL(token, updateQuery, {
+    productId,
+    variants: [{
+      id: variantId,
+      price: String(priceIncl),
+      inventoryPolicy: 'DENY',
+      inventoryItem: { tracked: true },
+    }],
+  });
+  const updated = updateResult.data?.productVariantsBulkUpdate;
+  if (updated?.userErrors?.length > 0) {
+    console.error(`    !! バリアント更新エラー [${handle}]:`, JSON.stringify(updated.userErrors));
+    // Still return variantId — product was created, only price update failed
+  }
+
+  return variantId;
 }
 
 /**
