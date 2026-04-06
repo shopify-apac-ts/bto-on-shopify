@@ -1,0 +1,22 @@
+api_version = "2026-04"
+
+[[extensions]]
+name = "t:name"
+handle = "cart-transformer-bto"
+type = "function"
+uid = "5daf0027-9212-06b9-cef0-4fb87cd00330c158ccd4"
+description = "t:description"
+
+  [[extensions.targeting]]
+  target = "cart.transform.run"
+  input_query = "src/cart_transform_run.graphql"
+  export = "cart_transform_run"
+
+  [extensions.build]
+  command = "cargo build --target=wasm32-unknown-unknown --release"
+  path = "target/wasm32-unknown-unknown/release/cart-transformer-bto.wasm"
+  watch = [ "src/**/*.rs" ]
+
+  [extensions.ui.paths]
+  create = "/"
+  details = "/"
