@@ -26,6 +26,11 @@ export function CartLineItem({layout, line, childrenMap}) {
   // Hide "Default Title" — it's Shopify's placeholder for single-variant products
   const variantTitle = title === 'Default Title' ? null : title;
 
+  // BTO lines (merged or raw) — hide quantity selector
+  const isBTOLine = (attributes || []).some((a) =>
+    a.key === '_bto_product' || a.key === '_bto_role' || a.key === '_bto_upgrades',
+  );
+
   // Separate public attributes (no leading underscore) from internal ones
   const publicAttributes = (attributes || []).filter(
     (attr) => !attr.key.startsWith('_'),
@@ -88,7 +93,7 @@ export function CartLineItem({layout, line, childrenMap}) {
               ))}
             </dl>
           )}
-          <CartLineQuantity line={line} />
+          <CartLineRemoveButton lineIds={[id]} disabled={false} />
         </div>
       </div>
 
@@ -172,7 +177,7 @@ function CartLineRemoveButton({lineIds, disabled}) {
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} type="submit">
+      <button disabled={disabled} type="submit" className="cart-bto-remove">
         Remove
       </button>
     </CartForm>

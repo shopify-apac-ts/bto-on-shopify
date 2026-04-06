@@ -339,3 +339,74 @@
 .bto-view-cart:hover {
   color: #ff8a65;
 }
+/* Out-of-stock dialog */
+.bto-oos-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.bto-oos-dialog {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 480px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.bto-oos-dialog-header {
+  padding: 1.5rem 1.5rem 0.75rem;
+  flex-shrink: 0;
+}
+
+.bto-oos-dialog h3 {
+  margin: 0 0 0.5rem;
+  color: #e30000;
+  font-size: 1.1rem;
+}
+
+.bto-oos-dialog p {
+  margin: 0;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.bto-oos-dialog ul {
+  margin: 0;
+  padding: 0.75rem 1.5rem 0.75rem 2.75rem;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.7;
+  overflow-y: auto;
+  flex: 1;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.bto-oos-dialog-footer {
+  padding: 1rem 1.5rem;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bto-oos-close {
+  background: #e30000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.bto-oos-close:hover {
+  background: #b30000;
+}

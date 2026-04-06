@@ -1,5 +1,6 @@
-import {useOptimisticCart} from '@shopify/hydrogen';
+import {useOptimisticCart, CartForm, Image} from '@shopify/hydrogen';
 import {Link} from 'react-router';
+import {useState} from 'react';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
@@ -44,6 +45,33 @@ export function CartMain({layout, cart: originalCart}) {
   const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
   const childrenMap = getLineItemChildrenMap(cart?.lines?.nodes ?? []);
 
+  // After Cart Transform Function merges lines, the merged line has _bto_upgrades
+  // (forwarded from base line) but no _bto_bundle_id. Pre-merge, group by bundle ID.
+  const allLines = cart?.lines?.nodes ?? [];
+  const mergedBtoLines = [];  // post-Function: single merged line per bundle
+  const bundleMap = {};       // pre-Function: raw lines grouped by bundle ID
+  const nonBtoLines = [];
+
+  for (const line of allLines) {
+    if ('parentRelationship' in line && line.parentRelationship?.parent) continue;
+    const bundleId = line.attributes?.find((a) => a.key === '_bto_bundle_id')?.value;
+    const hasBtoProduct = line.attributes?.find((a) => a.key === '_bto_product');
+    const hasUpgrades = line.attributes?.find((a) => a.key === '_bto_upgrades');
+
+    if (!bundleId && (hasBtoProduct || hasUpgrades)) {
+      // Merged line from Cart Transform Function
+      mergedBtoLines.push(line);
+    } else if (bundleId) {
+      // Raw pre-merge lines
+      if (!bundleMap[bundleId]) bundleMap[bundleId] = {base: null, components: []};
+      const role = line.attributes?.find((a) => a.key === '_bto_role')?.value;
+      if (role === 'base') bundleMap[bundleId].base = line;
+      else bundleMap[bundleId].components.push(line);
+    } else {
+      nonBtoLines.push(line);
+    }
+  }
+
   return (
     <div className={className}>
       <CartEmpty hidden={linesCount} layout={layout} />
@@ -51,25 +79,30 @@ export function CartMain({layout, cart: originalCart}) {
         <p id="cart-lines" className="sr-only">
           Line items
         </p>
+        {cartHasItems && (
+          <CartForm
+            route="/cart"
+            action={CartForm.ACTIONS.LinesRemove}
+            inputs={{lineIds: cart.lines.nodes.map((l) => l.id)}}
+          >
+            <button type="submit" className="cart-remove-all">
+              Remove all
+            </button>
+          </CartForm>
+        )}
         <div>
           <ul aria-labelledby="cart-lines">
-            {(cart?.lines?.nodes ?? []).map((line) => {
-              // we do not render non-parent lines at the root of the cart
-              if (
-                'parentRelationship' in line &&
-                line.parentRelationship?.parent
-              ) {
-                return null;
-              }
-              return (
-                <CartLineItem
-                  key={line.id}
-                  line={line}
-                  layout={layout}
-                  childrenMap={childrenMap}
-                />
-              );
-            })}
+            {mergedBtoLines.map((line) => (
+              <MergedBTOLineItem key={line.id} line={line} />
+            ))}
+            {Object.entries(bundleMap).map(([bundleId, {base, components}]) =>
+              base ? (
+                <BTOBundleItem key={bundleId} base={base} components={components} layout={layout} />
+              ) : null,
+            )}
+            {nonBtoLines.map((line) => (
+              <CartLineItem key={line.id} line={line} layout={layout} childrenMap={childrenMap} />
+            ))}
           </ul>
         </div>
         {cartHasItems && (
@@ -95,6 +128,80 @@ export function CartMain({layout, cart: originalCart}) {
         )}
       </div>
     </div>
+  );
+}
+
+// Renders a BTO line after the Cart Transform Function has merged it
+function MergedBTOLineItem({line}) {
+  const {product, image} = line.merchandise;
+  const productName = line.attributes?.find((a) => a.key === '_bto_product')?.value || product.title;
+  const upgrades = line.attributes?.find((a) => a.key === '_bto_upgrades')?.value;
+  const price = line.cost?.totalAmount?.amount;
+
+  return (
+    <li className="cart-line cart-bto-bundle">
+      <div className="cart-line-inner">
+        {image && (
+          <Image alt={productName} aspectRatio="1/1" data={image} height={100} loading="lazy" width={100} />
+        )}
+        <div style={{flex: 1}}>
+          <p><strong>{productName} カスタム構成</strong></p>
+          <p className="cart-bto-price">
+            {price ? `¥${Number(price).toLocaleString('ja-JP')}` : '—'}
+          </p>
+          {upgrades && <p className="cart-bto-upgrades">{upgrades}</p>}
+          <CartForm route="/cart" action={CartForm.ACTIONS.LinesRemove} inputs={{lineIds: [line.id]}}>
+            <button type="submit" className="cart-bto-remove">Remove</button>
+          </CartForm>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function BTOBundleItem({base, components, layout}) {
+  const [showComponents, setShowComponents] = useState(false);
+  const {product, image} = base.merchandise;
+  const productName = base.attributes?.find((a) => a.key === '_bto_product')?.value || product.title;
+  const upgrades = base.attributes?.find((a) => a.key === '_bto_upgrades')?.value;
+  const count = components.length;
+  const allLineIds = [base.id, ...components.map((c) => c.id)];
+
+  return (
+    <li className="cart-line cart-bto-bundle">
+      <div className="cart-line-inner">
+        {image && (
+          <Image alt={productName} aspectRatio="1/1" data={image} height={100} loading="lazy" width={100} />
+        )}
+        <div style={{flex: 1}}>
+          <p><strong>{productName} カスタム構成</strong></p>
+          <p className="cart-bto-price">¥{base.cost?.totalAmount?.amount ? Number(base.cost.totalAmount.amount).toLocaleString('ja-JP') : '—'}</p>
+          {upgrades && <p className="cart-bto-upgrades">{upgrades}</p>}
+          <button
+            className="cart-bto-toggle"
+            onClick={() => setShowComponents((v) => !v)}
+          >
+            {showComponents ? `Hide ${count} items ↑` : `Show ${count} items ↓`}
+          </button>
+          {showComponents && (
+            <ul className="cart-bto-components">
+              {components.map((c) => (
+                <li key={c.id} className="cart-bto-component">
+                  <span>{c.merchandise?.product?.title}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <CartForm
+            route="/cart"
+            action={CartForm.ACTIONS.LinesRemove}
+            inputs={{lineIds: allLineIds}}
+          >
+            <button type="submit" className="cart-bto-remove">Remove</button>
+          </CartForm>
+        </div>
+      </div>
+    </li>
   );
 }
 

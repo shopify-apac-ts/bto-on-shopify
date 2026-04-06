@@ -13,7 +13,7 @@
 
 import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useCallback} from 'react';
 import '../styles/bto.css';
 
 export async function loader({params, context}) {
@@ -39,23 +39,57 @@ export async function loader({params, context}) {
     variables: {handle: 'g-tune-fz-i9g90'},
   });
 
+  const hardwareConfig = JSON.parse(fields.hardware_config);
+  const peripheralConfig = JSON.parse(fields.peripheral_config);
+  const serviceConfig = JSON.parse(fields.service_config);
+
+  // Collect all component variant IDs to check availability in one query
+  const allSections = [
+    ...hardwareConfig.sections,
+    ...peripheralConfig.sections,
+    ...serviceConfig.sections,
+  ];
+  const variantIds = [];
+  for (const section of allSections) {
+    if (section.type === 'fixed' && section.shopify_variant_id) {
+      variantIds.push(section.shopify_variant_id);
+    } else if (section.options) {
+      for (const opt of section.options) {
+        if (opt.shopify_variant_id) variantIds.push(opt.shopify_variant_id);
+      }
+    }
+  }
+
+  // Fetch availability for all component variants (Storefront API supports up to 250 ids)
+  const availabilityMap = {};
+  if (variantIds.length > 0) {
+    const {nodes} = await context.storefront.query(VARIANTS_AVAILABILITY_QUERY, {
+      variables: {ids: variantIds},
+    });
+    for (const node of nodes) {
+      if (node?.id) availabilityMap[node.id] = node.availableForSale;
+    }
+  }
+
   return {
     handle: metaobject.handle,
     productName: fields.product_name,
     sku: fields.sku,
     basePrice: parseInt(fields.base_price, 10),
     version: fields.version,
-    hardwareConfig: JSON.parse(fields.hardware_config),
-    peripheralConfig: JSON.parse(fields.peripheral_config),
-    serviceConfig: JSON.parse(fields.service_config),
+    hardwareConfig,
+    peripheralConfig,
+    serviceConfig,
     variantId: product?.variants?.nodes?.[0]?.id || null,
+    availabilityMap,
   };
 }
 
 
 export default function BTOConfigurator() {
   const data = useLoaderData();
-  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId} = data;
+  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, availabilityMap} = data;
+  const [outOfStockDialog, setOutOfStockDialog] = useState(null);
   const allSections = [
     ...hardwareConfig.sections,
     ...peripheralConfig.sections,
@@ -95,33 +129,104 @@ export default function BTOConfigurator() {
     return total;
   }, [selections, allSections, basePrice]);
 
-  // Cart Transform用の選択データを構築
-  const cartAttributes = useMemo(() => {
-    const attributes = [
-      {key: '_bto_product', value: productName},
-      {key: '_bto_total_price', value: String(totalPrice)},
-    ];
+  // カートに追加するラインのリストを構築
+  // base product + 各コンポーネント商品 (全て同じ _bto_bundle_id を共有)
+  const buildCartLines = useCallback(() => {
+    const bundleId = crypto.randomUUID();
+    // Summarise non-default upgrades for cart display
+    const upgrades = [];
     for (const section of allSections) {
-      if (section.type === 'fixed') {
-        attributes.push({key: section.slug, value: section.fixed_value});
-      } else if (section.type === 'single_select') {
+      if (section.type === 'single_select') {
         const opt = section.options[selections[section.slug]];
-        if (opt) {
-          attributes.push({key: section.slug, value: opt.name});
-          if (opt.price_incl !== 0) {
-            attributes.push({key: section.slug + '_price', value: String(opt.price_incl)});
-          }
+        if (opt && !opt.is_default && opt.price_incl !== 0) {
+          upgrades.push(`${section.name}: ${opt.name}`);
         }
       } else if (section.type === 'multi_select') {
         for (const idx of selections[section.slug] || []) {
-          if (section.options[idx]) {
-            attributes.push({key: section.slug + '[]', value: section.options[idx].name});
+          const opt = section.options[idx];
+          if (opt) upgrades.push(`${section.name}: ${opt.name}`);
+        }
+      }
+    }
+
+    const baseAttrs = [
+      {key: '_bto_bundle_id', value: bundleId},
+      {key: '_bto_role', value: 'base'},
+      {key: '_bto_product', value: productName},
+      ...(upgrades.length > 0 ? [{key: '_bto_upgrades', value: upgrades.join(' / ')}] : []),
+    ];
+
+    const lines = [{merchandiseId: variantId, quantity: 1, attributes: baseAttrs}];
+
+    for (const section of allSections) {
+      if (section.type === 'fixed') {
+        if (section.shopify_variant_id) {
+          lines.push({
+            merchandiseId: section.shopify_variant_id,
+            quantity: 1,
+            attributes: [
+              {key: '_bto_bundle_id', value: bundleId},
+              {key: '_bto_role', value: 'component'},
+              {key: '_bto_section', value: section.name},
+            ],
+          });
+        }
+      } else if (section.type === 'single_select') {
+        const opt = section.options[selections[section.slug]];
+        if (opt?.shopify_variant_id) {
+          lines.push({
+            merchandiseId: opt.shopify_variant_id,
+            quantity: 1,
+            attributes: [
+              {key: '_bto_bundle_id', value: bundleId},
+              {key: '_bto_role', value: 'component'},
+              {key: '_bto_section', value: section.name},
+            ],
+          });
+        }
+      } else if (section.type === 'multi_select') {
+        for (const idx of selections[section.slug] || []) {
+          const opt = section.options[idx];
+          if (opt?.shopify_variant_id) {
+            lines.push({
+              merchandiseId: opt.shopify_variant_id,
+              quantity: 1,
+              attributes: [
+                {key: '_bto_bundle_id', value: bundleId},
+                {key: '_bto_role', value: 'component'},
+                {key: '_bto_section', value: section.name},
+              ],
+            });
           }
         }
       }
     }
-    return attributes;
-  }, [selections, allSections, totalPrice, productName]);
+    return lines;
+  }, [selections, allSections, variantId, productName]);
+
+  // Check if all selected variants are in stock before allowing cart add
+  // Only check options the user actively selected (non-default single_select + all multi_select).
+  // Fixed sections and default options are excluded — they are always part of the base config.
+  const checkInventory = useCallback(() => {
+    const outOfStock = [];
+    for (const section of allSections) {
+      if (section.type === 'single_select') {
+        const idx = selections[section.slug];
+        const opt = section.options[idx];
+        if (opt && !opt.is_default && opt.shopify_variant_id && availabilityMap[opt.shopify_variant_id] === false) {
+          outOfStock.push(`${section.name}: ${opt.name}`);
+        }
+      } else if (section.type === 'multi_select') {
+        for (const idx of selections[section.slug] || []) {
+          const opt = section.options[idx];
+          if (opt?.shopify_variant_id && availabilityMap[opt.shopify_variant_id] === false) {
+            outOfStock.push(`${section.name}: ${opt.name}`);
+          }
+        }
+      }
+    }
+    return outOfStock;
+  }, [selections, allSections, availabilityMap]);
 
   const handleSingleSelect = (slug, optionIndex) => {
     setSelections((prev) => ({...prev, [slug]: optionIndex}));
@@ -208,30 +313,47 @@ export default function BTOConfigurator() {
                 カスタマイズ ({customCount}件): +&yen;{(totalPrice - basePrice).toLocaleString()}
               </div>
             )}
+            {outOfStockDialog && (
+              <div className="bto-oos-overlay" onClick={() => setOutOfStockDialog(null)}>
+                <div className="bto-oos-dialog" onClick={(e) => e.stopPropagation()}>
+                  <div className="bto-oos-dialog-header">
+                    <h3>在庫切れの部品があります</h3>
+                    <p>以下の部品は現在在庫がないため、カートに追加できません:</p>
+                  </div>
+                  <ul>
+                    {outOfStockDialog.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <div className="bto-oos-dialog-footer">
+                    <button className="bto-oos-close" onClick={() => setOutOfStockDialog(null)}>
+                      閉じる
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
             {variantId ? (
               <CartForm
                 route="/cart"
                 action={CartForm.ACTIONS.LinesAdd}
-                inputs={{
-                  lines: [
-                    {
-                      merchandiseId: variantId,
-                      quantity: 1,
-                      attributes: cartAttributes,
-                    },
-                  ],
-                }}
+                inputs={{lines: buildCartLines()}}
               >
                 {(fetcher) => (
-                  <>
-                    <button
-                      className="bto-cart-button"
-                      type="submit"
-                      disabled={fetcher.state !== 'idle'}
-                    >
-                      {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
-                    </button>
-                  </>
+                  <button
+                    className="bto-cart-button"
+                    type="submit"
+                    disabled={fetcher.state !== 'idle'}
+                    onClick={(e) => {
+                      const oos = checkInventory();
+                      if (oos.length > 0) {
+                        e.preventDefault();
+                        setOutOfStockDialog(oos);
+                      }
+                    }}
+                  >
+                    {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
+                  </button>
                 )}
               </CartForm>
             ) : (
@@ -342,6 +464,39 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
   );
 }
 
-const BTO_QUERY = '#graphql\n  query BTOProduct($handle: MetaobjectHandleInput!) {\n    metaobject(handle: $handle) {\n      handle\n      type\n      fields {\n        key\n        value\n      }\n    }\n  }\n';
+const BTO_QUERY = `#graphql
+  query BTOProduct($handle: MetaobjectHandleInput!) {
+    metaobject(handle: $handle) {
+      handle
+      type
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
 
-const PRODUCT_VARIANT_QUERY = '#graphql\n  query BTOProductVariant($handle: String!) {\n    product(handle: $handle) {\n      id\n      title\n      variants(first: 1) {\n        nodes {\n          id\n          title\n          price {\n            amount\n            currencyCode\n          }\n        }\n      }\n    }\n  }\n';
+const PRODUCT_VARIANT_QUERY = `#graphql
+  query BTOProductVariant($handle: String!) {
+    product(handle: $handle) {
+      id
+      variants(first: 1) {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const VARIANTS_AVAILABILITY_QUERY = `#graphql
+  query VariantsAvailability($ids: [ID!]!) {
+    nodes(ids: $ids) {
+      ... on ProductVariant {
+        id
+        availableForSale
+      }
+    }
+  }
+`;
