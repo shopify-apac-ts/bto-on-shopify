@@ -1,0 +1,74 @@
+{
+  "payload": {
+    "export": "cart_transform_run",
+    "target": "cart.transform.run",
+    "input": {
+      "cart": {
+        "lines": [
+          {
+            "id": "gid://shopify/CartLine/1",
+            "quantity": 1,
+            "bundleId": { "value": "abc-123" },
+            "role": { "value": "base" },
+            "productName": { "value": "G-Tune FZ-I9G90" },
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/BASE_VARIANT"
+            }
+          },
+          {
+            "id": "gid://shopify/CartLine/2",
+            "quantity": 1,
+            "bundleId": { "value": "abc-123" },
+            "role": { "value": "component" },
+            "productName": null,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/CPU_VARIANT"
+            }
+          },
+          {
+            "id": "gid://shopify/CartLine/3",
+            "quantity": 1,
+            "bundleId": { "value": "abc-123" },
+            "role": { "value": "component" },
+            "productName": null,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/MEMORY_VARIANT"
+            }
+          },
+          {
+            "id": "gid://shopify/CartLine/4",
+            "quantity": 1,
+            "bundleId": null,
+            "role": null,
+            "productName": null,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/UNRELATED_PRODUCT"
+            }
+          }
+        ]
+      }
+    },
+    "expectedOutput": {
+      "operations": [
+        {
+          "linesMerge": {
+            "cartLines": [
+              { "cartLineId": "gid://shopify/CartLine/1", "quantity": 1 },
+              { "cartLineId": "gid://shopify/CartLine/2", "quantity": 1 },
+              { "cartLineId": "gid://shopify/CartLine/3", "quantity": 1 }
+            ],
+            "parentVariantId": "gid://shopify/ProductVariant/BASE_VARIANT",
+            "title": "G-Tune FZ-I9G90 カスタム構成",
+            "price": null,
+            "image": null,
+            "attributes": null
+          }
+        }
+      ]
+    }
+  }
+}

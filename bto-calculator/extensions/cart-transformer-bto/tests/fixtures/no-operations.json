@@ -1,0 +1,26 @@
+{
+  "payload": {
+    "export": "cart_transform_run",
+    "target": "cart.transform.run",
+    "input": {
+      "cart": {
+        "lines": [
+          {
+            "id": "gid://shopify/CartLine/1",
+            "quantity": 1,
+            "bundleId": null,
+            "role": null,
+            "productName": null,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/1"
+            }
+          }
+        ]
+      }
+    },
+    "expectedOutput": {
+      "operations": []
+    }
+  }
+}

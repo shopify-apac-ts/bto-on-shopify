@@ -1,0 +1,26 @@
+query CartTransformRunInput {
+  cart {
+    lines {
+      id
+      quantity
+      bundleId: attribute(key: "_bto_bundle_id") {
+        value
+      }
+      role: attribute(key: "_bto_role") {
+        value
+      }
+      productName: attribute(key: "_bto_product") {
+        value
+      }
+      upgrades: attribute(key: "_bto_upgrades") {
+        value
+      }
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+        }
+      }
+    }
+  }
+}
