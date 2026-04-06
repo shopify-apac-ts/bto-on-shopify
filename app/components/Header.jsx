@@ -1,5 +1,5 @@
 import {Suspense} from 'react';
-import {Await, NavLink, useAsyncValue} from 'react-router';
+import {Await, NavLink, useAsyncValue, useFetcher, useRouteLoaderData} from 'react-router';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 
@@ -97,8 +97,31 @@ function HeaderCtas({isLoggedIn, cart}) {
         </Suspense>
       </NavLink>
       <SearchToggle />
+      <LanguageSelector />
       <CartToggle cart={cart} />
     </nav>
+  );
+}
+
+function LanguageSelector() {
+  const fetcher = useFetcher();
+  const root = useRouteLoaderData('root');
+  const currentLang = root?.language ?? 'JA';
+
+  const toggle = () => {
+    const next = currentLang === 'JA' ? 'EN' : 'JA';
+    fetcher.submit({lang: next}, {method: 'POST', action: '/language'});
+  };
+
+  return (
+    <button
+      className="language-toggle reset"
+      onClick={toggle}
+      aria-label={currentLang === 'JA' ? 'Switch to English' : '日本語に切替'}
+      title={currentLang === 'JA' ? 'Switch to English' : '日本語に切替'}
+    >
+      {currentLang === 'JA' ? 'EN' : 'JP'}
+    </button>
   );
 }
 
