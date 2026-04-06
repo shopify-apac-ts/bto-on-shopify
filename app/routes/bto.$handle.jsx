@@ -12,7 +12,7 @@
 // ============================================================
 
 import {useLoaderData} from 'react-router';
-import {CartForm} from '@shopify/hydrogen';
+import {CartForm, Image} from '@shopify/hydrogen';
 import {useState, useMemo, useCallback} from 'react';
 import '../styles/bto.css';
 
@@ -81,6 +81,7 @@ export async function loader({params, context}) {
     peripheralConfig,
     serviceConfig,
     variantId: product?.variants?.nodes?.[0]?.id || null,
+    productImage: product?.featuredImage || null,
     availabilityMap,
   };
 }
@@ -88,7 +89,7 @@ export async function loader({params, context}) {
 
 export default function BTOConfigurator() {
   const data = useLoaderData();
-  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, availabilityMap} = data;
+  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, productImage, availabilityMap} = data;
   const [outOfStockDialog, setOutOfStockDialog] = useState(null);
   const allSections = [
     ...hardwareConfig.sections,
@@ -242,14 +243,6 @@ export default function BTOConfigurator() {
     });
   };
 
-  const tabs = [
-    {key: 'hardware', label: 'ハードウェア', config: hardwareConfig},
-    {key: 'peripheral', label: '周辺機器', config: peripheralConfig},
-    {key: 'service', label: 'ソフト・サービス', config: serviceConfig},
-  ];
-
-  const activeConfig = tabs.find((t) => t.key === activeTab)?.config;
-
   // カスタマイズ件数
   const customCount = useMemo(() => {
     let count = 0;
@@ -265,38 +258,51 @@ export default function BTOConfigurator() {
     return count;
   }, [selections, allSections]);
 
+  const sectionGroups = [
+    {label: 'ハードウェア', sections: hardwareConfig.sections},
+    {label: '周辺機器', sections: peripheralConfig.sections},
+    {label: 'ソフト・サービス', sections: serviceConfig.sections},
+  ];
+
   return (
     <div className="bto-page">
+      {/* Two-column header: image + product info */}
       <div className="bto-header">
-        <h1>{productName}</h1>
-        <p className="bto-sku">SKU: {data.sku}</p>
+        {productImage && (
+          <div className="bto-header-image">
+            <Image data={productImage} sizes="360px" alt={productName} />
+          </div>
+        )}
+        <div className="bto-header-info">
+          <h1 className="bto-header-title">{productName}</h1>
+          <p className="bto-sku">#{data.sku}</p>
+          <div className="bto-header-price">
+            <span className="bto-header-price-label">販売価格:</span>
+            <span className="bto-header-price-value">&yen;{totalPrice.toLocaleString()}</span>
+            <span className="bto-header-price-tax">（税別 &yen;{Math.round(totalPrice / 1.1).toLocaleString()}）</span>
+          </div>
+        </div>
       </div>
 
       <div className="bto-layout">
         <div className="bto-main">
-          <div className="bto-tabs">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                className={'bto-tab ' + (activeTab === tab.key ? 'active' : '')}
-                onClick={() => setActiveTab(tab.key)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="bto-categories">
-            {activeConfig?.sections.map((section) => (
-              <BTOCategory
-                key={section.slug}
-                section={section}
-                selectedIndex={selections[section.slug]}
-                onSingleSelect={(idx) => handleSingleSelect(section.slug, idx)}
-                onMultiSelect={(idx) => handleMultiSelect(section.slug, idx)}
-              />
-            ))}
-          </div>
+          {/* All sections in one scrollable list, grouped with headings */}
+          {sectionGroups.map((group) => (
+            <div key={group.label} className="bto-section-group">
+              <h2 className="bto-section-group-label">{group.label}</h2>
+              <div className="bto-categories">
+                {group.sections.map((section) => (
+                  <BTOCategory
+                    key={section.slug}
+                    section={section}
+                    selectedIndex={selections[section.slug]}
+                    onSingleSelect={(idx) => handleSingleSelect(section.slug, idx)}
+                    onMultiSelect={(idx) => handleMultiSelect(section.slug, idx)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="bto-sidebar">
@@ -311,26 +317,6 @@ export default function BTOConfigurator() {
             {totalPrice !== basePrice && (
               <div className="bto-price-diff">
                 カスタマイズ ({customCount}件): +&yen;{(totalPrice - basePrice).toLocaleString()}
-              </div>
-            )}
-            {outOfStockDialog && (
-              <div className="bto-oos-overlay" onClick={() => setOutOfStockDialog(null)}>
-                <div className="bto-oos-dialog" onClick={(e) => e.stopPropagation()}>
-                  <div className="bto-oos-dialog-header">
-                    <h3>在庫切れの部品があります</h3>
-                    <p>以下の部品は現在在庫がないため、カートに追加できません:</p>
-                  </div>
-                  <ul>
-                    {outOfStockDialog.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <div className="bto-oos-dialog-footer">
-                    <button className="bto-oos-close" onClick={() => setOutOfStockDialog(null)}>
-                      閉じる
-                    </button>
-                  </div>
-                </div>
               </div>
             )}
             {variantId ? (
@@ -362,6 +348,27 @@ export default function BTOConfigurator() {
           </div>
         </div>
       </div>
+
+      {outOfStockDialog && (
+        <div className="bto-oos-overlay" onClick={() => setOutOfStockDialog(null)}>
+          <div className="bto-oos-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="bto-oos-dialog-header">
+              <h3>在庫切れの部品があります</h3>
+              <p>以下の部品は現在在庫がないため、カートに追加できません:</p>
+            </div>
+            <ul>
+              {outOfStockDialog.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="bto-oos-dialog-footer">
+              <button className="bto-oos-close" onClick={() => setOutOfStockDialog(null)}>
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -481,6 +488,12 @@ const PRODUCT_VARIANT_QUERY = `#graphql
   query BTOProductVariant($handle: String!) {
     product(handle: $handle) {
       id
+      featuredImage {
+        url
+        altText
+        width
+        height
+      }
       variants(first: 1) {
         nodes {
           id
