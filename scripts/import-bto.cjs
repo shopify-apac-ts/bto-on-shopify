@@ -322,13 +322,16 @@ async function createComponentProduct(token, { handle, title, priceIncl, tags })
 
 async function publishProduct(token, productId, publications) {
   if (!publications.length) return;
-  await adminGraphQL(token, `
+  const result = await adminGraphQL(token, `
     mutation Publish($id: ID!, $input: [PublicationInput!]!) {
       publishablePublish(id: $id, input: $input) {
+        publishable { ... on Product { id } }
         userErrors { field message }
       }
     }
   `, { id: productId, input: publications.map(p => ({ publicationId: p.id })) });
+  const errors = result.data?.publishablePublish?.userErrors;
+  if (errors?.length) console.error(`    !! 公開エラー [${productId}]:`, JSON.stringify(errors));
 }
 
 async function ensureComponentProduct(token, { handle, title, priceIncl, tags, publications }) {
@@ -363,10 +366,12 @@ async function ensureComponentProduct(token, { handle, title, priceIncl, tags, p
 async function createComponentProducts(token, btoData) {
   console.log('\n--- コンポーネント商品を作成中... ---');
 
-  // Fetch publications once upfront to avoid N+1 calls
-  const pubsResult = await adminGraphQL(token, `{ publications(first: 10) { nodes { id name } } }`);
-  const publications = pubsResult.data?.publications?.nodes ?? [];
-  console.log(`  公開先: ${publications.map(p => p.name).join(', ') || '(なし)'}`);
+  // Publication IDs for nobu-note-store.myshopify.com
+  const publications = [
+    { id: 'gid://shopify/Publication/247009149240', name: 'Online Store' },
+    { id: 'gid://shopify/Publication/294215582008', name: 'Hydrogen' },
+  ];
+  console.log(`  公開先: ${publications.map(p => p.name).join(', ')}`);
 
   const skuBase = btoData.product.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const baseProductHandle = 'g-tune-fz-i9g90'; // 基本商品のhandle
