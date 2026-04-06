@@ -43,11 +43,7 @@ export async function createHydrogenRouterContext(
       cache,
       waitUntil,
       session,
-      // Detect language from cookie; default to Japanese (store primary language)
-      i18n: {
-        language: getLanguageFromRequest(request),
-        country: 'JP',
-      },
+      i18n: {language: 'JA', country: 'JP'},
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
       },
@@ -56,19 +52,6 @@ export async function createHydrogenRouterContext(
   );
 
   return hydrogenContext;
-}
-
-/**
- * Reads `bto_lang` cookie from request and returns a valid Storefront API LanguageCode.
- * Supported: 'JA' | 'EN'. Defaults to 'JA'.
- * @param {Request} request
- * @returns {'JA' | 'EN'}
- */
-function getLanguageFromRequest(request) {
-  const cookie = request.headers.get('cookie') || '';
-  const match = cookie.match(/bto_lang=([^;]+)/);
-  const lang = match?.[1]?.toUpperCase();
-  return lang === 'EN' ? 'EN' : 'JA';
 }
 
 /** @typedef {Class<additionalContext>} AdditionalContextType */
