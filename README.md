@@ -182,6 +182,53 @@ Located in a separate Shopify app repository at `bto-calculator/`.
 
 ---
 
+## Shopify App setup (Admin API access)
+
+The import script authenticates via a **Shopify custom app** (OAuth). Create one in the Shopify Partner Dashboard or directly in the store admin.
+
+### Required API scopes
+
+```
+read_metaobject_definitions
+write_metaobject_definitions
+read_metaobjects
+write_metaobjects
+read_products
+write_products
+read_publications
+write_publications
+```
+
+> `read_publications` / `write_publications` are required for `publishablePublish` — without them, component products are created but not published to any sales channel, causing the Storefront API to silently ignore them when adding to cart.
+
+### Setup steps
+
+1. Go to **Shopify Admin → Settings → Apps and sales channels → Develop apps**
+2. Create a new app (e.g. `bto-importer`)
+3. Under **Configuration → Admin API access scopes**, add all scopes listed above
+4. Install the app on the store
+5. Copy the **Client ID** and **Client Secret** to `.env`:
+
+```bash
+SHOPIFY_CLIENT_ID=your_client_id
+SHOPIFY_CLIENT_SECRET=your_client_secret
+SHOPIFY_STORE_DOMAIN=nobu-note-store.myshopify.com
+SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products,read_publications,write_publications
+```
+
+### Publication IDs (nobu-note-store.myshopify.com)
+
+The import script publishes component products to these two sales channels (hardcoded in `scripts/import-bto.cjs`):
+
+| Publication | ID |
+|---|---|
+| Online Store | `gid://shopify/Publication/247009149240` |
+| Hydrogen storefront | `gid://shopify/Publication/294215582008` |
+
+> To find publication IDs for a different store, run: `{ publications(first: 10) { nodes { id name } } }` in the Admin GraphQL API.
+
+---
+
 ## API reference
 
 ### Shopify APIs used — versions
