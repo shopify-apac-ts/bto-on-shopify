@@ -315,19 +315,27 @@ async function createComponentProduct(token, { handle, title, priceIncl, tags })
   const updated = updateResult.data?.productVariantsBulkUpdate;
   if (updated?.userErrors?.length > 0) {
     console.error(`    !! バリアント更新エラー [${handle}]:`, JSON.stringify(updated.userErrors));
-    // Still return variantId — product was created, only price update failed
   }
 
-  return variantId;
+  return { productId, variantId };
 }
 
-/**
- * 商品が存在すれば variantId を返し、なければ作成して返す
- */
-async function ensureComponentProduct(token, { handle, title, priceIncl, tags }) {
+async function publishProduct(token, productId, publications) {
+  if (!publications.length) return;
+  await adminGraphQL(token, `
+    mutation Publish($id: ID!, $input: [PublicationInput!]!) {
+      publishablePublish(id: $id, input: $input) {
+        userErrors { field message }
+      }
+    }
+  `, { id: productId, input: publications.map(p => ({ publicationId: p.id })) });
+}
+
+async function ensureComponentProduct(token, { handle, title, priceIncl, tags, publications }) {
   const existing = await getProductByHandle(token, handle);
   if (existing?.variantId) {
-    // Update title in case it was previously created with the old naming convention
+    // Publish (in case created before publish step was added) + update title
+    await publishProduct(token, existing.id, publications);
     await adminGraphQL(token, `
       mutation UpdateProductTitle($id: ID!, $title: String!) {
         productUpdate(product: { id: $id, title: $title }) {
@@ -339,11 +347,12 @@ async function ensureComponentProduct(token, { handle, title, priceIncl, tags })
     return existing.variantId;
   }
 
-  const variantId = await createComponentProduct(token, { handle, title, priceIncl, tags });
-  if (variantId) {
+  const created = await createComponentProduct(token, { handle, title, priceIncl, tags });
+  if (created) {
+    await publishProduct(token, created.productId, publications);
     process.stdout.write(' [作成]');
   }
-  return variantId;
+  return created?.variantId ?? null;
 }
 
 /**
@@ -353,6 +362,11 @@ async function ensureComponentProduct(token, { handle, title, priceIncl, tags })
  */
 async function createComponentProducts(token, btoData) {
   console.log('\n--- コンポーネント商品を作成中... ---');
+
+  // Fetch publications once upfront to avoid N+1 calls
+  const pubsResult = await adminGraphQL(token, `{ publications(first: 10) { nodes { id name } } }`);
+  const publications = pubsResult.data?.publications?.nodes ?? [];
+  console.log(`  公開先: ${publications.map(p => p.name).join(', ') || '(なし)'}`);
 
   const skuBase = btoData.product.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const baseProductHandle = 'g-tune-fz-i9g90'; // 基本商品のhandle
@@ -378,7 +392,7 @@ async function createComponentProducts(token, btoData) {
         ];
 
         process.stdout.write(`  ${section.name} (fixed)`);
-        const variantId = await ensureComponentProduct(token, { handle, title, priceIncl: 0, tags });
+        const variantId = await ensureComponentProduct(token, { handle, title, priceIncl: 0, tags, publications });
         console.log('');
 
         if (variantId) {
@@ -407,6 +421,7 @@ async function createComponentProducts(token, btoData) {
             title,
             priceIncl: option.price_incl,
             tags,
+            publications,
           });
           console.log('');
 

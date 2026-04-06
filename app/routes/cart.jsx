@@ -33,7 +33,19 @@ export async function action({request, context}) {
 
   switch (action) {
     case CartForm.ACTIONS.LinesAdd:
+      console.log('[BTO debug] LinesAdd received', inputs.lines?.length, 'lines');
+      console.log('[BTO debug] lines:', JSON.stringify(inputs.lines?.map(l => ({
+        merchandiseId: l.merchandiseId,
+        role: l.attributes?.find(a => a.key === '_bto_role')?.value,
+        bundleId: l.attributes?.find(a => a.key === '_bto_bundle_id')?.value?.slice(0, 8),
+      }))));
       result = await cart.addLines(inputs.lines);
+      console.log('[BTO debug] result keys:', Object.keys(result || {}));
+      console.log('[BTO debug] userErrors:', JSON.stringify(result?.userErrors));
+      console.log('[BTO debug] errors:', JSON.stringify(result?.errors));
+      console.log('[BTO debug] cart totalQuantity:', result?.cart?.totalQuantity);
+      if (result?.userErrors?.length) console.log('[BTO debug] userErrors detail:', JSON.stringify(result.userErrors));
+      if (result?.warnings?.length) console.log('[BTO debug] warnings:', JSON.stringify(result.warnings));
       break;
     case CartForm.ACTIONS.LinesUpdate:
       result = await cart.updateLines(inputs.lines);
