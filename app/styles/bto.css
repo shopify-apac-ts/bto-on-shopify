@@ -47,39 +47,42 @@
   font-weight: 700;
   margin: 0 0 0.25rem;
   line-height: 1.3;
+  color: #111;
 }
 
 .bto-sku {
-  color: #666;
-  font-size: 0.9rem;
+  color: #888;
+  font-size: 0.85rem;
   margin: 0 0 1rem;
+  letter-spacing: 0.04em;
 }
 
 .bto-header-price {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
+  padding: 0.85rem 1.1rem;
+  background: #fff8f0;
+  border: 1px solid #f0c080;
   border-radius: 4px;
   flex-wrap: wrap;
 }
 
 .bto-header-price-label {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.88rem;
+  color: #666;
 }
 
 .bto-header-price-value {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #c00;
+  letter-spacing: -0.01em;
 }
 
 .bto-header-price-tax {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: 0.82rem;
+  color: #888;
 }
 
 /* ── Layout ──────────────────────────────────────────────── */
@@ -103,31 +106,29 @@
 
 /* ── Section groups (hardware / peripheral / service) ────── */
 .bto-section-group {
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
 }
 
 .bto-section-group-label {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  padding: 0.5rem 0.75rem;
-  background: #444;
-  color: #fff;
-  margin: 0 0 0;
-  border-radius: 0;
+  padding: 0.55rem 0.9rem;
+  background: #f0f0f0;
+  color: #222;
+  margin: 0;
+  border-left: 4px solid #e65100;
+  letter-spacing: 0.02em;
 }
 
 /* ── Category rows ───────────────────────────────────────── */
 .bto-categories {
   display: flex;
   flex-direction: column;
-}
-
-.bto-category {
   border: 1px solid #ddd;
   border-top: none;
 }
 
-.bto-category:first-child {
+.bto-category {
   border-top: 1px solid #ddd;
 }
 
@@ -136,21 +137,21 @@
   display: flex;
   align-items: baseline;
   padding: 0.6rem 1rem;
-  background: #fff8e1;
+  background: #fafafa;
   gap: 0;
 }
 
 .bto-category-fixed .bto-category-name {
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   width: 180px;
   flex-shrink: 0;
-  color: #333;
+  color: #555;
 }
 
 .bto-category-fixed .bto-category-value {
   font-size: 0.85rem;
-  color: #333;
+  color: #444;
   flex: 1;
   line-height: 1.5;
 }
@@ -160,23 +161,30 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
   background: #fff;
   border: none;
   cursor: pointer;
   text-align: left;
   gap: 0;
-  transition: background 0.12s;
-  min-height: 42px;
+  transition: background 0.1s;
+  min-height: 44px;
 }
 
 .bto-category-toggle:hover {
-  background: #f9f9f9;
+  background: #fdf6f0;
+}
+
+/* When open, header gets a subtle accent */
+.bto-category.open > .bto-category-toggle {
+  background: #fff4ec;
+  border-left: 3px solid #e65100;
+  padding-left: calc(1rem - 3px);
 }
 
 .bto-category-name {
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   width: 180px;
   flex-shrink: 0;
   color: #333;
@@ -191,7 +199,7 @@
 }
 
 .bto-current-label {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: #444;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -199,8 +207,14 @@
   flex: 1;
 }
 
+/* Highlight non-default selection in the collapsed header */
+.bto-category-toggle.has-custom .bto-current-label {
+  color: #c00;
+  font-weight: 600;
+}
+
 .bto-current-price {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: #c00;
   font-weight: 600;
   white-space: nowrap;
@@ -208,28 +222,31 @@
 
 .bto-chevron {
   font-size: 0.6rem;
-  color: #999;
+  color: #aaa;
   transition: transform 0.2s;
   margin-left: 0.5rem;
 }
 
 .bto-chevron.open {
   transform: rotate(180deg);
+  color: #e65100;
 }
 
 /* ── Option list ─────────────────────────────────────────── */
 .bto-options {
   border-top: 1px solid #eee;
-  background: #fafafa;
+  background: #fff;
 }
 
 .bto-option {
   display: flex;
   align-items: flex-start;
-  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  /* left 4px reserved for selected-state border; padding compensates */
+  padding: 0.65rem 1rem 0.65rem 2.25rem;
+  border-left: 4px solid transparent;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
-  transition: background 0.1s;
+  border-bottom: 1px solid #f2f2f2;
+  transition: background 0.08s;
   gap: 0.5rem;
 }
 
@@ -238,11 +255,12 @@
 }
 
 .bto-option:hover {
-  background: #f5f5f5;
+  background: #fdf6f0;
 }
 
 .bto-option.selected {
-  background: #fff8e1;
+  border-left-color: #e65100;
+  background: #fff8f0;
 }
 
 .bto-option input[type='radio'],
@@ -250,6 +268,8 @@
   margin-top: 3px;
   flex-shrink: 0;
   accent-color: #e65100;
+  width: 15px;
+  height: 15px;
 }
 
 .bto-option-content {
@@ -263,50 +283,70 @@
 
 .bto-option-name {
   font-size: 0.88rem;
-  line-height: 1.5;
+  line-height: 1.55;
   flex: 1;
   color: #333;
 }
 
+/* Dim non-selected option names slightly */
+.bto-option:not(.selected) .bto-option-name {
+  color: #555;
+}
+
 .bto-option-price {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
   text-align: right;
-  min-width: 90px;
+  min-width: 100px;
   color: #c00;
+  line-height: 1.4;
+}
+
+/* No price / zero delta — keep column consistent */
+.bto-option-price:empty::before {
+  content: '—';
+  color: #ccc;
+  font-weight: 400;
 }
 
 .bto-option-price-excl {
   display: block;
   font-size: 0.72rem;
   font-weight: 400;
-  color: #888;
+  color: #999;
+  margin-top: 1px;
 }
 
 /* ── Badges ──────────────────────────────────────────────── */
+/* Recommended badge — appears BEFORE option name */
 .bto-badge-recommended {
   display: inline-block;
   background: #e65100;
   color: #fff;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 2px;
-  margin-left: 5px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-right: 6px;
   vertical-align: middle;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
 }
 
+/* Default badge — appears AFTER option name */
 .bto-badge-default {
   display: inline-block;
-  background: #fdd835;
-  color: #333;
-  font-size: 0.65rem;
+  background: #e3f2fd;
+  color: #1565c0;
+  font-size: 0.62rem;
   font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 2px;
-  margin-left: 5px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
   vertical-align: middle;
+  line-height: 1.6;
+  border: 1px solid #bbdefb;
 }
 
 /* ── Sidebar price box ───────────────────────────────────── */
@@ -316,31 +356,35 @@
   border-radius: 4px;
   padding: 1.25rem;
   text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .bto-price-label {
-  font-size: 0.8rem;
-  color: #666;
-  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+  color: #888;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.02em;
 }
 
 .bto-price-total {
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #c00;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .bto-price-base {
-  font-size: 0.78rem;
-  color: #888;
+  font-size: 0.76rem;
+  color: #999;
 }
 
 .bto-price-diff {
   font-size: 0.78rem;
   color: #e65100;
-  margin-top: 0.2rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
 }
 
 .bto-cart-button {
@@ -352,10 +396,11 @@
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s;
+  letter-spacing: 0.02em;
 }
 
 .bto-cart-button:hover {
@@ -368,9 +413,9 @@
 }
 
 .bto-edit-notice {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: #e67e22;
-  margin-top: 0.4rem;
+  margin-top: 0.45rem;
   text-align: center;
 }
 
@@ -384,7 +429,7 @@
 .bto-oos-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,7 +444,7 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
@@ -411,12 +456,12 @@
 .bto-oos-dialog h3 {
   margin: 0 0 0.5rem;
   color: #c00;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .bto-oos-dialog p {
   margin: 0;
-  color: #333;
+  color: #444;
   font-size: 0.88rem;
 }
 
@@ -484,9 +529,10 @@
     align-items: center;
     padding: 0.6rem 1rem;
     gap: 1rem;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
   }
   .bto-price-label { display: none; }
-  .bto-price-total { font-size: 1.3rem; margin: 0; }
+  .bto-price-total { font-size: 1.35rem; margin: 0; }
   .bto-price-base, .bto-price-diff { display: none; }
   .bto-cart-button { margin: 0; width: auto; padding: 0.65rem 1.25rem; font-size: 0.9rem; }
   .bto-main { padding-bottom: 72px; }

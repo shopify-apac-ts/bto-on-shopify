@@ -1,54 +1,54 @@
 # BTO on Shopify — Hydrogen
 
-A BTO (Build To Order) PC configurator built on [Shopify Hydrogen](https://shopify.dev/docs/storefronts/headless/hydrogen) (v2026.1.3), modelled after the [Mouse Computer G TUNE configurator](https://www2.mouse-jp.co.jp/cart/spec.asp?PROD=FZI9G90G8BFDW104DEC).
+[Shopify Hydrogen](https://shopify.dev/docs/storefronts/headless/hydrogen)（v2026.1.3）上に構築した BTO（Build To Order）PC コンフィギュレーターです。[Mouse Computer G TUNE コンフィギュレーター](https://www2.mouse-jp.co.jp/cart/spec.asp?PROD=FZI9G90G8BFDW104DEC)をリファレンスモデルとしています。
 
-**Live demo store:** `nobu-note-store.myshopify.com`
+**ライブデモストア:** `nobu-note-store.myshopify.com`
 
 ---
 
-## How it works
+## 仕組み
 
-### Architecture overview
+### アーキテクチャ概要
 
 ```
 bto-configs/fz-i9g90.json
   └── scripts/import-bto.cjs (Admin GraphQL API 2026-04)
-        ├── Creates Metaobject: bto_product (config JSON with variant IDs)
-        └── Creates component Shopify Products (one per selectable option)
+        ├── Metaobject を作成: bto_product（設定 JSON + バリアント ID）
+        └── コンポーネント Shopify 商品を作成（選択肢ごとに 1 商品）
 
-Hydrogen storefront (Storefront API 2026-04)
-  ├── / (homepage)      → fetches base product image + price → G TUNE brand page
-  └── /bto/:handle      → fetches bto_product metaobject → BTO configurator UI
-        └── Add to cart → CartForm (LinesAdd)
-              ├── 1x base product line   (_bto_role=base,      _bto_bundle_id=<uuid>)
-              └── Nx component lines     (_bto_role=component, _bto_bundle_id=<uuid>)
+Hydrogen ストアフロント（Storefront API 2026-04）
+  ├── /（トップページ）→ 基本商品の画像・価格を取得 → G TUNE ブランドページ
+  └── /bto/:handle    → bto_product メタオブジェクトを取得 → BTO コンフィギュレーター UI
+        └── カートに反映 → CartForm（LinesAdd）
+              ├── 基本商品ライン × 1   (_bto_role=base,      _bto_bundle_id=<uuid>)
+              └── コンポーネントライン × N (_bto_role=component, _bto_bundle_id=<uuid>)
 
-bto-calculator/ (Shopify App — Functions API 2026-04)
-  └── Cart Transform Function (Rust/WASM)
-        └── Groups lines by _bto_bundle_id → linesMerge → single bundle at checkout
+bto-calculator/（Shopify App — Functions API 2026-04）
+  └── Cart Transform Function（Rust/WASM）
+        └── _bto_bundle_id でラインをグループ化 → linesMerge → チェックアウト時に 1 バンドルへ統合
 ```
 
-**Price integrity:** component product prices are set in Shopify and immutable by the client. No price values are passed as cart attributes.
+**価格の整合性:** コンポーネント商品の価格は Shopify で設定されており、クライアントから変更できません。価格値をカート属性として渡すことはありません。
 
 ---
 
-## Data model
+## データモデル
 
-### Metaobject: `bto_product`
+### メタオブジェクト: `bto_product`
 
-Stores the full configuration for each BTO model, including all selectable options with `shopify_variant_id` written back by the import script.
+各 BTO モデルの設定全体（選択可能なすべてのオプションと、インポートスクリプトが書き戻した `shopify_variant_id`）を格納します。
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |---|---|---|
-| `product_name` | single_line_text | Display name, e.g. `G TUNE FZ-I9G90` |
-| `sku` | single_line_text | Product SKU / config code |
-| `base_price` | number_integer | Base price (tax included, JPY) |
-| `version` | single_line_text | Config version string |
-| `hardware_config` | json | CPU, memory, storage, GPU, etc. |
-| `peripheral_config` | json | Monitors, keyboards, mice, etc. |
-| `service_config` | json | OS, office software, warranty, etc. |
+| `product_name` | single_line_text | 表示名（例: `G TUNE FZ-I9G90`） |
+| `sku` | single_line_text | 商品 SKU / 設定コード |
+| `base_price` | number_integer | ベース価格（税込・円） |
+| `version` | single_line_text | 設定バージョン文字列 |
+| `hardware_config` | json | CPU・メモリ・ストレージ・GPU など |
+| `peripheral_config` | json | モニター・キーボード・マウスなど |
+| `service_config` | json | OS・オフィスソフト・保証など |
 
-Each JSON config follows this schema:
+各 JSON 設定は以下のスキーマに従います:
 
 ```jsonc
 {
@@ -59,7 +59,7 @@ Each JSON config follows this schema:
       "type": "fixed",           // fixed | single_select | multi_select
       "sort_order": 1,
       "fixed_value": "Core Ultra 9 285K",
-      "shopify_variant_id": "gid://shopify/ProductVariant/..."  // written by import script
+      "shopify_variant_id": "gid://shopify/ProductVariant/..."  // インポートスクリプトが書き込み
     },
     {
       "name": "メモリ",
@@ -69,11 +69,11 @@ Each JSON config follows this schema:
       "options": [
         {
           "name": "64GB DDR5",
-          "price_incl": 0,        // tax-included delta from base price
+          "price_incl": 0,        // ベース価格からの税込差額
           "price_excl": 0,
           "is_default": true,
           "is_recommended": false,
-          "shopify_variant_id": "gid://shopify/ProductVariant/..."  // written by import script
+          "shopify_variant_id": "gid://shopify/ProductVariant/..."  // インポートスクリプトが書き込み
         },
         {
           "name": "128GB DDR5",
@@ -89,104 +89,121 @@ Each JSON config follows this schema:
 }
 ```
 
-### Component Products
+### コンポーネント商品
 
-The import script creates one Shopify Product per BTO component (all section types). These products:
-- Are tagged `bto-component`, `bto-base:<handle>`, `bto-section:<slug>`
-- Have inventory tracking enabled (`inventoryManagement: SHOPIFY`)
-- Are priced at the option's `price_incl` delta (¥0 for defaults and fixed components)
-- Are excluded from storefront collections/listings
-
----
-
-## Key files
-
-### Routes
-
-#### [`app/routes/_index.jsx`](app/routes/_index.jsx) — G TUNE brand homepage
-
-**Storefront API queries:**
-- `productByIdentifier` alias per active product → fetches image + base price
-
-**What it renders:**
-- G TUNE hero banner (red/black brand styling)
-- Category filter tabs: すべて / デスクトップPC / ノートPC (client-side)
-- Product grid — FZ-I9G90 links to `/bto/fzi9g90g8bfdw104dec`; other models show 近日公開
+インポートスクリプトが BTO コンポーネントごとに Shopify 商品を 1 つ作成します（全セクション種別対象）。これらの商品は:
+- `bto-component`、`bto-base:<handle>`、`bto-section:<slug>` のタグが付与される
+- 在庫追跡が有効（`inventoryManagement: SHOPIFY`）
+- オプションの `price_incl` 差額で価格が設定される（デフォルト・固定コンポーネントは ¥0）
+- ストアフロントのコレクション・一覧から除外される
 
 ---
 
-#### [`app/routes/bto.$handle.jsx`](app/routes/bto.$handle.jsx) — BTO configurator
+## 主要ファイル
 
-**URL pattern:** `/bto/:handle` (e.g. `/bto/fzi9g90g8bfdw104dec`)
+### ルート
 
-**Storefront API queries (loader):**
-1. `metaobject(handle: {type: 'bto_product', handle})` — full config JSON (including variant IDs)
-2. `product(handle: 'g-tune-fz-i9g90')` — base product variant ID for the cart base line
+#### [`app/routes/_index.jsx`](app/routes/_index.jsx) — G TUNE ブランドトップページ
 
-**What it renders:**
-- Three-tab layout: ハードウェア / 周辺機器 / ソフト・サービス
-- `BTOCategory` accordion per section:
-  - `fixed` → static spec label
-  - `single_select` → radio group
-  - `multi_select` → checkbox group
-- Sticky sidebar: live price (base + option deltas), add-to-cart button
+**Storefront API クエリ:**
+- アクティブな商品ごとに `productByIdentifier` エイリアス → 画像・ベース価格を取得
 
-**Add to cart — multi-line bundle:**
+**レンダリング内容:**
+- G TUNE ヒーローバナー（赤黒のブランドデザイン）
+- カテゴリーフィルタータブ: すべて / デスクトップ PC / ノート PC（クライアントサイド）
+- 商品グリッド — FZ-I9G90 は `/bto/fzi9g90g8bfdw104dec` へリンク。他モデルは「近日公開」表示
+
+---
+
+#### [`app/routes/bto.$handle.jsx`](app/routes/bto.$handle.jsx) — BTO コンフィギュレーター
+
+**URL パターン:** `/bto/:handle`（例: `/bto/fzi9g90g8bfdw104dec`）
+
+**Storefront API クエリ（ローダー）:**
+1. `metaobject(handle: {type: 'bto_product', handle})` — 設定 JSON 全体（バリアント ID 含む）
+2. `product(handle: 'g-tune-fz-i9g90')` — カートの基本ラインに使うベース商品バリアント ID
+3. `cart.get()` — カートに既存の BTO バンドルがあれば選択内容を復元（編集モード）
+
+**レンダリング内容:**
+- ハードウェア / 周辺機器 / ソフト・サービス のセクショングループ
+- セクションごとのアコーディオン（`BTOCategory`）:
+  - `fixed` → 仕様ラベルの静的表示
+  - `single_select` → ラジオグループ
+  - `multi_select` → チェックボックスグループ
+- スティッキーサイドバー: リアルタイム価格（ベース＋オプション差額）、カートボタン
+- **編集モード:** カートに同一モデルのバンドルがある場合、前回の選択内容を復元して「カートに反映（上書き）」ボタンを表示
+
+**カートに追加 — マルチラインバンドル:**
 ```jsx
-// All lines share a crypto.randomUUID() bundle ID
+// 全ラインが crypto.randomUUID() で生成した共通バンドル ID を持つ
+// カートに反映ボタン押下でカートドロワーが自動的に開く
 <CartForm route="/cart" action={CartForm.ACTIONS.LinesAdd} inputs={{lines: buildCartLines()}}>
 ```
 
-Lines added per BTO order:
-| Line | `merchandiseId` | Key attributes |
+BTO 注文ごとに追加されるライン:
+| ライン | `merchandiseId` | 主要属性 |
 |---|---|---|
-| Base product | `variantId` (base PC) | `_bto_bundle_id`, `_bto_role=base`, `_bto_product` |
-| Fixed component × N | `section.shopify_variant_id` | `_bto_bundle_id`, `_bto_role=component`, `_bto_section` |
-| Selected option × N | `option.shopify_variant_id` | `_bto_bundle_id`, `_bto_role=component`, `_bto_section` |
+| 基本商品 | `variantId`（ベース PC） | `_bto_bundle_id`、`_bto_role=base`、`_bto_product`、`_bto_handle`、`_bto_selections` |
+| 固定コンポーネント × N | `section.shopify_variant_id` | `_bto_bundle_id`、`_bto_role=component`、`_bto_section` |
+| 選択オプション × N | `option.shopify_variant_id` | `_bto_bundle_id`、`_bto_role=component`、`_bto_section` |
 
-> **Note:** No price values are passed as attributes. Prices come from the Shopify product variant records and are enforced by the Cart Transform Function — they cannot be tampered with client-side.
+> `_bto_handle` と `_bto_selections`（選択内容の JSON）を基本ラインに保持することで、カートの「編集」ボタンからコンフィギュレーターへ戻った際に選択内容を復元できます。
+
+> **注意:** 価格値は属性として渡しません。価格は Shopify の商品バリアントレコードから取得し、Cart Transform Function によって強制されます。クライアントサイドからの改ざんは不可能です。
 
 ---
 
-### Cart display
-
-#### [`app/components/CartLineItem.jsx`](app/components/CartLineItem.jsx)
-- Hides `"Default Title"` variant label
-- Shows public line attributes (non-`_` prefix) as a `dt/dd` list
+### カート表示
 
 #### [`app/components/CartMain.jsx`](app/components/CartMain.jsx)
-- Shows cart-level public attributes above the order summary
+- **ラインの分類:**
+  - `_bto_bundle_id` を持つライン → `bundleMap`（変換前バンドル）→ `BTOBundleItem` でレンダリング
+  - `_bto_upgrades` を持つが `_bto_bundle_id` を持たないライン → `mergedBtoLines`（Cart Transform 後）→ `MergedBTOLineItem` でレンダリング
+  - その他 → `CartLineItem` でレンダリング
+- **編集ボタン:** `BTOBundleItem` と `MergedBTOLineItem` それぞれに「編集」リンクを表示。`_bto_handle` 属性、または `localStorage` のフォールバックを使ってコンフィギュレーターへ戻る
+- **ローディング状態:** カートミューテーション中は `useFetchers()` を監視してバナースピナーを表示
+- **1バンドル制限:** カートアクション（`cart.jsx`）がカートに追加する前にサーバーサイドで既存の BTO ラインをすべて削除。変換前（`_bto_bundle_id`）と変換後（`ComponentizableCartLine` の `lineComponents`）の両方を検出して削除
+
+#### [`app/components/CartLineItem.jsx`](app/components/CartLineItem.jsx)
+- `"Default Title"` バリアントラベルを非表示
+- 公開ライン属性（`_` プレフィックスなし）を `dt/dd` リストで表示
+
+#### [`app/components/CartSummary.jsx`](app/components/CartSummary.jsx)
+- 「合計」・「小計」・割引コード・ギフトカード・「チェックアウトへ進む」ボタンを日本語で表示
+- `/cart` ページではウィンドウフォーカス時に `useRevalidator` でカートデータを再取得（チェックアウトページから戻った際のデータ更新）
 
 ---
 
 ### Cart Transform Function — `bto-calculator/`
 
-Located in a separate Shopify app repository at `bto-calculator/`.
+`bto-calculator/` にある Shopify アプリに格納されています。
 
-**Extension:** `extensions/cart-transformer-bto/` (Rust → WebAssembly)
+**エクステンション:** `extensions/cart-transformer-bto/`（Rust → WebAssembly）
 
-**Target:** `cart.transform.run` (Functions API `2026-04`)
+**ターゲット:** `cart.transform.run`（Functions API `2026-04`）
 
-**Input query** fetches per cart line:
-- `id`, `quantity`
-- `attribute(key: "_bto_bundle_id")` — groups lines into bundles
-- `attribute(key: "_bto_role")` — identifies base vs component lines
-- `attribute(key: "_bto_product")` — bundle display name
-- `merchandise { ... on ProductVariant { id } }` — base variant for `parentVariantId`
+**インプットクエリ**（カートラインごとに取得）:
+- `id`、`quantity`
+- `attribute(key: "_bto_bundle_id")` — ラインをバンドルにグループ化
+- `attribute(key: "_bto_role")` — 基本ラインとコンポーネントラインを識別
+- `attribute(key: "_bto_product")` — バンドル表示名
+- `merchandise { ... on ProductVariant { id } }` — `linesMerge` の `parentVariantId` に使用
 
-**Logic:**
-1. Groups all lines by `_bto_bundle_id`
-2. For each group: finds the base line, merges all lines via `linesMerge`
-3. Result at checkout: one "G TUNE FZ-I9G90 カスタム構成" bundle line
-4. Non-BTO lines pass through unchanged
+**ロジック:**
+1. 全ラインを `_bto_bundle_id` でグループ化
+2. グループごとに基本ラインを特定し、`linesMerge` で全ラインをマージ
+3. チェックアウト時の結果: 「G TUNE FZ-I9G90 カスタム構成」という 1 つのバンドルライン
+4. BTO 以外のラインはそのまま通過
+
+> **1 バンドル制限について:** `cart.get()` で返される `ComponentizableCartLine`（Cart Transform 実行後）には、サブラインの `_bto_bundle_id` は親ノードに存在しません。`cart.jsx` のカートアクションはこれを `lineComponents != null` で検出し、新しいバンドルを追加する前に削除します。
 
 ---
 
-## Shopify App setup (Admin API access)
+## Shopify アプリの設定（Admin API アクセス）
 
-The import script authenticates via a **Shopify custom app** (OAuth). Create one in the Shopify Partner Dashboard or directly in the store admin.
+インポートスクリプトは **Shopify カスタムアプリ**（OAuth）で認証します。Shopify Partner Dashboard またはストア管理画面から作成してください。
 
-### Required API scopes
+### 必要な API スコープ
 
 ```
 read_metaobject_definitions
@@ -199,15 +216,15 @@ read_publications
 write_publications
 ```
 
-> `read_publications` / `write_publications` are required for `publishablePublish` — without them, component products are created but not published to any sales channel, causing the Storefront API to silently ignore them when adding to cart.
+> `read_publications` / `write_publications` は `publishablePublish` に必要です。これがないとコンポーネント商品は作成されますが、どの販売チャネルにも公開されず、Storefront API がカートへの追加時に無視します。
 
-### Setup steps
+### セットアップ手順
 
-1. Go to **Shopify Admin → Settings → Apps and sales channels → Develop apps**
-2. Create a new app (e.g. `bto-importer`)
-3. Under **Configuration → Admin API access scopes**, add all scopes listed above
-4. Install the app on the store
-5. Copy the **Client ID** and **Client Secret** to `.env`:
+1. **Shopify 管理画面 → 設定 → アプリと販売チャネル → アプリを開発する** に移動
+2. 新しいアプリを作成（例: `bto-importer`）
+3. **設定 → Admin API アクセススコープ** に上記スコープをすべて追加
+4. ストアにアプリをインストール
+5. **クライアント ID** と **クライアントシークレット** を `.env` にコピー:
 
 ```bash
 SHOPIFY_CLIENT_ID=your_client_id
@@ -216,108 +233,109 @@ SHOPIFY_STORE_DOMAIN=nobu-note-store.myshopify.com
 SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products,read_publications,write_publications
 ```
 
-### Publication IDs (nobu-note-store.myshopify.com)
+### パブリケーション ID（nobu-note-store.myshopify.com）
 
-The import script publishes component products to these two sales channels (hardcoded in `scripts/import-bto.cjs`):
+インポートスクリプトはコンポーネント商品を以下の 2 つの販売チャネルに公開します（`scripts/import-bto.cjs` にハードコード）:
 
-| Publication | ID |
+| パブリケーション | ID |
 |---|---|
 | Online Store | `gid://shopify/Publication/247009149240` |
-| Hydrogen storefront | `gid://shopify/Publication/294215582008` |
+| Hydrogen ストアフロント | `gid://shopify/Publication/294215582008` |
 
-> To find publication IDs for a different store, run: `{ publications(first: 10) { nodes { id name } } }` in the Admin GraphQL API.
+> 別のストアのパブリケーション ID を確認するには、Admin GraphQL API で以下を実行してください: `{ publications(first: 10) { nodes { id name } } }`
 
 ---
 
-## API reference
+## API リファレンス
 
-### Shopify APIs used — versions
+### 使用 Shopify API とバージョン
 
-| API | Version | Where used |
+| API | バージョン | 使用箇所 |
 |---|---|---|
 | Admin GraphQL API | `2026-04` | `scripts/import-bto.cjs` |
-| Storefront API | Hydrogen default (`2026-04`) | `app/routes/*.jsx` |
+| Storefront API | Hydrogen デフォルト（`2026-04`）| `app/routes/*.jsx` |
 | Functions API | `2026-04` | `bto-calculator/` Cart Transform |
 
-### Admin GraphQL mutations & queries (`scripts/import-bto.cjs`)
+### Admin GraphQL ミューテーション・クエリ（`scripts/import-bto.cjs`）
 
-| Operation | Type | Purpose |
+| オペレーション | 種別 | 目的 |
 |---|---|---|
-| `metaobjectDefinitionCreate` | mutation | Create `bto_product` metaobject definition (once) |
-| `metaobjectUpsert` | mutation | Create/update BTO config metaobject entry |
-| `productByIdentifier(identifier: {handle})` | query | Check if component product already exists |
-| `productCreate(product: ProductCreateInput)` | mutation | Create component product shell |
-| `productVariantsBulkUpdate` | mutation | Set price + inventory tracking on default variant |
+| `metaobjectDefinitionCreate` | mutation | `bto_product` メタオブジェクト定義を作成（初回のみ）|
+| `metaobjectUpsert` | mutation | BTO 設定メタオブジェクトエントリを作成・更新 |
+| `productByIdentifier(identifier: {handle})` | query | コンポーネント商品が既に存在するか確認 |
+| `productCreate(product: ProductCreateInput)` | mutation | コンポーネント商品の雛形を作成 |
+| `productVariantsBulkUpdate` | mutation | デフォルトバリアントの価格・在庫追跡を設定 |
 
-### Storefront API queries (`app/routes/`)
+### Storefront API クエリ（`app/routes/`）
 
-| Query | File | Purpose |
+| クエリ | ファイル | 目的 |
 |---|---|---|
-| `product(handle:)` via aliased `productByIdentifier` | `_index.jsx` | Fetch base product image + price for brand page |
-| `metaobject(handle: {type, handle})` | `bto.$handle.jsx` | Fetch BTO config JSON |
-| `product(handle:)` | `bto.$handle.jsx` | Fetch base product variant ID for cart |
+| `productByIdentifier` エイリアス経由 `product(handle:)` | `_index.jsx` | ブランドページ用に基本商品の画像・価格を取得 |
+| `metaobject(handle: {type, handle})` | `bto.$handle.jsx` | BTO 設定 JSON を取得 |
+| `product(handle:)` | `bto.$handle.jsx` | カート用に基本商品バリアント ID を取得 |
+| `cart.get()` | `bto.$handle.jsx` | 編集モード復元用に既存の BTO バンドルを確認 |
 
-### Functions API — Cart Transform input query
+### Functions API — Cart Transform インプットクエリ
 
-| Field | Path | Purpose |
+| フィールド | パス | 目的 |
 |---|---|---|
-| `attribute(key: "_bto_bundle_id")` | `cart.lines[]` | Groups lines into one BTO bundle |
-| `attribute(key: "_bto_role")` | `cart.lines[]` | Identifies base vs component line |
-| `attribute(key: "_bto_product")` | `cart.lines[]` | Bundle title (product name) |
-| `merchandise { ... on ProductVariant { id } }` | `cart.lines[]` | `parentVariantId` for `linesMerge` |
+| `attribute(key: "_bto_bundle_id")` | `cart.lines[]` | ラインを 1 つの BTO バンドルにグループ化 |
+| `attribute(key: "_bto_role")` | `cart.lines[]` | 基本ラインとコンポーネントラインを識別 |
+| `attribute(key: "_bto_product")` | `cart.lines[]` | バンドルタイトル（商品名） |
+| `merchandise { ... on ProductVariant { id } }` | `cart.lines[]` | `linesMerge` の `parentVariantId` |
 
 ---
 
-## Import script
+## インポートスクリプト
 
-BTO config JSON files live in [`bto-configs/`](bto-configs/). The import script creates all Shopify products and metaobjects needed for the configurator.
+BTO 設定 JSON ファイルは [`bto-configs/`](bto-configs/) に格納されています。インポートスクリプトがコンフィギュレーターに必要な Shopify 商品とメタオブジェクトをすべて作成します。
 
 ```bash
-# 1. Set credentials in .env
+# 1. .env に認証情報を設定
 SHOPIFY_CLIENT_ID=...
 SHOPIFY_CLIENT_SECRET=...
 SHOPIFY_STORE_DOMAIN=nobu-note-store.myshopify.com
 SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects,read_products,write_products
 
-# 2. Run (opens browser for OAuth)
+# 2. 実行（ブラウザで OAuth 認証）
 node scripts/import-bto.cjs
 ```
 
-What it does:
-1. OAuth via browser → Shopify access token
-2. Creates `bto_product` metaobject definition (skips if exists)
-3. For each config file: creates one Shopify Product per component (all section types)
-4. Writes `shopify_variant_id` back into the config JSON per option/section
-5. Upserts the metaobject with the enriched JSON
-6. Saves the updated JSON to disk (so re-runs skip already-created products)
+処理内容:
+1. ブラウザ経由の OAuth → Shopify アクセストークン取得
+2. `bto_product` メタオブジェクト定義を作成（既に存在する場合はスキップ）
+3. 設定ファイルごとに: コンポーネント商品を 1 つずつ作成（全セクション種別）
+4. オプション・セクションごとに `shopify_variant_id` を設定 JSON に書き戻し
+5. 拡充した JSON でメタオブジェクトを Upsert
+6. 更新済み JSON をディスクに保存（再実行時は作成済み商品をスキップ）
 
 ---
 
-## Getting started
+## はじめかた
 
-**Requirements:** Node.js 18+, Rust + `wasm32-unknown-unknown` target
+**前提条件:** Node.js 18+、Rust + `wasm32-unknown-unknown` ターゲット
 
 ```bash
 npm install
-npm run dev        # starts Hydrogen dev server
-npm run build      # production build
-npm run codegen    # regenerate GraphQL types after query changes
+npm run dev        # Hydrogen 開発サーバーを起動
+npm run build      # 本番ビルド
+npm run codegen    # クエリ変更後に GraphQL 型を再生成
 ```
 
-To set up the Cart Transform Function:
+Cart Transform Function のセットアップ:
 ```bash
 cd bto-calculator
 pnpm install
-pnpm run build     # compiles Rust → WASM
-pnpm run deploy    # deploys to Shopify (requires shopify app dev first)
+pnpm run build     # Rust → WASM にコンパイル
+pnpm run deploy    # Shopify へデプロイ（事前に shopify app dev が必要）
 ```
 
 ---
 
-## Adding a new BTO model
+## 新しい BTO モデルの追加方法
 
-1. Create `bto-configs/<sku-lowercase>.json` following the schema above
-2. Run `node scripts/import-bto.cjs` — creates component products + enriches metaobject
-3. Add an entry to `GTUNE_LINEUP` in [`app/routes/_index.jsx`](app/routes/_index.jsx) with `active: true` and the correct `btoHandle`
-4. Visit `/bto/<metaobject-handle>` to verify the configurator
-5. Deploy `bto-calculator/` to apply the Cart Transform Function to the new model
+1. 上記スキーマに従い `bto-configs/<sku-lowercase>.json` を作成
+2. `node scripts/import-bto.cjs` を実行 — コンポーネント商品を作成し、メタオブジェクトを拡充
+3. [`app/routes/_index.jsx`](app/routes/_index.jsx) の `GTUNE_LINEUP` に `active: true` と正しい `btoHandle` でエントリを追加
+4. `/bto/<metaobject-handle>` にアクセスしてコンフィギュレーターを確認
+5. `bto-calculator/` をデプロイして Cart Transform Function を新モデルに適用

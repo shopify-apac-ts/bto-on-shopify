@@ -13,6 +13,7 @@
 
 import {useLoaderData} from 'react-router';
 import {CartForm, Image} from '@shopify/hydrogen';
+import {useAside} from '~/components/Aside';
 import {useState, useMemo, useCallback, useEffect} from 'react';
 import '../styles/bto.css';
 
@@ -113,6 +114,7 @@ export async function loader({params, context}) {
 export default function BTOConfigurator() {
   const data = useLoaderData();
   const {handle, productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, productImage, availabilityMap, savedSelections, isEditMode} = data;
+  const {open: openAside} = useAside();
   const [outOfStockDialog, setOutOfStockDialog] = useState(null);
   const allSections = [
     ...hardwareConfig.sections,
@@ -366,6 +368,8 @@ export default function BTOConfigurator() {
                         if (oos.length > 0) {
                           e.preventDefault();
                           setOutOfStockDialog(oos);
+                        } else {
+                          openAside('cart');
                         }
                       }}
                     >
@@ -428,21 +432,24 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
 
   let currentLabel = '';
   let currentPrice = 0;
+  let hasCustom = false;
   if (section.type === 'single_select') {
     const opt = section.options[selectedIndex];
     if (opt) {
       currentLabel = opt.name;
       currentPrice = opt.price_incl;
+      hasCustom = !opt.is_default;
     }
   } else if (section.type === 'multi_select') {
     const count = (selectedIndex || []).length;
     currentLabel = count > 0 ? count + '件選択中' : '未選択';
+    hasCustom = count > 0;
   }
 
   return (
     <div className={'bto-category ' + (isOpen ? 'open' : '')}>
       <button
-        className="bto-category-header bto-category-toggle"
+        className={'bto-category-header bto-category-toggle' + (hasCustom ? ' has-custom' : '')}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="bto-category-name">{section.name}</span>
@@ -480,10 +487,10 @@ function BTOCategory({section, selectedIndex, onSingleSelect, onMultiSelect}) {
                 />
                 <span className="bto-option-content">
                   <span className="bto-option-name">
-                    {option.name}
                     {option.is_recommended && (
                       <span className="bto-badge-recommended">オススメ</span>
                     )}
+                    {option.name}
                     {option.is_default && (
                       <span className="bto-badge-default">標準</span>
                     )}
