@@ -334,10 +334,30 @@ async function publishProduct(token, productId, publications) {
   if (errors?.length) console.error(`    !! 公開エラー [${productId}]:`, JSON.stringify(errors));
 }
 
-async function ensureComponentProduct(token, { handle, title, priceIncl, tags, publications }) {
+async function setLeadTimeMetafield(token, productId, leadTime) {
+  const result = await adminGraphQL(token, `
+    mutation SetLeadTime($id: ID!, $metafields: [MetafieldInput!]!) {
+      productUpdate(input: { id: $id, metafields: $metafields }) {
+        userErrors { field message }
+      }
+    }
+  `, {
+    id: productId,
+    metafields: [{
+      namespace: 'bto',
+      key: 'lead_time',
+      value: String(leadTime),
+      type: 'number_integer',
+    }],
+  });
+  const errors = result.data?.productUpdate?.userErrors;
+  if (errors?.length) console.error(`    !! lead_time メタフィールドエラー [${productId}]:`, JSON.stringify(errors));
+}
+
+async function ensureComponentProduct(token, { handle, title, priceIncl, leadTime, tags, publications }) {
   const existing = await getProductByHandle(token, handle);
   if (existing?.variantId) {
-    // Publish (in case created before publish step was added) + update title
+    // Publish (in case created before publish step was added) + update title + update lead_time
     await publishProduct(token, existing.id, publications);
     await adminGraphQL(token, `
       mutation UpdateProductTitle($id: ID!, $title: String!) {
@@ -346,6 +366,7 @@ async function ensureComponentProduct(token, { handle, title, priceIncl, tags, p
         }
       }
     `, { id: existing.id, title });
+    await setLeadTimeMetafield(token, existing.id, leadTime);
     process.stdout.write(' [更新]');
     return existing.variantId;
   }
@@ -353,6 +374,7 @@ async function ensureComponentProduct(token, { handle, title, priceIncl, tags, p
   const created = await createComponentProduct(token, { handle, title, priceIncl, tags });
   if (created) {
     await publishProduct(token, created.productId, publications);
+    await setLeadTimeMetafield(token, created.productId, leadTime);
     process.stdout.write(' [作成]');
   }
   return created?.variantId ?? null;
@@ -397,7 +419,7 @@ async function createComponentProducts(token, btoData) {
         ];
 
         process.stdout.write(`  ${section.name} (fixed)`);
-        const variantId = await ensureComponentProduct(token, { handle, title, priceIncl: 0, tags, publications });
+        const variantId = await ensureComponentProduct(token, { handle, title, priceIncl: 0, leadTime: section.lead_time ?? 4, tags, publications });
         console.log('');
 
         if (variantId) {
@@ -425,6 +447,7 @@ async function createComponentProducts(token, btoData) {
             handle,
             title,
             priceIncl: option.price_incl,
+            leadTime: option.lead_time ?? 4,
             tags,
             publications,
           });
@@ -466,6 +489,31 @@ async function runImport(accessToken) {
   if (!defOk) {
     console.error('Metaobject定義の作成に失敗しました。');
     return;
+  }
+
+  // 1b. bto.lead_time メタフィールド定義を作成（既存の場合はエラーを無視）
+  console.log('\n--- bto.lead_time メタフィールド定義を確認中... ---');
+  const mfDefResult = await adminGraphQL(accessToken, `
+    mutation {
+      metafieldDefinitionCreate(definition: {
+        name: "リードタイム（日数）"
+        namespace: "bto"
+        key: "lead_time"
+        description: "このBTOコンポーネントの出荷リードタイム（日数）"
+        type: "number_integer"
+        ownerType: PRODUCT
+      }) {
+        createdDefinition { id }
+        userErrors { field message code }
+      }
+    }
+  `);
+  const mfDefErrors = mfDefResult.data?.metafieldDefinitionCreate?.userErrors ?? [];
+  const alreadyExists = mfDefErrors.some((e) => e.code === 'TAKEN');
+  if (mfDefErrors.length > 0 && !alreadyExists) {
+    console.warn('  メタフィールド定義の作成に問題がありました:', JSON.stringify(mfDefErrors));
+  } else {
+    console.log(alreadyExists ? '  定義は既に存在します（スキップ）' : '  定義を作成しました ✓');
   }
 
   // 2. コンポーネント商品を作成し、variant IDをJSONに書き込む

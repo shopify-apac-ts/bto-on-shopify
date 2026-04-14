@@ -20,7 +20,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030945657144"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030945657144",
+            "lead_time": 4
           },
           {
             "name": "Windows 11 Pro 64ビット（Microsoft 365 Personal体験版付属）",
@@ -28,7 +29,8 @@
             "price_excl": 8000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030945722680"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030945722680",
+            "lead_time": 4
           }
         ]
       },
@@ -38,7 +40,8 @@
         "type": "fixed",
         "sort_order": 2,
         "fixed_value": "インテル(R) Core(TM) Ultra 9 プロセッサー 285K (24コア / 8 P-cores / 16 E-cores / 24スレッド / 最大5.7GHz / 36MB)",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030945755448"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030945755448",
+        "lead_time": 4
       },
       {
         "name": "CPUファン",
@@ -46,7 +49,8 @@
         "type": "fixed",
         "sort_order": 3,
         "fixed_value": "水冷CPUクーラー (360mm長の大型ラジエーターで強力冷却) ※ケースファンが4個以上のケースと組み合わせてください",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030945788216"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030945788216",
+        "lead_time": 4
       },
       {
         "name": "CPUグリス",
@@ -60,7 +64,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946312504"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946312504",
+            "lead_time": 4
           },
           {
             "name": "【高熱伝導率】シルバーグリス AINEX AS-05 ⇒ 純銀度99.9%の超微粒子が熱伝導率を向上！",
@@ -68,7 +73,8 @@
             "price_excl": 1200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946345272"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946345272",
+            "lead_time": 4
           },
           {
             "name": "【優れた熱伝導率】ナノダイヤモンドグリス JP-DX1 ⇒ 高純度熱伝導材料でつくられた高品質のダイヤモンドグリス",
@@ -76,7 +82,8 @@
             "price_excl": 1800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946574648"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946574648",
+            "lead_time": 4
           },
           {
             "name": "【高耐久性能】Thermal Grizzly Kryonaut ⇒ 乾燥に強く長期間冷却性能を維持",
@@ -84,7 +91,8 @@
             "price_excl": 2900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946607416"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946607416",
+            "lead_time": 4
           }
         ]
       },
@@ -100,7 +108,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946640184"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946640184",
+            "lead_time": 4
           },
           {
             "name": "128GB メモリ [ 32GB×4 ( DDR5-4400 ) / デュアルチャネル ]",
@@ -108,7 +117,8 @@
             "price_excl": 312000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946672952"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946672952",
+            "lead_time": 4
           }
         ]
       },
@@ -124,7 +134,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946705720"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946705720",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -132,7 +143,8 @@
             "price_excl": 56000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946738488"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946738488",
+            "lead_time": 10
           },
           {
             "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -140,7 +152,8 @@
             "price_excl": 116000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946771256"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946771256",
+            "lead_time": 14
           },
           {
             "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -148,7 +161,8 @@
             "price_excl": 118000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946804024"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946804024",
+            "lead_time": 21
           },
           {
             "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -156,7 +170,8 @@
             "price_excl": 126000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946836792"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946836792",
+            "lead_time": 25
           }
         ]
       },
@@ -172,7 +187,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946869560"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946869560",
+            "lead_time": 4
           },
           {
             "name": "500GB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -180,7 +196,8 @@
             "price_excl": 16000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946902328"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946902328",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -188,7 +205,8 @@
             "price_excl": 28000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946935096"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946935096",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -196,7 +214,8 @@
             "price_excl": 30000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030946967864"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030946967864",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( SAMSUNG PM9A1 / M.2 PCIe Gen4 x4 接続 )",
@@ -204,7 +223,8 @@
             "price_excl": 37000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947000632"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947000632",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -212,7 +232,8 @@
             "price_excl": 44000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947230008"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947230008",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -220,7 +241,8 @@
             "price_excl": 45000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947262776"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947262776",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -228,7 +250,8 @@
             "price_excl": 80000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947328312"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947328312",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -236,7 +259,8 @@
             "price_excl": 108000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947361080"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947361080",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -244,7 +268,8 @@
             "price_excl": 140000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947393848"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947393848",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -252,7 +277,8 @@
             "price_excl": 142000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947426616"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947426616",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -260,7 +286,8 @@
             "price_excl": 150000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947459384"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947459384",
+            "lead_time": 4
           },
           {
             "name": "8TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -268,7 +295,8 @@
             "price_excl": 250000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947492152"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947492152",
+            "lead_time": 4
           }
         ]
       },
@@ -284,7 +312,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947557688"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947557688",
+            "lead_time": 4
           },
           {
             "name": "500GB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -292,7 +321,8 @@
             "price_excl": 16000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947623224"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947623224",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -300,7 +330,8 @@
             "price_excl": 28000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947655992"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947655992",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -308,7 +339,8 @@
             "price_excl": 30000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947721528"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947721528",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( SAMSUNG PM9A1 / M.2 PCIe Gen4 x4 接続 )",
@@ -316,7 +348,8 @@
             "price_excl": 37000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947918136"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947918136",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -324,7 +357,8 @@
             "price_excl": 44000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947950904"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947950904",
+            "lead_time": 4
           },
           {
             "name": "1TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -332,7 +366,8 @@
             "price_excl": 45000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030947983672"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030947983672",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -340,7 +375,8 @@
             "price_excl": 80000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948016440"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948016440",
+            "lead_time": 4
           },
           {
             "name": "2TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -348,7 +384,8 @@
             "price_excl": 108000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948081976"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948081976",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
@@ -356,7 +393,8 @@
             "price_excl": 140000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948114744"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948114744",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD TLC ( M.2 PCIe Gen4 x4 接続 )",
@@ -364,7 +402,8 @@
             "price_excl": 142000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948213048"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948213048",
+            "lead_time": 4
           },
           {
             "name": "4TB NVMe SSD ( WD_BLACK SN850X / M.2 PCIe Gen4 x4 接続 )",
@@ -372,7 +411,8 @@
             "price_excl": 150000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948278584"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948278584",
+            "lead_time": 4
           }
         ]
       },
@@ -388,7 +428,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948311352"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948311352",
+            "lead_time": 4
           },
           {
             "name": "1TB HDD",
@@ -396,7 +437,8 @@
             "price_excl": 20000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948344120"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948344120",
+            "lead_time": 4
           },
           {
             "name": "2TB HDD",
@@ -404,7 +446,8 @@
             "price_excl": 29000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948573496"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948573496",
+            "lead_time": 4
           },
           {
             "name": "4TB HDD",
@@ -412,7 +455,8 @@
             "price_excl": 46000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948606264"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948606264",
+            "lead_time": 4
           },
           {
             "name": "8TB HDD",
@@ -420,7 +464,8 @@
             "price_excl": 66000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948639032"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948639032",
+            "lead_time": 4
           }
         ]
       },
@@ -430,7 +475,8 @@
         "type": "fixed",
         "sort_order": 10,
         "fixed_value": "NVIDIA GeForce RTX 5090 / 32GB ( DisplayPort×3 / HDMI×1 )",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030948671800"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030948671800",
+        "lead_time": 4
       },
       {
         "name": "光学ドライブ",
@@ -444,7 +490,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948704568"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948704568",
+            "lead_time": 4
           },
           {
             "name": "DVDスーパーマルチドライブ ( DVD±R DL 読み書き対応 )",
@@ -452,7 +499,8 @@
             "price_excl": 3800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948770104"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948770104",
+            "lead_time": 4
           },
           {
             "name": "Blu-rayディスクドライブ ( BDXL(TM) 読み書き対応 )",
@@ -460,7 +508,8 @@
             "price_excl": 13500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948802872"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948802872",
+            "lead_time": 4
           }
         ]
       },
@@ -476,7 +525,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948868408"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948868408",
+            "lead_time": 4
           },
           {
             "name": "[ USB2.0 ] DVDスーパーマルチドライブ ( DVD±R DL 対応 )",
@@ -484,7 +534,8 @@
             "price_excl": 4900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948901176"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948901176",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.2 Gen1 ] Blu-rayディスクドライブ ( BDXL(TM) 対応 / ブラック / Type-A Type-C対応 )",
@@ -492,7 +543,8 @@
             "price_excl": 18991,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030948933944"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030948933944",
+            "lead_time": 4
           }
         ]
       },
@@ -502,7 +554,8 @@
         "type": "fixed",
         "sort_order": 13,
         "fixed_value": "・・・ カードリーダー無し",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030948966712"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030948966712",
+        "lead_time": 4
       },
       {
         "name": "電源",
@@ -510,7 +563,8 @@
         "type": "fixed",
         "sort_order": 14,
         "fixed_value": "1200W 電源 ( 80PLUS(R) Platinum )",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030948999480"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030948999480",
+        "lead_time": 4
       },
       {
         "name": "マザーボード",
@@ -518,7 +572,8 @@
         "type": "fixed",
         "sort_order": 15,
         "fixed_value": "インテル(R) Z890 チップセット ( ATX / SATA 6Gbps 対応ポートx4 / M.2スロットx3 )",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030949032248"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030949032248",
+        "lead_time": 4
       },
       {
         "name": "ケース",
@@ -526,7 +581,8 @@
         "type": "fixed",
         "sort_order": 16,
         "fixed_value": "【G TUNE】フルタワーケース 強化ガラスサイドパネル ( ケースファン 前面×3 / 上面×3 / 背面×1 搭載 )",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030949065016"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030949065016",
+        "lead_time": 4
       },
       {
         "name": "サウンド",
@@ -534,7 +590,8 @@
         "type": "fixed",
         "sort_order": 17,
         "fixed_value": "ハイデフィニション・オーディオ",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030949097784"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030949097784",
+        "lead_time": 4
       },
       {
         "name": "LAN",
@@ -542,7 +599,8 @@
         "type": "fixed",
         "sort_order": 18,
         "fixed_value": "[オンボード]Marvell(R) AQC113 100M/1G/2.5G/5G/10G BASE-T Ethernet LAN",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030949130552"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030949130552",
+        "lead_time": 4
       },
       {
         "name": "無線LAN",
@@ -550,7 +608,8 @@
         "type": "fixed",
         "sort_order": 19,
         "fixed_value": "Wi-Fi 6E ( 最大2.4Gbps ) 対応 IEEE 802.11 ax/ac/a/b/g/n準拠 ＋ Bluetooth 5内蔵 ( Windows 10はWi-Fi 6動作 )",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030949163320"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030949163320",
+        "lead_time": 4
       },
       {
         "name": "拡張カード",
@@ -564,7 +623,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949228856"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949228856",
+            "lead_time": 4
           },
           {
             "name": "LR-LINK 10GbE ネットワークカード ( LRES2051PT / RJ45 / PCI Express x4 ) ※Cat.6A以上のケーブルをご利用ください。",
@@ -572,7 +632,8 @@
             "price_excl": 12700,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949261624"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949261624",
+            "lead_time": 4
           }
         ]
       },
@@ -588,7 +649,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949294392"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949294392",
+            "lead_time": 4
           },
           {
             "name": "【デスクトップパソコンの電源を机上に入れられる！】デスクトップ用外付け電源スイッチ増設",
@@ -596,7 +658,8 @@
             "price_excl": 2700,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949327160"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949327160",
+            "lead_time": 4
           }
         ]
       }
@@ -616,7 +679,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949359928"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949359928",
+            "lead_time": 4
           },
           {
             "name": "[ マイク / USB有線 ] Razer Seiren V3 Mini (ホワイト / タップトゥミュート機能、LEDインジケーター搭載)",
@@ -624,7 +688,8 @@
             "price_excl": 7600,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949392696"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949392696",
+            "lead_time": 4
           },
           {
             "name": "[ マイク / USB有線 ] AVerMedia LIVE STREAMER MIC AM310G2 ( ストリーミング・ゲームに最適 / 単一指向性 / 音量調整・消音ボタン搭載 )",
@@ -632,7 +697,8 @@
             "price_excl": 9000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949491000"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949491000",
+            "lead_time": 4
           },
           {
             "name": "[ マイク / USB有線 ] HyperX QuadCast 2 ( ホワイト / タッチ式ミュート機能 / フルアルミボディ )",
@@ -640,7 +706,8 @@
             "price_excl": 18000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949523768"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949523768",
+            "lead_time": 4
           },
           {
             "name": "[ キャプチャーボード ] AVerMedia LIVE GAMER EXTREME 3 GC551G2 (ソフトウェアエンコード / 録画最大 3840x2160@30fps、2560x1440@60fps)",
@@ -648,7 +715,8 @@
             "price_excl": 18000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949556536"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949556536",
+            "lead_time": 4
           },
           {
             "name": "[ 2点セット！ マイク+キャプチャーボード ] Razer Seiren V3 Mini (ホワイト) + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
@@ -656,7 +724,8 @@
             "price_excl": 25600,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949589304"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949589304",
+            "lead_time": 4
           },
           {
             "name": "[ 2点セット！ マイク+キャプチャーボード ] AVerMedia LIVE STREAMER MIC AM310G2 + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
@@ -664,7 +733,8 @@
             "price_excl": 27000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949654840"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949654840",
+            "lead_time": 4
           },
           {
             "name": "[ 2点セット！ マイク+キャプチャーボード ] HyperX Quadcast 2 (ホワイト) + AVerMedia LIVE GAMER EXTREME 3 GC551G2",
@@ -672,7 +742,8 @@
             "price_excl": 36000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949687608"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949687608",
+            "lead_time": 4
           }
         ]
       },
@@ -688,7 +759,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949720376"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949720376",
+            "lead_time": 4
           },
           {
             "name": "[ 左手デバイス / USB有線 ] Elgato Stream Deck Mini ( 6ボタン / 様々な操作、アクションが登録可能なショートカットキーボード )",
@@ -696,7 +768,8 @@
             "price_excl": 11800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949753144"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949753144",
+            "lead_time": 4
           },
           {
             "name": "[ 左手デバイス / USB有線 ] Logicool MX Creative Console ( 9ボタンのキーパッド / 微細な調整ができるダイアルパッド )",
@@ -704,7 +777,8 @@
             "price_excl": 27091,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949785912"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949785912",
+            "lead_time": 4
           }
         ]
       },
@@ -720,7 +794,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949818680"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949818680",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EJ0500GBKR ( 500GB / 持ち運びやすい薄型SSD )",
@@ -728,7 +803,8 @@
             "price_excl": 12500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949851448"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949851448",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD2.0U3-BA ( 2TB / ファンレス設計 / 防振設計 )",
@@ -736,7 +812,8 @@
             "price_excl": 14500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949884216"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949884216",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD4.0U3-BA ( 大容量の4TB / 静音設計 / 電源連動機能で省エネ )",
@@ -744,7 +821,8 @@
             "price_excl": 19000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949916984"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949916984",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けHDD ] BUFFALO HD-NRLD6.0U3-BA ( 6TB / ファンレス設計 / 防振設計 )",
@@ -752,7 +830,8 @@
             "price_excl": 24000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949949752"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949949752",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EMC1000GBK ( 1TB / キャップ付きで持ち運びしやすいコンパクトなスティック型SSD )",
@@ -760,7 +839,8 @@
             "price_excl": 24000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030949982520"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030949982520",
+            "lead_time": 4
           },
           {
             "name": "[ USB3.0対応 外付けポータブルSSD ] エレコム ESD-EJ2000GBKR ( 2TB / 持ち運びやすい薄型SSD )",
@@ -768,7 +848,8 @@
             "price_excl": 33000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950015288"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950015288",
+            "lead_time": 4
           }
         ]
       },
@@ -784,7 +865,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950048056"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950048056",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] HyperX Alloy Core RGBメンブレンゲーミングキーボード ( メンブレンスイッチ / 日本語レイアウト / RGBバックライトキー )",
@@ -792,7 +874,8 @@
             "price_excl": 4500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950080824"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950080824",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] オリジナルメカニカルゲーミングキーボード ( ブラック / 日本語 )",
@@ -800,7 +883,8 @@
             "price_excl": 4800,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950113592"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950113592",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] オリジナルメカニカルゲーミングキーボード ( ホワイト / 日本語 )",
@@ -808,7 +892,8 @@
             "price_excl": 4800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950146360"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950146360",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] Logicool RGB Keyboard G213r ( ブラック / メンブレン / RGBバックライトキー / 日本語 )",
@@ -816,7 +901,8 @@
             "price_excl": 7200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950179128"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950179128",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] G TUNEオリジナル ラピッドトリガーキーボード ( ブラック / 日本語 / アクチュエーションポイント / Nキーロールオーバー )",
@@ -824,7 +910,8 @@
             "price_excl": 9800,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950211896"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950211896",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] Logicool PRO G-PKB-002LN ( GX RED リニア軸 / テンキーレス / 12個のプログラマブルFキー / 日本語 )",
@@ -832,7 +919,8 @@
             "price_excl": 15500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950375736"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950375736",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 / Bluetooth ] Logicool G515-WL-LNWH ( ホワイト / テンキーレス / 22mmの超ロープロファイル / リニア軸 / 日本語 )",
@@ -840,7 +928,8 @@
             "price_excl": 18000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950408504"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950408504",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 / Bluetooth ] Logicool G715WL-LN ( ホワイト / 日本語 / テンキーレス / コンパクトデザイン / リニア軸 )",
@@ -848,7 +937,8 @@
             "price_excl": 20891,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950441272"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950441272",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] Logicool G-PKB-TKL-RTBK (ブラック/ 日本語 /ラピッドトリガー、アクチュエーションポイント、KEY PRIORITY機能設定可能)",
@@ -856,7 +946,8 @@
             "price_excl": 27000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950474040"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950474040",
+            "lead_time": 4
           }
         ]
       },
@@ -872,7 +963,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950506808"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950506808",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] 7ボタンオリジナルゲーミングマウス ( ホワイト / dpiが6段階で変更可能 )",
@@ -880,7 +972,8 @@
             "price_excl": 1800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950539576"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950539576",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] 7ボタンオリジナルゲーミングマウス ( ブラック / dpiが6段階で変更可能 )",
@@ -888,7 +981,8 @@
             "price_excl": 1800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950572344"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950572344",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] Logicool G402 ( 8ボタン / フュージョン エンジン搭載で高速トラッキングを実現 / FPS向けモデル )",
@@ -896,7 +990,8 @@
             "price_excl": 5100,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950605112"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950605112",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 ] Logicool G304 ( ブラック / 6ボタン / 最大12000dpi / 重量わずか99gの超軽量設計 )",
@@ -904,7 +999,8 @@
             "price_excl": 5200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950637880"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950637880",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 ] Logicool G304rWH ( ホワイト / 6ボタン / 最大12000dpi / 重量わずか99gの超軽量設計 )",
@@ -912,7 +1008,8 @@
             "price_excl": 5200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950670648"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950670648",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 ] G TUNEオリジナル ワイヤレスゲーミングマウス ( 軽量38g / 50〜26000dpi切替 / 専用レシーバー )",
@@ -920,7 +1017,8 @@
             "price_excl": 6300,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950703416"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950703416",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 ] Logicool G703h ( HEROセンサー / 6個のプログラマブルボタン / LIGHTSYNC RGB )",
@@ -928,7 +1026,8 @@
             "price_excl": 9900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950736184"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950736184",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 ] Logicool PRO X SUPERLIGHT ( ブラック / 軽量63g / HERO 25Kセンサー / 1回の充電で約70時間の連続使用 )",
@@ -936,7 +1035,8 @@
             "price_excl": 13182,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950768952"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950768952",
+            "lead_time": 4
           }
         ]
       },
@@ -952,7 +1052,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950801720"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950801720",
+            "lead_time": 4
           },
           {
             "name": "[ クロス素材 ] Logicool G240f Cloth Gaming Mouse Pad ( 280mm×340mm / 低DPIの操作にもスムーズに対応 )",
@@ -960,7 +1061,8 @@
             "price_excl": 1700,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950834488"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950834488",
+            "lead_time": 4
           },
           {
             "name": "[ ハード素材 ] Logicool G440f Hard Gaming Mouse Pad ( 280mm×340mm / 高DPI設定のマウスに最適な低表面摩擦 )",
@@ -968,7 +1070,8 @@
             "price_excl": 2500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950867256"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950867256",
+            "lead_time": 4
           },
           {
             "name": "G TUNEオリジナル アルファゲル採用 マウスパッド-M ( 320mm*270mm*3mm )",
@@ -976,7 +1079,8 @@
             "price_excl": 2500,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950900024"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950900024",
+            "lead_time": 4
           },
           {
             "name": "G TUNEオリジナル アルファゲル採用 マウスパッド-L ( 490mm*420mm*3mm )",
@@ -984,7 +1088,8 @@
             "price_excl": 3300,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950932792"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950932792",
+            "lead_time": 4
           },
           {
             "name": "[ クロス素材 ] Logicool G640s Large Cloth Gaming Mouse Pad ( 大判 400mm×460mm / 低DPIの操作にもスムーズに対応 )",
@@ -992,7 +1097,8 @@
             "price_excl": 3500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030950965560"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030950965560",
+            "lead_time": 4
           }
         ]
       },
@@ -1002,7 +1108,8 @@
         "type": "fixed",
         "sort_order": 7,
         "fixed_value": "・・・ 選択なし",
-        "shopify_variant_id": "gid://shopify/ProductVariant/52030950998328"
+        "shopify_variant_id": "gid://shopify/ProductVariant/52030950998328",
+        "lead_time": 4
       },
       {
         "name": "スピーカー",
@@ -1016,7 +1123,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951096632"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951096632",
+            "lead_time": 4
           },
           {
             "name": "[2ch/4Wx2] Creative Pebble V2 (USBバスパワーでの動作が可能なコンパクト スピーカー)",
@@ -1024,7 +1132,8 @@
             "price_excl": 3600,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951129400"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951129400",
+            "lead_time": 4
           },
           {
             "name": "[2ch/8W RMS] Creative Pebble V3 ホワイト (USB-C・Bluetooth・ライン入力に対応、高ゲインモード切替可能)",
@@ -1032,7 +1141,8 @@
             "price_excl": 5400,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951162168"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951162168",
+            "lead_time": 4
           },
           {
             "name": "[ 2ch/30Wx2 ] Creative T60 ( 複数の端子で様々な機器に接続可能なスピーカー / Bluetoothも対応 )",
@@ -1040,7 +1150,8 @@
             "price_excl": 10000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951194936"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951194936",
+            "lead_time": 4
           },
           {
             "name": "[10W出力] Jabra SPEAK510 MS (Bluetooth＆USB Type-A接続対応 オンライン会議に最適なスピーカーフォン)",
@@ -1048,7 +1159,8 @@
             "price_excl": 16000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951227704"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951227704",
+            "lead_time": 4
           }
         ]
       },
@@ -1064,7 +1176,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951260472"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951260472",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 / Bluetooth ] Logicool G435BK ワイヤレスゲーミングヘッドセット ( ブラック / 直径40mmドライバー / 軽量165g )",
@@ -1072,7 +1185,8 @@
             "price_excl": 6980,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951293240"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951293240",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 ] G TUNEオリジナル ゲーミングヘッドセット ( USB接続 / チタンコーティングドライバー / 着脱可能なマイク )",
@@ -1080,7 +1194,8 @@
             "price_excl": 7800,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951326008"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951326008",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 / Bluetooth ] Logicool G321-WH ワイヤレスゲーミングヘッドセット ( ホワイト / 直径40mmドライバー / 軽量210g )",
@@ -1088,7 +1203,8 @@
             "price_excl": 8500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951358776"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951358776",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 / 7.1ch ] Logicool G431 DTS 7.1 サラウンド ゲーミング ヘッドセット ( 直径50mmドライバー / ノイズキャンセリングマイク )",
@@ -1096,7 +1212,8 @@
             "price_excl": 9000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951391544"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951391544",
+            "lead_time": 4
           },
           {
             "name": "[ USB有線 / 7.1ch ] Logicool PRO X G-PHS-003 ( USB外付けDACによって透き通るようなクリアなデジタル信号処理を実現 )",
@@ -1104,7 +1221,8 @@
             "price_excl": 14900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951424312"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951424312",
+            "lead_time": 4
           },
           {
             "name": "[ USB無線 / Bluetooth ] Logicool G735WL ( ホワイト / 直径40mmドライバー / 最大56時間のバッテリー動作 )",
@@ -1112,7 +1230,8 @@
             "price_excl": 22546,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951457080"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951457080",
+            "lead_time": 4
           }
         ]
       },
@@ -1128,7 +1247,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951489848"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951489848",
+            "lead_time": 4
           },
           {
             "name": "【有線】ロジクール Gamepad F310r (USB接続/プログラム可能アナログミニジョイスティック搭載)",
@@ -1136,7 +1256,8 @@
             "price_excl": 2600,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951522616"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951522616",
+            "lead_time": 4
           },
           {
             "name": "【有線】HyperX Clutch Gladiate ( XBOX公認 / プログラマブルボタン / 3.5mmステレオポート搭載 )",
@@ -1144,7 +1265,8 @@
             "price_excl": 3619,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951555384"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951555384",
+            "lead_time": 4
           },
           {
             "name": "【有線&Bluetooth】 Microsoft Xboxコントローラー ( 2.7mType-Cケーブル付属 / Bluetooth対応 )",
@@ -1152,7 +1274,8 @@
             "price_excl": 8300,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951588152"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951588152",
+            "lead_time": 4
           }
         ]
       },
@@ -1168,7 +1291,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951620920"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951620920",
+            "lead_time": 4
           },
           {
             "name": "Logicool HD Webcam C270n ( USB2.0 / HD 720p ビデオ会議 )",
@@ -1176,7 +1300,8 @@
             "price_excl": 2800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951653688"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951653688",
+            "lead_time": 4
           },
           {
             "name": "Logicool BRIO 100 ( ホワイト / 1080p 30fps / 固定フォーカス / プライバシーシャッター付 )",
@@ -1184,7 +1309,8 @@
             "price_excl": 4500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951686456"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951686456",
+            "lead_time": 4
           },
           {
             "name": "Logicool C922N PRO STREAM WEBCAM (1080p 30fps / 720p 60fps / オートフォーカス / 3ヵ月間のXSplitプレミアムライセンス)",
@@ -1192,7 +1318,8 @@
             "price_excl": 11000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951719224"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951719224",
+            "lead_time": 4
           }
         ]
       },
@@ -1210,7 +1337,8 @@
             "is_default": true,
             "is_recommended": false,
             "size_group": null,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951751992"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951751992",
+            "lead_time": 4
           },
           {
             "name": "[ 21.5型 IPS方式パネル ] Acer EK220QE3bi ( 1920×1080 / 100Hz対応 / HDMI,D-SUB / スピーカー付属無し )",
@@ -1219,7 +1347,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "21.5型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951784760"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951784760",
+            "lead_time": 4
           },
           {
             "name": "[ 21.45型 IPS方式パネル ] iiyama XUB2293HSU-B7 ( 1920×1080 / DisplayPort,HDMI / USBハブ / 昇降・回転対応 )",
@@ -1228,7 +1357,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "21.5型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951817528"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951817528",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 IPS方式パネル ] ProLite XB2491HS-B1J ( 1920×1080 / DisplayPort HDMI / 120Hz )",
@@ -1237,7 +1367,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951850296"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951850296",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 IPS方式ゲーミング液晶 ] G-MASTER G2445HSU-B2 (ブラック / 1920×1080 / DisplayPort HDMI / 100Hz・応答速度1.0ms )",
@@ -1246,7 +1377,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951883064"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951883064",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite X2492HSU-B1J ( ブラック / 1920×1080 / DisplayPort,HDMI / USBハブポート )",
@@ -1255,7 +1387,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951915832"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951915832",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite XB2492HSU-B1J ( ブラック / 1920×1080 / DisplayPort,HDMI / 昇降・縦横90°回転 対応)",
@@ -1264,7 +1397,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030951981368"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030951981368",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 IPS方式パネル ] iiyama ProLite XUB2492HSU-W6 ( 白モデル / 1920×1080 / DisplayPort HDMI / 昇降・縦横90°回転 対応)",
@@ -1273,7 +1407,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952046904"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952046904",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 FAST IPS方式ゲーミング液晶 ] G-MASTER GB2470HSU-W6 (ホワイト / 1920×1080 / DisplayPort HDMI / 180Hz・高速応答0.2ms )",
@@ -1282,7 +1417,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952079672"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952079672",
+            "lead_time": 4
           },
           {
             "name": "[ 23.8型 FAST IPS方式ゲーミング液晶 ] G-MASTER GB2471HSU-W1 (ホワイト / 1920×1080 / DisplayPort×1、HDMI×2 / 240Hz )",
@@ -1291,7 +1427,8 @@
             "is_default": false,
             "is_recommended": false,
             "size_group": "23.8型ワイド液晶",
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952112440"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952112440",
+            "lead_time": 4
           }
         ]
       },
@@ -1307,7 +1444,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952145208"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952145208",
+            "lead_time": 4
           },
           {
             "name": "[ シングルアーム ] エレコム DPA-SS02BK ( ブラック / ガススプリング式 / グロメット式とクランプ式の両対応 )",
@@ -1315,7 +1453,8 @@
             "price_excl": 4500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952276280"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952276280",
+            "lead_time": 4
           },
           {
             "name": "[ シングルアーム ] エレコム DPA-SS08WH ( ホワイト / ガススプリング式 / グロメット式とクランプ式の両対応 )",
@@ -1323,7 +1462,8 @@
             "price_excl": 4500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952309048"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952309048",
+            "lead_time": 4
           },
           {
             "name": "[ デュアルアーム ] エレコム DPA-DL05BK ( ブラック / メカニカルスプリング式 / グロメット式とクランプ式の両対応 )",
@@ -1331,7 +1471,8 @@
             "price_excl": 6000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952341816"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952341816",
+            "lead_time": 4
           }
         ]
       },
@@ -1347,7 +1488,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952374584"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952374584",
+            "lead_time": 4
           },
           {
             "name": "[ A4モノクロレーザープリンタ ] ブラザー JUSTIO HL-L2460DW",
@@ -1355,7 +1497,8 @@
             "price_excl": 12700,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952407352"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952407352",
+            "lead_time": 4
           },
           {
             "name": "[ A4カラーインクジェット複合機 ] ブラザー プリビオ DCP-J929N-W ※1.5m USBケーブル付属",
@@ -1363,7 +1506,8 @@
             "price_excl": 19000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952440120"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952440120",
+            "lead_time": 4
           },
           {
             "name": "[ A4カラーレーザープリンタ ] ブラザー JUSTIO HL-L3240CDW",
@@ -1371,7 +1515,8 @@
             "price_excl": 23000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952472888"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952472888",
+            "lead_time": 4
           }
         ]
       },
@@ -1387,7 +1532,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952505656"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952505656",
+            "lead_time": 4
           },
           {
             "name": "[ 無線LAN ] BUFFALO WSR-1500AX2L/D ( Wi-Fi 6対応 / 最大1,201Mbpsの無線LAN対応 / 有線LAN3ポート搭載 )",
@@ -1395,7 +1541,8 @@
             "price_excl": 6300,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952538424"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952538424",
+            "lead_time": 4
           },
           {
             "name": "[ 無線LAN ] BUFFALO WSR3600BE4P/DBK (Wi-Fi 7対応 / 最大2,882Mbpsの無線LAN対応 / 有線LAN3ポート搭載 )",
@@ -1403,7 +1550,8 @@
             "price_excl": 10500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952571192"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952571192",
+            "lead_time": 4
           },
           {
             "name": "[ 無線LAN ] BUFFALO WXR9300BE6P/D (Wi-Fi 7対応 & 6GHz対応 / 最大5,764Mbpsの無線LAN対応 / 有線LAN4ポート搭載 )",
@@ -1411,7 +1559,8 @@
             "price_excl": 29000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952603960"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952603960",
+            "lead_time": 4
           }
         ]
       },
@@ -1427,7 +1576,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952636728"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952636728",
+            "lead_time": 4
           },
           {
             "name": "[ 有線LAN ] BUFFALO LSW6-GT-8NS/DBK ( ギガビット対応 8ポート / 金属筐体 / 電源内蔵 )",
@@ -1435,7 +1585,8 @@
             "price_excl": 6300,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952669496"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952669496",
+            "lead_time": 4
           }
         ]
       },
@@ -1451,7 +1602,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952702264"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952702264",
+            "lead_time": 4
           },
           {
             "name": "【Red】 AKRacing Nitro V2 Gaming Chair (スタンダードモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1459,7 +1611,8 @@
             "price_excl": 43500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952735032"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952735032",
+            "lead_time": 4
           },
           {
             "name": "【Pink】 AKRacing Eclair Gaming Chair (ホワイトベースモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1467,7 +1620,8 @@
             "price_excl": 43500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952767800"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952767800",
+            "lead_time": 4
           },
           {
             "name": "【Blue】 AKRacing Eclair Gaming Chair (ホワイトベースモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1475,7 +1629,8 @@
             "price_excl": 43500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952800568"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952800568",
+            "lead_time": 4
           },
           {
             "name": "【White】 AKRacing AKR-TSUBASA/HONDA 本田翼 監修オリジナルカラーモデル ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1483,7 +1638,8 @@
             "price_excl": 45300,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952833336"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952833336",
+            "lead_time": 4
           },
           {
             "name": "【Grey】 AKRacing Pro-X V2 Gaming Chair (ハイエンドモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1491,7 +1647,8 @@
             "price_excl": 52500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952866104"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952866104",
+            "lead_time": 4
           },
           {
             "name": "【Red】 AKRacing Pro-X V2 Gaming Chair (ハイエンドモデル) ※PCとは別送になり到着にお時間をいただく場合がございます。",
@@ -1499,7 +1656,8 @@
             "price_excl": 52500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952964408"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952964408",
+            "lead_time": 4
           }
         ]
       },
@@ -1515,7 +1673,8 @@
             "price_excl": 2400,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030952997176"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030952997176",
+            "lead_time": 4
           },
           {
             "name": "[ UHS-II対応/USBカードリーダー ] Kingston MobileLite Plus SD リーダー ( USB3.0接続 )",
@@ -1523,7 +1682,8 @@
             "price_excl": 2600,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953029944"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953029944",
+            "lead_time": 4
           },
           {
             "name": "[ CFexpress Type B対応/USBカードリーダー ] サンディスク エクストリーム プロ SDDR-F451-JNGEN ( USB Type-C 3.1 Gen2接続 )",
@@ -1531,7 +1691,8 @@
             "price_excl": 8000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953062712"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953062712",
+            "lead_time": 4
           }
         ]
       },
@@ -1547,7 +1708,8 @@
             "price_excl": 1500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953095480"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953095480",
+            "lead_time": 4
           },
           {
             "name": "[ 広帯域LANケーブル ] 1m ( UTP / ストレート / カテゴリー6A )",
@@ -1555,7 +1717,8 @@
             "price_excl": 550,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953128248"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953128248",
+            "lead_time": 4
           },
           {
             "name": "[ 広帯域LANケーブル ] 2m ( UTP / ストレート / カテゴリー6A )",
@@ -1563,7 +1726,8 @@
             "price_excl": 580,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953161016"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953161016",
+            "lead_time": 4
           },
           {
             "name": "[ 広帯域LANケーブル ] 3m ( UTP / ストレート / カテゴリー6A )",
@@ -1571,7 +1735,8 @@
             "price_excl": 600,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953193784"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953193784",
+            "lead_time": 4
           },
           {
             "name": "[ 広帯域LANケーブル ] 5m ( UTP / ストレート / カテゴリー6A )",
@@ -1579,7 +1744,8 @@
             "price_excl": 800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953226552"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953226552",
+            "lead_time": 4
           }
         ]
       },
@@ -1595,7 +1761,8 @@
             "price_excl": 2700,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953259320"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953259320",
+            "lead_time": 4
           },
           {
             "name": "[ HDMI端子用 VGA変換アダプタ ] エレコム AD-HDMIVGABK2",
@@ -1603,7 +1770,8 @@
             "price_excl": 2500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953292088"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953292088",
+            "lead_time": 4
           },
           {
             "name": "【 ケーブル 】 DisplayPortケーブル (DP-DP / 2m)",
@@ -1611,7 +1779,8 @@
             "price_excl": 2200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953324856"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953324856",
+            "lead_time": 4
           }
         ]
       }
@@ -1631,7 +1800,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953357624"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953357624",
+            "lead_time": 4
           },
           {
             "name": "Microsoft(R) 365 Personal ( 24か月版 ) ※試用期間後は Office H&B 2024永続版 へ変更可能",
@@ -1639,7 +1809,8 @@
             "price_excl": 25000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953390392"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953390392",
+            "lead_time": 4
           },
           {
             "name": "Microsoft(R) 365 Basic ( 1年版 ) + Office Home and Business 2024 デジタルライセンス版 ( 中小企業向け )",
@@ -1647,7 +1818,8 @@
             "price_excl": 25000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953423160"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953423160",
+            "lead_time": 4
           },
           {
             "name": "Microsoft(R) 365 Basic ( 1年版 ) + Office Home and Business 2024 デジタルライセンス版 ( 個人向け )",
@@ -1655,7 +1827,8 @@
             "price_excl": 25000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953455928"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953455928",
+            "lead_time": 4
           },
           {
             "name": "Microsoft(R) Office Home and Business 2024 デジタルライセンス版 ( 中小企業向け )",
@@ -1663,7 +1836,8 @@
             "price_excl": 25000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953488696"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953488696",
+            "lead_time": 4
           },
           {
             "name": "【総合オフィスソフト＆PDF編集】WPS Office2 PDF Plus ( ワープロ/表計算/プレゼンテーション/PDF編集 )",
@@ -1671,7 +1845,8 @@
             "price_excl": 3200,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953554232"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953554232",
+            "lead_time": 4
           },
           {
             "name": "【総合オフィスソフト】 KINGSOFT WPS Office 2 Standard ダウンロード版 ( ワープロ/表計算/プレゼンテーション/PDF閲覧 )",
@@ -1679,7 +1854,8 @@
             "price_excl": 2900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953587000"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953587000",
+            "lead_time": 4
           }
         ]
       },
@@ -1695,7 +1871,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953619768"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953619768",
+            "lead_time": 4
           },
           {
             "name": "・・・ 追加セキュリティソフトなし（法人・個人事業者を選択すると購入可能です）",
@@ -1703,7 +1880,8 @@
             "price_excl": 0,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953652536"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953652536",
+            "lead_time": 4
           },
           {
             "name": "マカフィー リブセーフ 3年版 ( 1年版+2年版 )",
@@ -1711,7 +1889,8 @@
             "price_excl": 9000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953685304"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953685304",
+            "lead_time": 4
           },
           {
             "name": "マカフィー リブセーフ 4年版 ( 1年版+3年版 )",
@@ -1719,7 +1898,8 @@
             "price_excl": 12000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953718072"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953718072",
+            "lead_time": 4
           }
         ]
       },
@@ -1735,7 +1915,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953783608"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953783608",
+            "lead_time": 4
           },
           {
             "name": "・・・ ソフトなし",
@@ -1743,7 +1924,8 @@
             "price_excl": 0,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953816376"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953816376",
+            "lead_time": 4
           }
         ]
       },
@@ -1759,7 +1941,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953849144"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953849144",
+            "lead_time": 4
           },
           {
             "name": "【OSごと全データ消去】ターミネータ10plusデータ完全抹消 BIOS / UEFI版（バルク版）※ダウンロードコードとDVDメディア付属",
@@ -1767,7 +1950,8 @@
             "price_excl": 3200,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953881912"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953881912",
+            "lead_time": 4
           },
           {
             "name": "【オールインワン画面録画ソフト】CyberLink Screen Recorder 4 Deluxe ダウンロード版 ( 簡単操作でライブ配信/画面録画/ビデオ編集 )",
@@ -1775,7 +1959,8 @@
             "price_excl": 3900,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953914680"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953914680",
+            "lead_time": 4
           },
           {
             "name": "【写真/動画編集ソフト】Adobe Photoshop Elements 2026 & Premiere Elements 2026 3年ライセンス ※ダウンロードコードが付属します",
@@ -1783,7 +1968,8 @@
             "price_excl": 24800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953947448"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953947448",
+            "lead_time": 4
           },
           {
             "name": "【写真編集ソフト】 CyberLink PhotoDirector 2025 Ultra ( 各種AI関連の画像補正に対応、RAW形式に対応 )",
@@ -1791,7 +1977,8 @@
             "price_excl": 6800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030953980216"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030953980216",
+            "lead_time": 4
           },
           {
             "name": "【常に最新の写真/音声/ビデオ/映像用色編集ソフト】CyberLink Director Suite 365（1年ライセンス）※定期契約型プランです",
@@ -1799,7 +1986,8 @@
             "price_excl": 10800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954078520"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954078520",
+            "lead_time": 4
           },
           {
             "name": "【直接編集機能付きPDF編集ソフト】 KINGSOFT PDF Pro ( ファイル形式の変換や暗号化設定などに対応 / 署名機能あり )",
@@ -1807,7 +1995,8 @@
             "price_excl": 3600,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954111288"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954111288",
+            "lead_time": 4
           },
           {
             "name": "【動画編集ソフト】 CyberLink PowerDirector 2025 Ultra ( 各種映像編集機能と補正技術に対応。1年間、25GBのクラウドストレージ)",
@@ -1815,7 +2004,8 @@
             "price_excl": 10900,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954176824"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954176824",
+            "lead_time": 4
           }
         ]
       },
@@ -1831,7 +2021,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954209592"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954209592",
+            "lead_time": 4
           },
           {
             "name": "【お急ぎの方に！カスタマイズしてもすぐ届く！！】翌営業日出荷サービス",
@@ -1839,7 +2030,8 @@
             "price_excl": 2000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954340664"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954340664",
+            "lead_time": 4
           }
         ]
       },
@@ -1855,7 +2047,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954373432"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954373432",
+            "lead_time": 4
           },
           {
             "name": "【データ・設定・アプリに対応】ファイナルパソコン引越し Win11 対応版(専用USBリンクケーブル付き)",
@@ -1863,7 +2056,8 @@
             "price_excl": 6800,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954406200"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954406200",
+            "lead_time": 4
           }
         ]
       },
@@ -1879,7 +2073,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030954438968"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030954438968",
+            "lead_time": 4
           }
         ]
       },
@@ -1895,7 +2090,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030955061560"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030955061560",
+            "lead_time": 4
           },
           {
             "name": "パソコン下取りサービスに申し込む",
@@ -1903,7 +2099,8 @@
             "price_excl": -1000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030955389240"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030955389240",
+            "lead_time": 4
           }
         ]
       },
@@ -1919,7 +2116,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030955422008"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030955422008",
+            "lead_time": 4
           },
           {
             "name": "[ 3年保証/PC本体] ピックアップ修理保証",
@@ -1927,7 +2125,8 @@
             "price_excl": 3000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030955749688"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030955749688",
+            "lead_time": 4
           },
           {
             "name": "[ 3年保証/PC本体] センドバック修理保証+安心パックサービス(専用ダイヤル/即日修理)",
@@ -1935,7 +2134,8 @@
             "price_excl": 5000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030956110136"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030956110136",
+            "lead_time": 4
           },
           {
             "name": "[ 3年保証/PC本体] オンサイト修理保証",
@@ -1943,7 +2143,8 @@
             "price_excl": 8000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030956699960"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030956699960",
+            "lead_time": 4
           },
           {
             "name": "[ 3年保証/PC本体] ピックアップ修理保証+安心パックサービス(専用ダイヤル/即日修理)",
@@ -1951,7 +2152,8 @@
             "price_excl": 8000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030957060408"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030957060408",
+            "lead_time": 4
           },
           {
             "name": "[ 3年保証/PC本体] オンサイト修理保証+安心パックサービス(専用ダイヤル/即日修理)",
@@ -1959,7 +2161,8 @@
             "price_excl": 13000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030957519160"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030957519160",
+            "lead_time": 4
           }
         ]
       },
@@ -1975,7 +2178,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030957584696"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030957584696",
+            "lead_time": 4
           },
           {
             "name": "[ 安心パック限定オプション ] リモートサポートサービス追加",
@@ -1983,7 +2187,8 @@
             "price_excl": 3000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030958698808"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030958698808",
+            "lead_time": 4
           }
         ]
       },
@@ -1999,7 +2204,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030958731576"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030958731576",
+            "lead_time": 4
           },
           {
             "name": "破損盗難保証 レベル1 (保証限度額￥50,000-)",
@@ -2007,7 +2213,8 @@
             "price_excl": 6000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030964564280"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030964564280",
+            "lead_time": 4
           },
           {
             "name": "破損盗難保証 レベル2 (保証限度額￥100,000-)",
@@ -2015,7 +2222,8 @@
             "price_excl": 9000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030965317944"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030965317944",
+            "lead_time": 4
           },
           {
             "name": "破損盗難保証 レベル3 (保証限度額￥150,000-)",
@@ -2023,7 +2231,8 @@
             "price_excl": 13000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030966432056"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030966432056",
+            "lead_time": 4
           },
           {
             "name": "破損盗難保証 レベル4 (保証限度額￥200,000-)",
@@ -2031,7 +2240,8 @@
             "price_excl": 18000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030969020728"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030969020728",
+            "lead_time": 4
           }
         ]
       },
@@ -2047,7 +2257,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030973378872"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030973378872",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心サービスパック 1年版 ( 1年間に最大1回まで )",
@@ -2055,7 +2266,8 @@
             "price_excl": 2000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030975934776"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030975934776",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心サービスパック 3年版 ( 3年間に最大3回まで )",
@@ -2063,7 +2275,8 @@
             "price_excl": 4000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030976688440"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030976688440",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心サービスパック 5年版 ( 5年間に最大5回まで )",
@@ -2071,7 +2284,8 @@
             "price_excl": 6000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979244344"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979244344",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心プランファミリー ( 1年間に最大2回まで )",
@@ -2079,7 +2293,8 @@
             "price_excl": 3000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979277112"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979277112",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心プランファミリー ×3 ( 1年間に最大2回までの保証を3年継続 )",
@@ -2087,7 +2302,8 @@
             "price_excl": 9000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979309880"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979309880",
+            "lead_time": 4
           },
           {
             "name": "データ復旧安心プランファミリー ×5 ( 1年間に最大2回までの保証を5年継続 )",
@@ -2095,7 +2311,8 @@
             "price_excl": 15000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979342648"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979342648",
+            "lead_time": 4
           }
         ]
       },
@@ -2111,7 +2328,8 @@
             "price_excl": 0,
             "is_default": true,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979408184"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979408184",
+            "lead_time": 4
           },
           {
             "name": "[出張設置設定/※初回のみ]プラン1：PC設置、インターネット/メール設定(有線)",
@@ -2119,7 +2337,8 @@
             "price_excl": 9500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979440952"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979440952",
+            "lead_time": 4
           },
           {
             "name": "[出張設置設定/※初回のみ]プラン2：PC設置、インターネット/メール設定(無線)",
@@ -2127,7 +2346,8 @@
             "price_excl": 10500,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030979834168"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030979834168",
+            "lead_time": 4
           },
           {
             "name": "[出張設置設定/※初回のみ]プラン3：2時間フリープラン(PC設置、インターネット/メール設定などPC関連の作業を行うフリープラン)",
@@ -2135,7 +2355,8 @@
             "price_excl": 17000,
             "is_default": false,
             "is_recommended": false,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030980227384"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030980227384",
+            "lead_time": 4
           },
           {
             "name": "[出張設置設定/※初回のみ]プラン4：お好み設定プラン(5つのオプションからお好きなものを3つ選べる)",
@@ -2143,7 +2364,8 @@
             "price_excl": 15000,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030980620600"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030980620600",
+            "lead_time": 4
           },
           {
             "name": "[出張設置設定/※初回のみ]プラン5：PC買い替えプレミアムパック(データ移行サービス付き(Windows XPから対応))",
@@ -2151,7 +2373,8 @@
             "price_excl": 28500,
             "is_default": false,
             "is_recommended": true,
-            "shopify_variant_id": "gid://shopify/ProductVariant/52030980653368"
+            "shopify_variant_id": "gid://shopify/ProductVariant/52030980653368",
+            "lead_time": 4
           }
         ]
       }
