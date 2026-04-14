@@ -124,6 +124,7 @@ Each of the three config fields (`hardware_config`, `peripheral_config`, `servic
       "type": "fixed",
       "sort_order": 2,
       "fixed_value": "インテル(R) Core(TM) Ultra 9 プロセッサー 285K",
+      "lead_time": 4,             // shipping lead time in days — also written to product metafield bto.lead_time
       "shopify_variant_id": "gid://shopify/ProductVariant/52030945755448"
     },
 
@@ -140,6 +141,7 @@ Each of the three config fields (`hardware_config`, `peripheral_config`, `servic
           "price_excl": 0,
           "is_default": true,
           "is_recommended": false,
+          "lead_time": 4,         // per-option lead time in days
           "shopify_variant_id": "gid://shopify/ProductVariant/..."
         },
         {
@@ -148,8 +150,18 @@ Each of the three config fields (`hardware_config`, `peripheral_config`, `servic
           "price_excl": 312000,
           "is_default": false,
           "is_recommended": true,
+          "lead_time": 4,
           "shopify_variant_id": "gid://shopify/ProductVariant/..."
         }
+      ]
+    },
+    // SSD (M.2) — options have individual lead times
+    {
+      "name": "SSD (M.2)", "slug": "ssd_m2", "type": "single_select",
+      "options": [
+        { "name": "2TB NVMe SSD (Gen5)", "price_incl": 0, "is_default": true,  "lead_time": 4  },
+        { "name": "4TB NVMe SSD (Gen4)", "price_incl": 127600,                 "lead_time": 14 },
+        { "name": "4TB NVMe SSD TLC",    "price_incl": 190300,                 "lead_time": 21 }
       ]
     },
 
@@ -248,6 +260,10 @@ Developer terminal                 Browser                    Shopify
 
 Calls `metaobjectDefinitionCreate` to register the `bto_product` type with all field definitions. If the type already exists, the script detects the `already exists` error and skips gracefully.
 
+**Step 1b: Create `bto.lead_time` metafield definition**
+
+`metafieldDefinitionCreate` is called with `namespace: "bto"`, `key: "lead_time"`, `type: "number_integer"`, `ownerType: PRODUCT`. If the definition already exists, the `TAKEN` user error is detected and the step is skipped gracefully. This definition makes the `lead_time` value visible in the Shopify Admin product page under Metafields.
+
 **Step 2: Create component products**
 
 For each section across all three config groups (`hardware_config`, `peripheral_config`, `service_config`):
@@ -258,6 +274,8 @@ For each section across all three config groups (`hardware_config`, `peripheral_
 Product creation is idempotent: `getProductByHandle` is called first, and if the product exists, it publishes and updates the title but does not re-create it.
 
 Variant price and inventory are set via a separate `productVariantsBulkUpdate` call (required because `ProductCreateInput` in API version 2026-04 does not accept variant fields inline).
+
+After price/inventory is set, `productUpdate` is called with `metafields: [{namespace: "bto", key: "lead_time", value: String(leadTime), type: "number_integer"}]` to write the lead time to the product metafield. This applies to both new and existing products on every run.
 
 **Step 3: Publish to sales channels**
 
@@ -305,11 +323,12 @@ The enriched JSON is written back to `bto-configs/fz-i9g90.json`. On subsequent 
 | Operation | Type | Purpose |
 |---|---|---|
 | `metaobjectDefinitionCreate` | mutation | Register `bto_product` type (once per store) |
+| `metafieldDefinitionCreate` | mutation | Register `bto.lead_time` product metafield definition (once per store) |
 | `metaobjectUpsert` | mutation | Create or update a BTO config entry |
 | `productByIdentifier(identifier: {handle})` | query | Idempotency check before product creation |
 | `productCreate` | mutation | Create a component product shell |
 | `productVariantsBulkUpdate` | mutation | Set price + inventory on the auto-created default variant |
-| `productUpdate` | mutation | Update title on re-runs |
+| `productUpdate` | mutation | Update title on re-runs; set `bto.lead_time` metafield on every run |
 | `publishablePublish` | mutation | Publish to Online Store + Hydrogen sales channels |
 
 ### Publication IDs for `nobu-note-store.myshopify.com`
@@ -350,19 +369,24 @@ The homepage renders a G TUNE brand page inspired by Mouse Computer's gaming PC 
 params.handle = "fzi9g90g8bfdw104dec"
      │
      ├──► BTO_QUERY: metaobject(handle: {type: "bto_product", handle})
+     │      cache: CacheNone()  ← always fresh so lead_time changes appear immediately after re-import
      │      └── returns: handle, type, fields[]{key, value}
      │            └── parse fields into: productName, sku, basePrice,
      │                hardware_config, peripheral_config, service_config
+     │                (each section/option includes lead_time: number)
      │
      ├──► PRODUCT_VARIANT_QUERY: product(handle: "g-tune-fz-i9g90")
      │      └── returns: id, featuredImage, variants.nodes[0].id
      │
-     └──► VARIANTS_AVAILABILITY_QUERY: nodes(ids: [...all variant IDs...])
-            └── returns: { id, availableForSale } per variant
-            └── stored as: availabilityMap { variantId: boolean }
+     ├──► VARIANTS_AVAILABILITY_QUERY: nodes(ids: [...all variant IDs...])
+     │      └── returns: { id, availableForSale } per variant
+     │      └── stored as: availabilityMap { variantId: boolean }
+     │
+     └──► cart.get()
+            └── finds existing BTO bundle for this handle → restores savedSelections (edit mode)
 ```
 
-All three queries run in sequence in the loader. The variant IDs for the availability query are collected by walking all sections and gathering `shopify_variant_id` values.
+All four queries run in sequence in the loader. `CacheNone()` is used on the metaobject query because `lead_time` values change with each import run and must be reflected immediately without a CDN/worker cache delay.
 
 #### Component State
 
@@ -373,13 +397,23 @@ initialSelections = {
 }
 ```
 
-`selections` is managed via `useState`. Price is recalculated on every render using `useMemo`:
+`selections` is managed via `useState`. Price and shipping date are recalculated on every render using `useMemo`:
 
 ```js
 totalPrice = basePrice
            + Σ single_select option[selected].price_incl
            + Σ multi_select option[selected].price_incl
+
+maxLeadTime = max(
+  fixed sections:        section.lead_time ?? 4,
+  single_select:         options[selected].lead_time ?? 4,
+  multi_select checked:  options[checked].lead_time ?? 4
+)
+
+shipDateLabel = format(today + maxLeadTime days, "YYYY/MM/DD")
 ```
+
+`shipDateLabel` is also saved to `localStorage.lastBtoShipDate` via a `useEffect` so the cart's `MergedBTOLineItem` can display it as a fallback when the Cart Transform Function hasn't forwarded the attribute.
 
 #### Inventory Check
 
@@ -399,10 +433,13 @@ Cart lines added for one BTO configuration:
 │    merchandiseId: variantId (g-tune-fz-i9g90 default variant)      │
 │    quantity: 1                                                      │
 │    attributes:                                                      │
-│      _bto_bundle_id = "550e8400-e29b-41d4-a716-446655440000"        │
-│      _bto_role      = "base"                                        │
-│      _bto_product   = "G TUNE FZ-I9G90"                            │
-│      _bto_upgrades  = "メモリ: 128GB DDR5 / GPU: RTX 5090 OC"      │
+│      _bto_bundle_id  = "550e8400-e29b-41d4-a716-446655440000"       │
+│      _bto_role       = "base"                                       │
+│      _bto_product    = "G TUNE FZ-I9G90"                           │
+│      _bto_handle     = "fzi9g90g8bfdw104dec"  (for Edit link)      │
+│      _bto_selections = "{\"os\":1,\"memory\":2,...}"  (for edit restore) │
+│      _bto_ship_date  = "2026/04/22"           (today + maxLeadTime) │
+│      _bto_upgrades   = "メモリ: 128GB DDR5 / GPU: RTX 5090 OC"     │
 ├─────────────────────────────────────────────────────────────────────┤
 │  Line 2: CPU (fixed component)                                      │
 │    merchandiseId: section.shopify_variant_id                        │
@@ -458,9 +495,9 @@ allLines from cart.lines.nodes
            → rendered by <CartLineItem> (standard)
 ```
 
-**`MergedBTOLineItem`** (post-Function): Displays product name + "カスタム構成", total price, and `_bto_upgrades` summary string. The merged line retains `_bto_upgrades` because the Rust function explicitly forwards it via the `attributes` field of `LinesMergeOperation`.
+**`MergedBTOLineItem`** (post-Function): Displays product name + "カスタム構成", total price, `_bto_upgrades` summary, and 📦 出荷予定日 badge. The merged line retains both `_bto_upgrades` and `_bto_ship_date` because the Rust function explicitly forwards them via the `attributes` field of `LinesMergeOperation`. If `_bto_ship_date` is absent (e.g., function not yet redeployed), the component falls back to `localStorage.lastBtoShipDate`. Also shows an "編集" link using `_bto_handle` (with `localStorage.lastBtoPath` as fallback).
 
-**`BTOBundleItem`** (pre-Function): Displays the base product with a toggle button to show/hide the N component lines. The "Remove" button passes all line IDs (base + all components) to `CartForm.ACTIONS.LinesRemove`.
+**`BTOBundleItem`** (pre-Function): Displays the base product with a toggle to show/hide component lines, 📦 出荷予定日 from `_bto_ship_date` attribute, and an "編集" link from `_bto_handle`. The "削除" button passes all line IDs (base + all components) to `CartForm.ACTIONS.LinesRemove`.
 
 ---
 
@@ -501,6 +538,9 @@ This UUID is attached to every line in the batch as `_bto_bundle_id`. The Cart T
 | `_bto_bundle_id` | `550e8400-e29b-...` | All BTO lines | No (underscore prefix) |
 | `_bto_role` | `base` or `component` | All BTO lines | No |
 | `_bto_product` | `G TUNE FZ-I9G90` | Base line only | No |
+| `_bto_handle` | `fzi9g90g8bfdw104dec` | Base line only | No (used for Edit link) |
+| `_bto_selections` | `{"os":1,"memory":2,...}` | Base line only | No (used to restore config on edit) |
+| `_bto_ship_date` | `2026/04/22` | Base line only | No (forwarded to merged line) |
 | `_bto_upgrades` | `メモリ: 128GB / GPU: OC` | Base line only | No (forwarded to merged line) |
 | `_bto_section` | `メモリ` | Component lines | No |
 
@@ -562,6 +602,9 @@ query CartTransformRunInput {
         value
       }
       upgrades: attribute(key: "_bto_upgrades") {
+        value
+      }
+      shipDate: attribute(key: "_bto_ship_date") {
         value
       }
       merchandise {

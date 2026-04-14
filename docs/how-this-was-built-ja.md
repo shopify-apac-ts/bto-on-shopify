@@ -124,6 +124,7 @@ MetaobjectのhandleはSKUから生成されます。`FZI9G90G8BFDW104DEC` → `f
       "type": "fixed",
       "sort_order": 2,
       "fixed_value": "インテル(R) Core(TM) Ultra 9 プロセッサー 285K",
+      "lead_time": 4,             // 出荷リードタイム（日数）— product metafield bto.lead_time にも書き込まれる
       "shopify_variant_id": "gid://shopify/ProductVariant/52030945755448"
       // ↑ インポートスクリプトが書き込む
     },
@@ -141,6 +142,7 @@ MetaobjectのhandleはSKUから生成されます。`FZI9G90G8BFDW104DEC` → `f
           "price_excl": 0,
           "is_default": true,
           "is_recommended": false,
+          "lead_time": 4,         // オプションごとのリードタイム（日数）
           "shopify_variant_id": "gid://shopify/ProductVariant/..."
           // ↑ インポートスクリプトが書き込む
         },
@@ -150,8 +152,18 @@ MetaobjectのhandleはSKUから生成されます。`FZI9G90G8BFDW104DEC` → `f
           "price_excl": 312000,
           "is_default": false,
           "is_recommended": true,
+          "lead_time": 4,
           "shopify_variant_id": "gid://shopify/ProductVariant/..."
         }
+      ]
+    },
+    // SSD（M.2）— オプションごとに異なるリードタイム
+    {
+      "name": "SSD (M.2)", "slug": "ssd_m2", "type": "single_select",
+      "options": [
+        { "name": "2TB NVMe SSD（Gen5）", "price_incl": 0, "is_default": true, "lead_time": 4  },
+        { "name": "4TB NVMe SSD（Gen4）", "price_incl": 127600,               "lead_time": 14 },
+        { "name": "4TB NVMe SSD TLC",     "price_incl": 190300,               "lead_time": 21 }
       ]
     },
 
@@ -250,6 +262,10 @@ bto-configs/fz-i9g90.json
 
 `metaobjectDefinitionCreate`を呼び出し、`bto_product`タイプとすべてのフィールド定義を登録します。タイプが既に存在する場合は`already exists`エラーを検出してスキップします。
 
+**ステップ1b: `bto.lead_time` メタフィールド定義の作成**
+
+`metafieldDefinitionCreate`を呼び出し、`namespace: "bto"`、`key: "lead_time"`、`type: "number_integer"`、`ownerType: PRODUCT`でメタフィールド定義を作成します。定義が既に存在する場合は`TAKEN`ユーザーエラーを検出してスキップします。この定義があることで、Shopify Admin の商品ページの「メタフィールド」セクションに`lead_time`値が表示されるようになります。
+
 **ステップ2: コンポーネント商品の作成**
 
 3つの設定グループ（`hardware_config`、`peripheral_config`、`service_config`）の各セクションについて:
@@ -260,6 +276,8 @@ bto-configs/fz-i9g90.json
 商品作成はべき等です。まず`getProductByHandle`で確認し、既存商品があれば公開とタイトル更新のみ行い、再作成しません。
 
 バリアントの価格と在庫は別途`productVariantsBulkUpdate`で設定します（Admin API 2026-04バージョンでは`ProductCreateInput`にバリアントフィールドをインラインで含められないため）。
+
+価格・在庫設定後、`productUpdate`で`metafields: [{namespace: "bto", key: "lead_time", value: String(leadTime), type: "number_integer"}]`を渡し、リードタイムをメタフィールドに書き込みます。新規・既存商品ともに毎回実行されます。
 
 **ステップ3: セールスチャネルへの公開**
 
@@ -307,11 +325,12 @@ option.shopify_variant_id = variantId;
 | オペレーション | 種別 | 用途 |
 |---|---|---|
 | `metaobjectDefinitionCreate` | mutation | `bto_product`タイプを登録（ストアごとに1回） |
+| `metafieldDefinitionCreate` | mutation | `bto.lead_time` product metafield定義を作成（ストアごとに1回） |
 | `metaobjectUpsert` | mutation | BTO設定エントリーを作成または更新 |
 | `productByIdentifier(identifier: {handle})` | query | べき等性チェック（商品作成前） |
 | `productCreate` | mutation | コンポーネント商品シェルを作成 |
 | `productVariantsBulkUpdate` | mutation | 自動作成されたデフォルトバリアントに価格・在庫を設定 |
-| `productUpdate` | mutation | 再実行時にタイトルを更新 |
+| `productUpdate` | mutation | 再実行時にタイトル更新 + 毎回 `bto.lead_time` metafield を設定 |
 | `publishablePublish` | mutation | オンラインストア + Hydrogenセールスチャネルに公開 |
 
 ### `nobu-note-store.myshopify.com`のパブリケーションID
@@ -352,19 +371,24 @@ option.shopify_variant_id = variantId;
 params.handle = "fzi9g90g8bfdw104dec"
      │
      ├──► BTO_QUERY: metaobject(handle: {type: "bto_product", handle})
+     │      cache: CacheNone()  ← importの直後に反映させるためキャッシュなし
      │      └── 返却: handle, type, fields[]{key, value}
      │            └── フィールドをパース: productName, sku, basePrice,
      │                hardware_config, peripheral_config, service_config
+     │                （各セクション・オプションにはlead_time: numberが含まれる）
      │
      ├──► PRODUCT_VARIANT_QUERY: product(handle: "g-tune-fz-i9g90")
      │      └── 返却: id, featuredImage, variants.nodes[0].id
      │
-     └──► VARIANTS_AVAILABILITY_QUERY: nodes(ids: [...全バリアントID...])
-            └── 返却: バリアントごとの { id, availableForSale }
-            └── 保存形式: availabilityMap { variantId: boolean }
+     ├──► VARIANTS_AVAILABILITY_QUERY: nodes(ids: [...全バリアントID...])
+     │      └── 返却: バリアントごとの { id, availableForSale }
+     │      └── 保存形式: availabilityMap { variantId: boolean }
+     │
+     └──► cart.get()
+            └── このhandleの既存BTOバンドルを検索 → savedSelectionsを復元（編集モード）
 ```
 
-3つのクエリはローダー内で順番に実行されます。可用性チェック用のバリアントIDは、全セクションを走査して`shopify_variant_id`値を収集することで集めます。
+4つのクエリはローダー内で順番に実行されます。metaobjectクエリに`CacheNone()`を使用するのは、`lead_time`値がimport実行のたびに変わるため、CDN/Workerキャッシュの遅延なしに即座に反映する必要があるためです。
 
 #### コンポーネントのstate
 
@@ -375,13 +399,23 @@ initialSelections = {
 }
 ```
 
-`selections`は`useState`で管理されます。価格は`useMemo`を使ってレンダリングごとに再計算されます。
+`selections`は`useState`で管理されます。価格と出荷予定日は`useMemo`を使ってレンダリングごとに再計算されます。
 
 ```js
 totalPrice = basePrice
            + Σ single_selectオプション[選択済み].price_incl
            + Σ multi_selectオプション[選択済み].price_incl
+
+maxLeadTime = max(
+  fixedセクション:         section.lead_time ?? 4,
+  single_select選択中:     options[選択済み].lead_time ?? 4,
+  multi_selectチェック済み: options[チェック済み].lead_time ?? 4
+)
+
+shipDateLabel = format(今日 + maxLeadTime日, "YYYY/MM/DD")
 ```
+
+`shipDateLabel`は`useEffect`で`localStorage.lastBtoShipDate`にも保存されます。これにより、Cart Transform Functionが属性を転送していない場合でも、カートの`MergedBTOLineItem`がフォールバックとして出荷予定日を表示できます。
 
 #### 在庫チェック
 
@@ -401,10 +435,13 @@ CartFormが送信される前に`checkInventory()`が現在の選択内容を走
 │    merchandiseId: variantId（g-tune-fz-i9g90のデフォルトバリアント） │
 │    quantity: 1                                                      │
 │    attributes:                                                      │
-│      _bto_bundle_id = "550e8400-e29b-41d4-a716-446655440000"        │
-│      _bto_role      = "base"                                        │
-│      _bto_product   = "G TUNE FZ-I9G90"                            │
-│      _bto_upgrades  = "メモリ: 128GB DDR5 / GPU: RTX 5090 OC"      │
+│      _bto_bundle_id  = "550e8400-e29b-41d4-a716-446655440000"       │
+│      _bto_role       = "base"                                       │
+│      _bto_product    = "G TUNE FZ-I9G90"                           │
+│      _bto_handle     = "fzi9g90g8bfdw104dec"  （編集リンク用）      │
+│      _bto_selections = "{\"os\":1,\"memory\":2,...}"  （編集復元用） │
+│      _bto_ship_date  = "2026/04/22"  （今日 + maxLeadTime日）       │
+│      _bto_upgrades   = "メモリ: 128GB DDR5 / GPU: RTX 5090 OC"     │
 ├─────────────────────────────────────────────────────────────────────┤
 │  ライン 2: CPU（fixedコンポーネント）                                │
 │    merchandiseId: section.shopify_variant_id                        │
@@ -460,9 +497,9 @@ cart.lines.nodesの全ライン
            → <CartLineItem>（通常）で描画
 ```
 
-**`MergedBTOLineItem`**（Function実行後）: 商品名 + "カスタム構成"、合計価格、`_bto_upgrades`サマリー文字列を表示します。マージされたラインが`_bto_upgrades`を保持しているのは、RustのFunctionが`LinesMergeOperation`の`attributes`フィールドで明示的に転送しているためです。
+**`MergedBTOLineItem`**（Function実行後）: 商品名 + "カスタム構成"、合計価格、`_bto_upgrades`サマリー、📦 出荷予定日バッジを表示します。マージされたラインが`_bto_upgrades`と`_bto_ship_date`を保持しているのは、RustのFunctionが`LinesMergeOperation`の`attributes`フィールドで明示的に転送しているためです。`_bto_ship_date`が存在しない場合（Functionが未再デプロイの場合など）は`localStorage.lastBtoShipDate`にフォールバックします。また、`_bto_handle`を使った「編集」リンクも表示します（フォールバックは`localStorage.lastBtoPath`）。
 
-**`BTOBundleItem`**（Function実行前）: 基本商品をトグルボタン付きで表示し、Nコンポーネントラインを展開/折りたたみできます。「Remove」ボタンはすべてのラインID（基本 + 全コンポーネント）を`CartForm.ACTIONS.LinesRemove`に渡します。
+**`BTOBundleItem`**（Function実行前）: 基本商品をトグルボタン付きで表示し、Nコンポーネントラインを展開/折りたたみできます。`_bto_ship_date`属性から 📦 出荷予定日を、`_bto_handle`属性から「編集」リンクを表示します。「削除」ボタンはすべてのラインID（基本 + 全コンポーネント）を`CartForm.ACTIONS.LinesRemove`に渡します。
 
 ---
 
@@ -501,6 +538,9 @@ const bundleId = crypto.randomUUID();
 | `_bto_bundle_id` | `550e8400-e29b-...` | 全BTOライン | いいえ（アンダースコアプレフィックス） |
 | `_bto_role` | `base`または`component` | 全BTOライン | いいえ |
 | `_bto_product` | `G TUNE FZ-I9G90` | 基本ラインのみ | いいえ |
+| `_bto_handle` | `fzi9g90g8bfdw104dec` | 基本ラインのみ | いいえ（「編集」リンクの生成に使用） |
+| `_bto_selections` | `{"os":1,"memory":2,...}` | 基本ラインのみ | いいえ（編集時に選択内容を復元） |
+| `_bto_ship_date` | `2026/04/22` | 基本ラインのみ | いいえ（マージ後のラインに転送） |
 | `_bto_upgrades` | `メモリ: 128GB / GPU: OC` | 基本ラインのみ | いいえ（マージ後のラインに転送） |
 | `_bto_section` | `メモリ` | コンポーネントラインのみ | いいえ |
 
@@ -562,6 +602,9 @@ query CartTransformRunInput {
         value
       }
       upgrades: attribute(key: "_bto_upgrades") {
+        value
+      }
+      shipDate: attribute(key: "_bto_ship_date") {
         value
       }
       merchandise {

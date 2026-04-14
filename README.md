@@ -59,6 +59,7 @@ bto-calculator/（Shopify App — Functions API 2026-04）
       "type": "fixed",           // fixed | single_select | multi_select
       "sort_order": 1,
       "fixed_value": "Core Ultra 9 285K",
+      "lead_time": 4,            // 出荷リードタイム（日数）— インポートスクリプトが product metafield にも書き込み
       "shopify_variant_id": "gid://shopify/ProductVariant/..."  // インポートスクリプトが書き込み
     },
     {
@@ -73,6 +74,7 @@ bto-calculator/（Shopify App — Functions API 2026-04）
           "price_excl": 0,
           "is_default": true,
           "is_recommended": false,
+          "lead_time": 4,         // オプションごとのリードタイム
           "shopify_variant_id": "gid://shopify/ProductVariant/..."  // インポートスクリプトが書き込み
         },
         {
@@ -81,6 +83,27 @@ bto-calculator/（Shopify App — Functions API 2026-04）
           "price_excl": 312000,
           "is_default": false,
           "is_recommended": true,
+          "lead_time": 4,
+          "shopify_variant_id": "gid://shopify/ProductVariant/..."
+        }
+      ]
+    },
+    {
+      "name": "SSD (M.2)",
+      "slug": "ssd_m2",
+      "type": "single_select",
+      "sort_order": 6,
+      "options": [
+        {
+          "name": "2TB NVMe SSD ( M.2 PCIe Gen5 x4 接続 )",
+          "price_incl": 0, "is_default": true,
+          "lead_time": 4,         // デフォルト SSD は標準リードタイム
+          "shopify_variant_id": "gid://shopify/ProductVariant/..."
+        },
+        {
+          "name": "4TB NVMe SSD ( M.2 PCIe Gen4 x4 接続 )",
+          "price_incl": 127600,
+          "lead_time": 14,        // 大容量 SSD は長いリードタイム
           "shopify_variant_id": "gid://shopify/ProductVariant/..."
         }
       ]
@@ -95,6 +118,7 @@ bto-calculator/（Shopify App — Functions API 2026-04）
 - `bto-component`、`bto-base:<handle>`、`bto-section:<slug>` のタグが付与される
 - 在庫追跡が有効（`inventoryManagement: SHOPIFY`）
 - オプションの `price_incl` 差額で価格が設定される（デフォルト・固定コンポーネントは ¥0）
+- `bto.lead_time` product metafield に `lead_time` 値が設定される（`number_integer` 型、初回実行時に定義も自動作成）
 - ストアフロントのコレクション・一覧から除外される
 
 ---
@@ -120,7 +144,7 @@ bto-calculator/（Shopify App — Functions API 2026-04）
 **URL パターン:** `/bto/:handle`（例: `/bto/fzi9g90g8bfdw104dec`）
 
 **Storefront API クエリ（ローダー）:**
-1. `metaobject(handle: {type: 'bto_product', handle})` — 設定 JSON 全体（バリアント ID 含む）
+1. `metaobject(handle: {type: 'bto_product', handle})` with `CacheNone()` — 設定 JSON 全体（バリアント ID・`lead_time` 含む）。`lead_time` は import 直後に反映させるためキャッシュなし
 2. `product(handle: 'g-tune-fz-i9g90')` — カートの基本ラインに使うベース商品バリアント ID
 3. `cart.get()` — カートに既存の BTO バンドルがあれば選択内容を復元（編集モード）
 
@@ -130,7 +154,7 @@ bto-calculator/（Shopify App — Functions API 2026-04）
   - `fixed` → 仕様ラベルの静的表示
   - `single_select` → ラジオグループ
   - `multi_select` → チェックボックスグループ
-- スティッキーサイドバー: リアルタイム価格（ベース＋オプション差額）、カートボタン
+- スティッキーサイドバー: リアルタイム価格（ベース＋オプション差額）、**出荷予定日**（選択に応じてリアルタイム更新）、カートボタン
 - **編集モード:** カートに同一モデルのバンドルがある場合、前回の選択内容を復元して「カートに反映（上書き）」ボタンを表示
 
 **カートに追加 — マルチラインバンドル:**
@@ -143,11 +167,13 @@ bto-calculator/（Shopify App — Functions API 2026-04）
 BTO 注文ごとに追加されるライン:
 | ライン | `merchandiseId` | 主要属性 |
 |---|---|---|
-| 基本商品 | `variantId`（ベース PC） | `_bto_bundle_id`、`_bto_role=base`、`_bto_product`、`_bto_handle`、`_bto_selections` |
+| 基本商品 | `variantId`（ベース PC） | `_bto_bundle_id`、`_bto_role=base`、`_bto_product`、`_bto_handle`、`_bto_selections`、`_bto_ship_date` |
 | 固定コンポーネント × N | `section.shopify_variant_id` | `_bto_bundle_id`、`_bto_role=component`、`_bto_section` |
 | 選択オプション × N | `option.shopify_variant_id` | `_bto_bundle_id`、`_bto_role=component`、`_bto_section` |
 
 > `_bto_handle` と `_bto_selections`（選択内容の JSON）を基本ラインに保持することで、カートの「編集」ボタンからコンフィギュレーターへ戻った際に選択内容を復元できます。
+
+> `_bto_ship_date` は選択オプションの `lead_time` の最大値を今日に加算した日付（`YYYY/MM/DD`）です。コンフィギュレーターサイドバーにリアルタイム表示され、カートドロワーにも 📦 出荷予定日バッジとして表示されます。
 
 > **注意:** 価格値は属性として渡しません。価格は Shopify の商品バリアントレコードから取得し、Cart Transform Function によって強制されます。クライアントサイドからの改ざんは不可能です。
 
@@ -161,6 +187,7 @@ BTO 注文ごとに追加されるライン:
   - `_bto_upgrades` を持つが `_bto_bundle_id` を持たないライン → `mergedBtoLines`（Cart Transform 後）→ `MergedBTOLineItem` でレンダリング
   - その他 → `CartLineItem` でレンダリング
 - **編集ボタン:** `BTOBundleItem` と `MergedBTOLineItem` それぞれに「編集」リンクを表示。`_bto_handle` 属性、または `localStorage` のフォールバックを使ってコンフィギュレーターへ戻る
+- **出荷予定日バッジ:** `_bto_ship_date` 属性を読み取り 📦 出荷予定日を赤字で表示。`MergedBTOLineItem` は Cart Transform が属性を転送しない場合 `localStorage.lastBtoShipDate` にフォールバック
 - **ローディング状態:** カートミューテーション中は `useFetchers()` を監視してバナースピナーを表示
 - **1バンドル制限:** カートアクション（`cart.jsx`）がカートに追加する前にサーバーサイドで既存の BTO ラインをすべて削除。変換前（`_bto_bundle_id`）と変換後（`ComponentizableCartLine` の `lineComponents`）の両方を検出して削除
 
@@ -187,6 +214,8 @@ BTO 注文ごとに追加されるライン:
 - `attribute(key: "_bto_bundle_id")` — ラインをバンドルにグループ化
 - `attribute(key: "_bto_role")` — 基本ラインとコンポーネントラインを識別
 - `attribute(key: "_bto_product")` — バンドル表示名
+- `attribute(key: "_bto_upgrades")` — マージ後のカート表示用にアップグレード概要を転送
+- `attribute(key: "_bto_ship_date")` — マージ後のカート表示用に出荷予定日を転送
 - `merchandise { ... on ProductVariant { id } }` — `linesMerge` の `parentVariantId` に使用
 
 **ロジック:**
@@ -261,17 +290,19 @@ SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_met
 | オペレーション | 種別 | 目的 |
 |---|---|---|
 | `metaobjectDefinitionCreate` | mutation | `bto_product` メタオブジェクト定義を作成（初回のみ）|
+| `metafieldDefinitionCreate` | mutation | `bto.lead_time` product metafield 定義を作成（初回のみ）|
 | `metaobjectUpsert` | mutation | BTO 設定メタオブジェクトエントリを作成・更新 |
 | `productByIdentifier(identifier: {handle})` | query | コンポーネント商品が既に存在するか確認 |
 | `productCreate(product: ProductCreateInput)` | mutation | コンポーネント商品の雛形を作成 |
 | `productVariantsBulkUpdate` | mutation | デフォルトバリアントの価格・在庫追跡を設定 |
+| `productUpdate(input: {id, metafields})` | mutation | `bto.lead_time` metafield にリードタイム日数を設定 |
 
 ### Storefront API クエリ（`app/routes/`）
 
 | クエリ | ファイル | 目的 |
 |---|---|---|
 | `productByIdentifier` エイリアス経由 `product(handle:)` | `_index.jsx` | ブランドページ用に基本商品の画像・価格を取得 |
-| `metaobject(handle: {type, handle})` | `bto.$handle.jsx` | BTO 設定 JSON を取得 |
+| `metaobject(handle: {type, handle})` with `CacheNone()` | `bto.$handle.jsx` | BTO 設定 JSON（`lead_time` 含む）を取得。キャッシュなしで import 直後に反映 |
 | `product(handle:)` | `bto.$handle.jsx` | カート用に基本商品バリアント ID を取得 |
 | `cart.get()` | `bto.$handle.jsx` | 編集モード復元用に既存の BTO バンドルを確認 |
 
@@ -281,6 +312,8 @@ SHOPIFY_SCOPES=read_metaobject_definitions,write_metaobject_definitions,read_met
 |---|---|---|
 | `attribute(key: "_bto_bundle_id")` | `cart.lines[]` | ラインを 1 つの BTO バンドルにグループ化 |
 | `attribute(key: "_bto_role")` | `cart.lines[]` | 基本ラインとコンポーネントラインを識別 |
+| `attribute(key: "_bto_upgrades")` | `cart.lines[]` | マージ後ラインにアップグレード概要を転送 |
+| `attribute(key: "_bto_ship_date")` | `cart.lines[]` | マージ後ラインに出荷予定日（YYYY/MM/DD）を転送 |
 | `attribute(key: "_bto_product")` | `cart.lines[]` | バンドルタイトル（商品名） |
 | `merchandise { ... on ProductVariant { id } }` | `cart.lines[]` | `linesMerge` の `parentVariantId` |
 
