@@ -11,9 +11,9 @@ export function CartSummary({cart, layout}) {
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
+      <h4 className="cart-summary-heading">合計</h4>
       <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>小計</dt>
         <dd>
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
@@ -36,11 +36,10 @@ function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+    <div className="cart-checkout-actions">
+      <a href={checkoutUrl} target="_self" className="cart-checkout-button">
+        チェックアウトへ進む &rarr;
       </a>
-      <br />
     </div>
   );
 }
@@ -57,38 +56,38 @@ function CartDiscounts({discountCodes}) {
       ?.map(({code}) => code) || [];
 
   return (
-    <div>
-      {/* Have existing discount, display it with a remove option */}
+    <div className="cart-coupon-section">
+      {/* Applied discount codes */}
       <dl hidden={!codes.length}>
         <div>
-          <dt>Discount(s)</dt>
+          <dt>割引コード</dt>
           <UpdateDiscountForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
               &nbsp;
-              <button type="submit" aria-label="Remove discount">
-                Remove
+              <button type="submit" aria-label="割引コードを削除">
+                削除
               </button>
             </div>
           </UpdateDiscountForm>
         </div>
       </dl>
 
-      {/* Show an input to apply a discount */}
+      {/* Input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
-        <div>
+        <div className="cart-code-row">
           <label htmlFor="discount-code-input" className="sr-only">
-            Discount code
+            割引コード
           </label>
           <input
             id="discount-code-input"
+            className="cart-code-input"
             type="text"
             name="discountCode"
-            placeholder="Discount code"
+            placeholder="割引コード"
           />
-          &nbsp;
-          <button type="submit" aria-label="Apply discount code">
-            Apply
+          <button type="submit" className="cart-code-apply" aria-label="割引コードを適用">
+            適用
           </button>
         </div>
       </UpdateDiscountForm>
@@ -132,10 +131,10 @@ function CartGiftCard({giftCardCodes}) {
   }, [giftCardAddFetcher.data]);
 
   return (
-    <div>
+    <div className="cart-coupon-section">
       {giftCardCodes && giftCardCodes.length > 0 && (
         <dl>
-          <dt>Applied Gift Card(s)</dt>
+          <dt>適用済みギフトカード</dt>
           {giftCardCodes.map((giftCard) => (
             <RemoveGiftCardForm key={giftCard.id} giftCardId={giftCard.id}>
               <div className="cart-discount">
@@ -143,7 +142,7 @@ function CartGiftCard({giftCardCodes}) {
                 &nbsp;
                 <Money data={giftCard.amountUsed} />
                 &nbsp;
-                <button type="submit">Remove</button>
+                <button type="submit">削除</button>
               </div>
             </RemoveGiftCardForm>
           ))}
@@ -151,16 +150,20 @@ function CartGiftCard({giftCardCodes}) {
       )}
 
       <AddGiftCardForm fetcherKey="gift-card-add">
-        <div>
+        <div className="cart-code-row">
           <input
+            className="cart-code-input"
             type="text"
             name="giftCardCode"
-            placeholder="Gift card code"
+            placeholder="ギフトカードコード"
             ref={giftCardCodeInput}
           />
-          &nbsp;
-          <button type="submit" disabled={giftCardAddFetcher.state !== 'idle'}>
-            Apply
+          <button
+            type="submit"
+            className="cart-code-apply"
+            disabled={giftCardAddFetcher.state !== 'idle'}
+          >
+            適用
           </button>
         </div>
       </AddGiftCardForm>
