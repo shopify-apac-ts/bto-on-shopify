@@ -521,6 +521,47 @@ export type BlogsQuery = {
   };
 };
 
+export type BtoProductQueryVariables = StorefrontAPI.Exact<{
+  handle: StorefrontAPI.MetaobjectHandleInput;
+}>;
+
+export type BtoProductQuery = {
+  metaobject?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Metaobject, 'handle' | 'type'> & {
+      fields: Array<Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'>>;
+    }
+  >;
+};
+
+export type BtoProductVariantQueryVariables = StorefrontAPI.Exact<{
+  handle: StorefrontAPI.Scalars['String']['input'];
+}>;
+
+export type BtoProductVariantQuery = {
+  product?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'id'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      variants: {nodes: Array<Pick<StorefrontAPI.ProductVariant, 'id'>>};
+    }
+  >;
+};
+
+export type VariantsAvailabilityQueryVariables = StorefrontAPI.Exact<{
+  ids:
+    | Array<StorefrontAPI.Scalars['ID']['input']>
+    | StorefrontAPI.Scalars['ID']['input'];
+}>;
+
+export type VariantsAvailabilityQuery = {
+  nodes: Array<
+    StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.ProductVariant, 'id' | 'availableForSale'>
+    >
+  >;
+};
+
 export type MoneyProductItemFragment = Pick<
   StorefrontAPI.MoneyV2,
   'amount' | 'currencyCode'
@@ -1253,6 +1294,18 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Blogs(\n    $country: CountryCode\n    $endCursor: String\n    $first: Int\n    $language: LanguageCode\n    $last: Int\n    $startCursor: String\n  ) @inContext(country: $country, language: $language) {\n    blogs(\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor\n    ) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      nodes {\n        title\n        handle\n        seo {\n          title\n          description\n        }\n      }\n    }\n  }\n': {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
+  };
+  '#graphql\n  query BTOProduct($handle: MetaobjectHandleInput!) {\n    metaobject(handle: $handle) {\n      handle\n      type\n      fields {\n        key\n        value\n      }\n    }\n  }\n': {
+    return: BTOProductQuery;
+    variables: BTOProductQueryVariables;
+  };
+  '#graphql\n  query BTOProductVariant($handle: String!) {\n    product(handle: $handle) {\n      id\n      featuredImage {\n        url\n        altText\n        width\n        height\n      }\n      variants(first: 1) {\n        nodes {\n          id\n        }\n      }\n    }\n  }\n': {
+    return: BTOProductVariantQuery;
+    variables: BTOProductVariantQueryVariables;
+  };
+  '#graphql\n  query VariantsAvailability($ids: [ID!]!) {\n    nodes(ids: $ids) {\n      ... on ProductVariant {\n        id\n        availableForSale\n      }\n    }\n  }\n': {
+    return: VariantsAvailabilityQuery;
+    variables: VariantsAvailabilityQueryVariables;
   };
   '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
