@@ -1,5 +1,5 @@
 import {useOptimisticCart, CartForm, Image} from '@shopify/hydrogen';
-import {Link, useLocation} from 'react-router';
+import {Link, useLocation, useFetchers} from 'react-router';
 import {useState, useEffect} from 'react';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
@@ -33,9 +33,14 @@ function getLineItemChildrenMap(lines) {
  * @param {CartMainProps}
  */
 export function CartMain({layout, cart: originalCart}) {
-  // The useOptimisticCart hook applies pending actions to the cart
-  // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
+
+  // Detect any in-flight cart mutation so we can show a spinner overlay
+  // while useOptimisticCart catches up (fixes the empty-flash on aside open)
+  const fetchers = useFetchers();
+  const isCartMutating = fetchers.some(
+    (f) => f.state !== 'idle' && f.formAction === '/cart',
+  );
 
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =
@@ -74,6 +79,12 @@ export function CartMain({layout, cart: originalCart}) {
 
   return (
     <div className={className}>
+      {isCartMutating && (
+        <div className="cart-updating-banner">
+          <span className="cart-loading-spinner" aria-label="更新中" />
+          <span>カートを更新中...</span>
+        </div>
+      )}
       <CartEmpty hidden={linesCount} layout={layout} />
       <div className="cart-details">
         <p id="cart-lines" className="sr-only">

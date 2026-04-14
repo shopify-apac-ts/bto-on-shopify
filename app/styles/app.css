@@ -257,6 +257,19 @@ button.reset:hover:not(:has(> *)) {
   width: auto;
 }
 
+/* Inline loading banner shown while a cart mutation is in-flight */
+.cart-updating-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #fff8f0;
+  border-bottom: 1px solid #f0c080;
+  font-size: 0.82rem;
+  color: #e65100;
+}
+
 .cart-main.with-discount {
   max-height: calc(100vh - var(--cart-aside-summary-height-with-discount));
 }
@@ -439,6 +452,7 @@ button.reset:hover:not(:has(> *)) {
 .cart-checkout-button {
   display: block;
   width: 100%;
+  box-sizing: border-box;
   padding: 0.9rem 1.5rem;
   background: #e65100;
   color: #fff;
