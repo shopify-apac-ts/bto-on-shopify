@@ -15,6 +15,9 @@ query CartTransformRunInput {
       upgrades: attribute(key: "_bto_upgrades") {
         value
       }
+      shipDate: attribute(key: "_bto_ship_date") {
+        value
+      }
       merchandise {
         __typename
         ... on ProductVariant {

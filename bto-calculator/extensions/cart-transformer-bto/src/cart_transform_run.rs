@@ -59,13 +59,19 @@ fn cart_transform_run(
 
         let title = format!("{} カスタム構成", product_name);
 
-        // Forward _bto_upgrades so CartMain can display the upgrade summary
-        // after the merge (merged lines lose all attributes otherwise)
+        // Forward _bto_upgrades and _bto_ship_date so CartMain can display the
+        // upgrade summary and estimated shipping date after the merge.
         let mut attributes = vec![];
         if let Some(upgrades_val) = base.upgrades().and_then(|a| a.value()) {
             attributes.push(schema::AttributeOutput {
                 key: "_bto_upgrades".to_string(),
                 value: upgrades_val.clone(),
+            });
+        }
+        if let Some(ship_date_val) = base.ship_date().and_then(|a| a.value()) {
+            attributes.push(schema::AttributeOutput {
+                key: "_bto_ship_date".to_string(),
+                value: ship_date_val.clone(),
             });
         }
 

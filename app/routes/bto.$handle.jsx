@@ -12,7 +12,7 @@
 // ============================================================
 
 import {useLoaderData} from 'react-router';
-import {CartForm, Image} from '@shopify/hydrogen';
+import {CartForm, Image, CacheNone} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import {useState, useMemo, useCallback, useEffect} from 'react';
 import '../styles/bto.css';
@@ -24,6 +24,7 @@ export async function loader({params, context}) {
     variables: {
       handle: {type: 'bto_product', handle},
     },
+    cache: CacheNone(), // lead_time values change with each import run; always fetch fresh
   });
 
   if (!metaobject) {
@@ -135,10 +136,35 @@ export default function BTOConfigurator() {
   const [selections, setSelections] = useState(savedSelections ?? initialSelections);
   const [activeTab, setActiveTab] = useState('hardware');
 
-  // Persist this product's path so CartEmpty can link back here
+  const maxLeadTime = useMemo(() => {
+    let max = 0;
+    for (const section of allSections) {
+      if (section.type === 'fixed') {
+        max = Math.max(max, section.lead_time ?? 4);
+      } else if (section.type === 'single_select') {
+        const opt = section.options[selections[section.slug]];
+        if (opt) max = Math.max(max, opt.lead_time ?? 4);
+      } else if (section.type === 'multi_select') {
+        for (const idx of selections[section.slug] || []) {
+          const opt = section.options[idx];
+          if (opt) max = Math.max(max, opt.lead_time ?? 4);
+        }
+      }
+    }
+    return max;
+  }, [selections, allSections]);
+
+  const shipDateLabel = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + maxLeadTime);
+    return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+  }, [maxLeadTime]);
+
+  // Persist this product's path and current ship date so cart components can read them
   useEffect(() => {
     localStorage.setItem('lastBtoPath', `/bto/${handle}`);
-  }, [handle]);
+    localStorage.setItem('lastBtoShipDate', shipDateLabel);
+  }, [handle, shipDateLabel]);
 
   const totalPrice = useMemo(() => {
     let total = basePrice;
@@ -186,6 +212,7 @@ export default function BTOConfigurator() {
       {key: '_bto_product', value: productName},
       {key: '_bto_handle', value: handle},
       {key: '_bto_selections', value: JSON.stringify(selections)},
+      {key: '_bto_ship_date', value: shipDateLabel},
       ...(upgrades.length > 0 ? [{key: '_bto_upgrades', value: upgrades.join(' / ')}] : []),
     ];
 
@@ -235,7 +262,7 @@ export default function BTOConfigurator() {
       }
     }
     return lines;
-  }, [selections, allSections, variantId, productName]);
+  }, [selections, allSections, variantId, productName, shipDateLabel]);
 
   // Check if all selected variants are in stock before allowing cart add
   // Only check options the user actively selected (non-default single_select + all multi_select).
@@ -351,6 +378,13 @@ export default function BTOConfigurator() {
                 カスタマイズ ({customCount}件): +&yen;{(totalPrice - basePrice).toLocaleString()}
               </div>
             )}
+            <div className="bto-ship-date">
+              <span className="bto-ship-date-icon">📦</span>
+              <div>
+                <span className="bto-ship-date-label">出荷予定日</span>
+                <span className="bto-ship-date-value">{shipDateLabel} 頃出荷予定</span>
+              </div>
+            </div>
             {variantId ? (
               <CartForm
                 route="/cart"

@@ -1022,6 +1022,29 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-bto-remove:hover { color: #e30000; }
 
+.cart-bto-ship-date {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.3rem 0 0.45rem;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.cart-bto-ship-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.cart-bto-ship-label {
+  color: #555;
+}
+
+.cart-bto-ship-value {
+  color: #c00;
+  font-weight: 700;
+}
+
 .cart-bto-upgrades {
   font-size: 0.75rem;
   color: #555;

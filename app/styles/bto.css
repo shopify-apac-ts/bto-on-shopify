@@ -412,6 +412,38 @@
   cursor: not-allowed;
 }
 
+/* ── Sidebar ship date box ───────────────────────────────── */
+.bto-ship-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.65rem;
+  background: #fff8f0;
+  border: 1px solid #f0c080;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #333;
+  text-align: left;
+}
+
+.bto-ship-date-icon { font-size: 1.15rem; flex-shrink: 0; }
+
+.bto-ship-date-label {
+  display: block;
+  font-size: 0.72rem;
+  color: #888;
+  line-height: 1.2;
+}
+
+.bto-ship-date-value {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c00;
+  line-height: 1.3;
+}
+
 .bto-edit-notice {
   font-size: 0.76rem;
   color: #e67e22;

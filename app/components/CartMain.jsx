@@ -142,6 +142,17 @@ export function CartMain({layout, cart: originalCart}) {
   );
 }
 
+function ShipDateBadge({shipDate}) {
+  if (!shipDate) return null;
+  return (
+    <div className="cart-bto-ship-date">
+      <span className="cart-bto-ship-icon">📦</span>
+      <span className="cart-bto-ship-label">出荷予定日</span>
+      <span className="cart-bto-ship-value">{shipDate} 頃出荷予定</span>
+    </div>
+  );
+}
+
 // Renders a BTO line after the Cart Transform Function has merged it
 function MergedBTOLineItem({line}) {
   const {close} = useAside();
@@ -151,14 +162,21 @@ function MergedBTOLineItem({line}) {
   // _bto_handle may be absent if the Cart Transform Function did not forward it;
   // fall back to whatever the user last visited via localStorage.
   const attrHandle = line.attributes?.find((a) => a.key === '_bto_handle')?.value;
+  const attrShipDate = line.attributes?.find((a) => a.key === '_bto_ship_date')?.value;
   const [storedBtoPath, setStoredBtoPath] = useState(null);
+  const [storedShipDate, setStoredShipDate] = useState(null);
   useEffect(() => {
     if (!attrHandle) {
       const saved = localStorage.getItem('lastBtoPath');
       if (saved) setStoredBtoPath(saved);
     }
-  }, [attrHandle]);
+    if (!attrShipDate) {
+      const saved = localStorage.getItem('lastBtoShipDate');
+      if (saved) setStoredShipDate(saved);
+    }
+  }, [attrHandle, attrShipDate]);
   const editPath = attrHandle ? `/bto/${attrHandle}` : storedBtoPath;
+  const shipDate = attrShipDate ?? storedShipDate;
   const price = line.cost?.totalAmount?.amount;
 
   return (
@@ -173,6 +191,7 @@ function MergedBTOLineItem({line}) {
             {price ? `¥${Number(price).toLocaleString('ja-JP')}` : '—'}
           </p>
           {upgrades && <p className="cart-bto-upgrades">{upgrades}</p>}
+          <ShipDateBadge shipDate={shipDate} />
           <div className="cart-bto-actions">
             {editPath && (
               <Link to={editPath} className="cart-bto-edit" onClick={close}>編集</Link>
@@ -200,6 +219,7 @@ function BTOBundleItem({base, components, layout}) {
   const productName = base.attributes?.find((a) => a.key === '_bto_product')?.value || product.title;
   const upgrades = base.attributes?.find((a) => a.key === '_bto_upgrades')?.value;
   const handle = base.attributes?.find((a) => a.key === '_bto_handle')?.value;
+  const shipDate = base.attributes?.find((a) => a.key === '_bto_ship_date')?.value;
   const count = components.length;
   const allLineIds = [base.id, ...components.map((c) => c.id)];
 
@@ -213,6 +233,7 @@ function BTOBundleItem({base, components, layout}) {
           <p><strong>{productName} カスタム構成</strong></p>
           <p className="cart-bto-price">¥{base.cost?.totalAmount?.amount ? Number(base.cost.totalAmount.amount).toLocaleString('ja-JP') : '—'}</p>
           {upgrades && <p className="cart-bto-upgrades">{upgrades}</p>}
+          <ShipDateBadge shipDate={shipDate} />
           <button
             className="cart-bto-toggle"
             onClick={() => setShowComponents((v) => !v)}
