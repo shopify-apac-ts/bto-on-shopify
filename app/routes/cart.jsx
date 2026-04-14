@@ -1,4 +1,5 @@
-import {useLoaderData, data} from 'react-router';
+import {useLoaderData, useNavigation, useRevalidator, data} from 'react-router';
+import {useEffect} from 'react';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
 
@@ -32,21 +33,35 @@ export async function action({request, context}) {
   let result;
 
   switch (action) {
-    case CartForm.ACTIONS.LinesAdd:
-      console.log('[BTO debug] LinesAdd received', inputs.lines?.length, 'lines');
-      console.log('[BTO debug] lines:', JSON.stringify(inputs.lines?.map(l => ({
-        merchandiseId: l.merchandiseId,
-        role: l.attributes?.find(a => a.key === '_bto_role')?.value,
-        bundleId: l.attributes?.find(a => a.key === '_bto_bundle_id')?.value?.slice(0, 8),
-      }))));
+    case CartForm.ACTIONS.LinesAdd: {
+      // One-BTO-bundle-at-a-time: if any incoming line is a BTO line, remove ALL existing
+      // BTO lines from the live cart first (server-authoritative).
+      //
+      // Two cases to detect:
+      //   • Pre-transform  → regular CartLine with _bto_bundle_id attribute
+      //   • Post-transform → ComponentizableCartLine (Cart Transform Function already ran);
+      //     the parent node has lineComponents but _bto_bundle_id lives inside them, not on
+      //     the parent. Detecting lineComponents != null covers this case.
+      const isBtoAdd = inputs.lines?.some((l) =>
+        l.attributes?.some((a) => a.key === '_bto_bundle_id'),
+      );
+      if (isBtoAdd) {
+        const currentCart = await cart.get();
+        const btoLineIds =
+          currentCart?.lines?.nodes
+            ?.filter(
+              (l) =>
+                l.attributes?.some((a) => a.key === '_bto_bundle_id') ||
+                l.lineComponents != null,
+            )
+            ?.map((l) => l.id) ?? [];
+        if (btoLineIds.length > 0) {
+          await cart.removeLines(btoLineIds);
+        }
+      }
       result = await cart.addLines(inputs.lines);
-      console.log('[BTO debug] result keys:', Object.keys(result || {}));
-      console.log('[BTO debug] userErrors:', JSON.stringify(result?.userErrors));
-      console.log('[BTO debug] errors:', JSON.stringify(result?.errors));
-      console.log('[BTO debug] cart totalQuantity:', result?.cart?.totalQuantity);
-      if (result?.userErrors?.length) console.log('[BTO debug] userErrors detail:', JSON.stringify(result.userErrors));
-      if (result?.warnings?.length) console.log('[BTO debug] warnings:', JSON.stringify(result.warnings));
       break;
+    }
     case CartForm.ACTIONS.LinesUpdate:
       result = await cart.updateLines(inputs.lines);
       break;
@@ -122,10 +137,28 @@ export async function loader({context}) {
 export default function Cart() {
   /** @type {LoaderReturnData} */
   const cart = useLoaderData();
+  const navigation = useNavigation();
+  const revalidator = useRevalidator();
+
+  // Re-fetch cart when user returns to this tab (e.g. after visiting Shopify checkout)
+  useEffect(() => {
+    const handleFocus = () => {
+      if (revalidator.state === 'idle') revalidator.revalidate();
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [revalidator]);
+
+  const isLoading = navigation.state !== 'idle' || revalidator.state !== 'idle';
 
   return (
-    <div className="cart">
-      <h1>Cart</h1>
+    <div className="cart-page">
+      <h1 className="cart-page-heading">カート</h1>
+      {isLoading && (
+        <div className="cart-loading-overlay">
+          <span className="cart-loading-spinner" aria-label="読み込み中" />
+        </div>
+      )}
       <CartMain layout="page" cart={cart} />
     </div>
   );

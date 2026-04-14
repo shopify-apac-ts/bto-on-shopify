@@ -13,7 +13,7 @@
 
 import {useLoaderData} from 'react-router';
 import {CartForm, Image} from '@shopify/hydrogen';
-import {useState, useMemo, useCallback} from 'react';
+import {useState, useMemo, useCallback, useEffect} from 'react';
 import '../styles/bto.css';
 
 export async function loader({params, context}) {
@@ -71,6 +71,27 @@ export async function loader({params, context}) {
     }
   }
 
+  // Fetch current cart only to support edit-mode restoration of saved selections
+  const cartData = await context.cart.get();
+  const allCartLines = cartData?.lines?.nodes ?? [];
+
+  // Find base line for THIS specific product handle to restore its selections
+  const existingBase = allCartLines.find(
+    (l) =>
+      l.attributes?.find((a) => a.key === '_bto_handle')?.value === metaobject.handle &&
+      l.attributes?.find((a) => a.key === '_bto_role')?.value === 'base',
+  );
+  const savedSelectionsJson =
+    existingBase?.attributes?.find((a) => a.key === '_bto_selections')?.value ?? null;
+  let savedSelections = null;
+  if (savedSelectionsJson) {
+    try {
+      savedSelections = JSON.parse(savedSelectionsJson);
+    } catch {
+      savedSelections = null;
+    }
+  }
+
   return {
     handle: metaobject.handle,
     productName: fields.product_name,
@@ -83,13 +104,15 @@ export async function loader({params, context}) {
     variantId: product?.variants?.nodes?.[0]?.id || null,
     productImage: product?.featuredImage || null,
     availabilityMap,
+    savedSelections,
+    isEditMode: Boolean(savedSelections),
   };
 }
 
 
 export default function BTOConfigurator() {
   const data = useLoaderData();
-  const {productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, productImage, availabilityMap} = data;
+  const {handle, productName, basePrice, hardwareConfig, peripheralConfig, serviceConfig, variantId, productImage, availabilityMap, savedSelections, isEditMode} = data;
   const [outOfStockDialog, setOutOfStockDialog] = useState(null);
   const allSections = [
     ...hardwareConfig.sections,
@@ -107,8 +130,13 @@ export default function BTOConfigurator() {
     }
   }
 
-  const [selections, setSelections] = useState(initialSelections);
+  const [selections, setSelections] = useState(savedSelections ?? initialSelections);
   const [activeTab, setActiveTab] = useState('hardware');
+
+  // Persist this product's path so CartEmpty can link back here
+  useEffect(() => {
+    localStorage.setItem('lastBtoPath', `/bto/${handle}`);
+  }, [handle]);
 
   const totalPrice = useMemo(() => {
     let total = basePrice;
@@ -154,6 +182,8 @@ export default function BTOConfigurator() {
       {key: '_bto_bundle_id', value: bundleId},
       {key: '_bto_role', value: 'base'},
       {key: '_bto_product', value: productName},
+      {key: '_bto_handle', value: handle},
+      {key: '_bto_selections', value: JSON.stringify(selections)},
       ...(upgrades.length > 0 ? [{key: '_bto_upgrades', value: upgrades.join(' / ')}] : []),
     ];
 
@@ -326,20 +356,29 @@ export default function BTOConfigurator() {
                 inputs={{lines: buildCartLines()}}
               >
                 {(fetcher) => (
-                  <button
-                    className="bto-cart-button"
-                    type="submit"
-                    disabled={fetcher.state !== 'idle'}
-                    onClick={(e) => {
-                      const oos = checkInventory();
-                      if (oos.length > 0) {
-                        e.preventDefault();
-                        setOutOfStockDialog(oos);
-                      }
-                    }}
-                  >
-                    {fetcher.state !== 'idle' ? '追加中...' : 'カートに追加'}
-                  </button>
+                  <>
+                    <button
+                      className="bto-cart-button"
+                      type="submit"
+                      disabled={fetcher.state !== 'idle'}
+                      onClick={(e) => {
+                        const oos = checkInventory();
+                        if (oos.length > 0) {
+                          e.preventDefault();
+                          setOutOfStockDialog(oos);
+                        }
+                      }}
+                    >
+                      {fetcher.state !== 'idle'
+                        ? '反映中...'
+                        : isEditMode
+                        ? 'カートに反映（上書き）'
+                        : 'カートに反映'}
+                    </button>
+                    {isEditMode && (
+                      <p className="bto-edit-notice">※ 現在のカスタマイズを上書きします</p>
+                    )}
+                  </>
                 )}
               </CartForm>
             ) : (

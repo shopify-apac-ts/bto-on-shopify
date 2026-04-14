@@ -367,6 +367,13 @@
   cursor: not-allowed;
 }
 
+.bto-edit-notice {
+  font-size: 0.78rem;
+  color: #e67e22;
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
 .bto-cart-error {
   color: #c00;
   font-size: 0.75rem;

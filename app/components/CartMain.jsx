@@ -1,6 +1,6 @@
 import {useOptimisticCart, CartForm, Image} from '@shopify/hydrogen';
-import {Link} from 'react-router';
-import {useState} from 'react';
+import {Link, useLocation} from 'react-router';
+import {useState, useEffect} from 'react';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
@@ -86,7 +86,7 @@ export function CartMain({layout, cart: originalCart}) {
             inputs={{lineIds: cart.lines.nodes.map((l) => l.id)}}
           >
             <button type="submit" className="cart-remove-all">
-              Remove all
+              すべて削除
             </button>
           </CartForm>
         )}
@@ -133,9 +133,21 @@ export function CartMain({layout, cart: originalCart}) {
 
 // Renders a BTO line after the Cart Transform Function has merged it
 function MergedBTOLineItem({line}) {
+  const {close} = useAside();
   const {product, image} = line.merchandise;
   const productName = line.attributes?.find((a) => a.key === '_bto_product')?.value || product.title;
   const upgrades = line.attributes?.find((a) => a.key === '_bto_upgrades')?.value;
+  // _bto_handle may be absent if the Cart Transform Function did not forward it;
+  // fall back to whatever the user last visited via localStorage.
+  const attrHandle = line.attributes?.find((a) => a.key === '_bto_handle')?.value;
+  const [storedBtoPath, setStoredBtoPath] = useState(null);
+  useEffect(() => {
+    if (!attrHandle) {
+      const saved = localStorage.getItem('lastBtoPath');
+      if (saved) setStoredBtoPath(saved);
+    }
+  }, [attrHandle]);
+  const editPath = attrHandle ? `/bto/${attrHandle}` : storedBtoPath;
   const price = line.cost?.totalAmount?.amount;
 
   return (
@@ -150,9 +162,20 @@ function MergedBTOLineItem({line}) {
             {price ? `¥${Number(price).toLocaleString('ja-JP')}` : '—'}
           </p>
           {upgrades && <p className="cart-bto-upgrades">{upgrades}</p>}
-          <CartForm route="/cart" action={CartForm.ACTIONS.LinesRemove} inputs={{lineIds: [line.id]}}>
-            <button type="submit" className="cart-bto-remove">Remove</button>
-          </CartForm>
+          <div className="cart-bto-actions">
+            {editPath && (
+              <Link to={editPath} className="cart-bto-edit" onClick={close}>編集</Link>
+            )}
+            <CartForm route="/cart" action={CartForm.ACTIONS.LinesRemove} inputs={{lineIds: [line.id]}}>
+              {(fetcher) => (
+                <button type="submit" className="cart-bto-remove" disabled={fetcher.state !== 'idle'}>
+                  {fetcher.state !== 'idle' ? (
+                    <span className="cart-loading-spinner" aria-label="削除中" />
+                  ) : '削除'}
+                </button>
+              )}
+            </CartForm>
+          </div>
         </div>
       </div>
     </li>
@@ -160,10 +183,12 @@ function MergedBTOLineItem({line}) {
 }
 
 function BTOBundleItem({base, components, layout}) {
+  const {close} = useAside();
   const [showComponents, setShowComponents] = useState(false);
   const {product, image} = base.merchandise;
   const productName = base.attributes?.find((a) => a.key === '_bto_product')?.value || product.title;
   const upgrades = base.attributes?.find((a) => a.key === '_bto_upgrades')?.value;
+  const handle = base.attributes?.find((a) => a.key === '_bto_handle')?.value;
   const count = components.length;
   const allLineIds = [base.id, ...components.map((c) => c.id)];
 
@@ -181,7 +206,7 @@ function BTOBundleItem({base, components, layout}) {
             className="cart-bto-toggle"
             onClick={() => setShowComponents((v) => !v)}
           >
-            {showComponents ? `Hide ${count} items ↑` : `Show ${count} items ↓`}
+            {showComponents ? `構成を隠す ↑` : `構成を表示 (${count}件) ↓`}
           </button>
           {showComponents && (
             <ul className="cart-bto-components">
@@ -192,13 +217,24 @@ function BTOBundleItem({base, components, layout}) {
               ))}
             </ul>
           )}
-          <CartForm
-            route="/cart"
-            action={CartForm.ACTIONS.LinesRemove}
-            inputs={{lineIds: allLineIds}}
-          >
-            <button type="submit" className="cart-bto-remove">Remove</button>
-          </CartForm>
+          <div className="cart-bto-actions">
+            {handle && (
+              <Link to={`/bto/${handle}`} className="cart-bto-edit" onClick={close}>編集</Link>
+            )}
+            <CartForm
+              route="/cart"
+              action={CartForm.ACTIONS.LinesRemove}
+              inputs={{lineIds: allLineIds}}
+            >
+              {(fetcher) => (
+                <button type="submit" className="cart-bto-remove" disabled={fetcher.state !== 'idle'}>
+                  {fetcher.state !== 'idle' ? (
+                    <span className="cart-loading-spinner" aria-label="削除中" />
+                  ) : '削除'}
+                </button>
+              )}
+            </CartForm>
+          </div>
         </div>
       </div>
     </li>
@@ -213,17 +249,29 @@ function BTOBundleItem({base, components, layout}) {
  */
 function CartEmpty({hidden = false}) {
   const {close} = useAside();
+  const location = useLocation();
+  const [storedBtoPath, setStoredBtoPath] = useState(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('lastBtoPath');
+    if (saved) setStoredBtoPath(saved);
+  }, []);
+
+  // If the cart aside is open while the user is on a BTO page, use that path directly.
+  // Otherwise fall back to whatever was last stored in localStorage.
+  const isBtoPage = location.pathname.startsWith('/bto/');
+  const continuePath = isBtoPage ? location.pathname : storedBtoPath;
+
   return (
     <div hidden={hidden}>
       <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
+      <p>カートにはまだ商品がありません。</p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
-      </Link>
+      {continuePath && (
+        <Link to={continuePath} onClick={close} prefetch="viewport">
+          ショッピングを続ける →
+        </Link>
+      )}
     </div>
   );
 }

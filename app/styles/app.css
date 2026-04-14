@@ -262,34 +262,54 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .cart-line {
-  padding: 0.75rem 0;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
 }
+.cart-line:last-child { border-bottom: none; }
 
 .cart-line-inner {
   display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
 }
 
 .cart-line img {
-  height: 100%;
-  display: block;
-  margin-right: 0.75rem;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+  flex-shrink: 0;
 }
 
 .cart-summary-page {
   position: relative;
+  border-top: 2px solid #e5e5e5;
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
 }
 
 .cart-summary-aside {
-  background: white;
-  border-top: 1px solid var(--color-dark);
+  background: #fff;
+  border-top: 2px solid #e5e5e5;
   bottom: 0;
-  padding-top: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem;
   position: absolute;
   width: calc(var(--aside-width) - 40px);
 }
 
+.cart-summary-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: #111;
+}
+
 .cart-line-quantity {
   display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
 }
 
 /* Line item attributes (BTO config, custom options, etc.) */
@@ -368,10 +388,68 @@ button.reset:hover:not(:has(> *)) {
   margin-top: 0.25rem;
 }
 
+/* Subtotal row */
 .cart-subtotal {
-  align-items: center;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #111;
 }
+
+/* Discount / gift card input rows */
+.cart-coupon-section {
+  margin-bottom: 0.75rem;
+}
+
+.cart-code-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.cart-code-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+}
+.cart-code-input:focus { border-color: #555; }
+
+.cart-code-apply {
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cart-code-apply:hover { background: #e8e8e8; }
+
+/* Checkout button */
+.cart-checkout-actions {
+  margin-top: 1rem;
+}
+
+.cart-checkout-button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background: #e65100;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.cart-checkout-button:hover { background: #bf360c; }
 /*
 * --------------------------------------------------
 * components/Search
@@ -866,21 +944,24 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-remove-all {
   background: none;
-  border: 1px solid #ccc;
-  color: #999;
+  border: none;
+  color: #aaa;
   font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0;
   cursor: pointer;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.cart-remove-all:hover { border-color: #e30000; color: #e30000; }
+.cart-remove-all:hover { color: #e30000; }
 
 
 /* BTO bundle in cart */
 .cart-bto-bundle {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #f0f0f0;
   padding: 1rem 0;
 }
+.cart-bto-bundle:last-child { border-bottom: none; }
 
 .cart-bto-price {
   font-size: 0.95rem;
@@ -932,4 +1013,71 @@ button.reset:hover:not(:has(> *)) {
   color: #555;
   margin: 0 0 0.4rem;
   line-height: 1.5;
+}
+
+.cart-bto-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+.cart-bto-edit {
+  font-size: 0.82rem;
+  color: #0066cc;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cart-bto-edit:hover { color: #004499; }
+
+/* Cart loading overlay (shown during navigation or revalidation) */
+.cart-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+/* Spinning loader used in cart loading overlay and remove buttons */
+.cart-loading-spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: cart-spin 0.6s linear infinite;
+}
+
+.cart-bto-remove .cart-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* Cart page (/cart) layout */
+.cart-page {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.25rem 3rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+}
+
+.cart-page-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e5e5;
+  color: #111;
+}
+
+@keyframes cart-spin {
+  to { transform: rotate(360deg); }
 }
